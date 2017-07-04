@@ -45,10 +45,6 @@ dependencies:
         - /home/ubuntu/.gradle/wrapper/
 
 test:
-    pre:
-        # Create mock Play Services JSON
-        - ./team-props/scripts/ci-mock-google-services-setup.sh
-
     override:
         - ./gradlew check --no-daemon --console=plain --continue
 
@@ -61,21 +57,6 @@ test:
         - mkdir -p $CIRCLE_TEST_REPORTS/reports/lint
         - find app/build/reports -name "lint*.html" -exec cp {} $CIRCLE_TEST_REPORTS/reports/lint/ \;
         - find app/build/reports -name "lint*.xml" -exec cp {} $CIRCLE_TEST_REPORTS/reports/lint/ \;
-
-        # Collect the Checkstyle reports
-        - mkdir -p $CIRCLE_TEST_REPORTS/reports/checkstyle
-        - find app/build/reports/checkstyle -name "*.html" -exec cp {} $CIRCLE_TEST_REPORTS/reports/checkstyle/ \;
-        - find app/build/reports/checkstyle -name "*.xml" -exec cp {} $CIRCLE_TEST_REPORTS/reports/checkstyle/ \;
-
-        # Collect the Findbugs reports
-        - mkdir -p $CIRCLE_TEST_REPORTS/reports/findbugs
-        - find app/build/reports/findbugs -name "*.html" -exec cp {} $CIRCLE_TEST_REPORTS/reports/findbugs/ \;
-        - find app/build/reports/findbugs -name "*.xml" -exec cp {} $CIRCLE_TEST_REPORTS/reports/findbugs/ \;
-
-        # Collect the PMD reports
-        - mkdir -p $CIRCLE_TEST_REPORTS/reports/pmd
-        - find app/build/reports/pmd -name "*.html" -exec cp {} $CIRCLE_TEST_REPORTS/reports/pmd/ \;
-        - find app/build/reports/pmd -name "*.xml" -exec cp {} $CIRCLE_TEST_REPORTS/reports/pmd/ \;
 
         # Collect the Detekt reports
         - mkdir -p $CIRCLE_TEST_REPORTS/reports/detekt
