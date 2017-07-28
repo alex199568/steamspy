@@ -50,50 +50,85 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCabCreated(cab: MaterialCab?, menu: Menu?): Boolean {
-                cab?.setTitle("Home: Watchlist")
+                cab?.setTitle("Home")
                 return true
             }
         })
-
 
         drawer {
             headerViewRes = R.layout.drawer_header
             toolbar = materialCab.toolbar
             primaryItem(R.string.navigation_home) {
                 onClick { _ -> onHome(); false }
+                icon = R.drawable.ic_home_black_24dp
             }
             primaryItem(R.string.navigation_all) {
                 onClick { _ -> onAll(); false }
+                icon = R.drawable.ic_view_list_black_24dp
             }
             divider { }
             expandableItem(R.string.navigation_top) {
-                secondaryItem("2 Weeks") {
+                secondaryItem(getString(R.string.navTop2Weeks)) {
                     onClick { _ -> onTop2Weeks(); false }
+                    icon = R.drawable.ic_top_2w
                 }
-                secondaryItem("Owned") { }
-                secondaryItem("Total") { }
+                secondaryItem(getString(R.string.navTopOwned)) {
+                    icon = R.drawable.ic_ow
+                }
+                secondaryItem(getString(R.string.navTopTotal)) {
+                    icon = R.drawable.ic_tl
+                }
                 selectable = false
+                icon = R.drawable.ic_call_made_black_24dp
             }
             divider { }
             expandableItem(R.string.navigation_genre) {
-                secondaryItem("Action") { }
-                secondaryItem("Strategy") { }
-                secondaryItem("RPG") { }
-                secondaryItem("Indie") { }
-                secondaryItem("Adventure") { }
-                secondaryItem("Sports") { }
-                secondaryItem("Simulation") { }
-                secondaryItem("Early Access") { }
-                secondaryItem("Ex Early Access") { }
-                secondaryItem("MMO") { }
-                secondaryItem("Free") { }
-                secondaryItem("RPG") { }
+                secondaryItem(getString(R.string.navGenreAction)) {
+                    icon = R.drawable.ic_ac
+                }
+                secondaryItem(getString(R.string.navGenreStrategy)) {
+                    icon = R.drawable.ic_st
+                }
+                secondaryItem(getString(R.string.navGenreRPG)) {
+                    icon = R.drawable.ic_rp
+                }
+                secondaryItem(getString(R.string.navGenreIndie)) {
+                    icon = R.drawable.ic_in
+                }
+                secondaryItem(getString(R.string.navGenreAdventure)) {
+                    icon = R.drawable.ic_ad
+                }
+                secondaryItem(getString(R.string.navGenreSports)) {
+                    icon = R.drawable.ic_sp
+                }
+                secondaryItem(getString(R.string.navGenreSimulation)) {
+                    icon = R.drawable.ic_sm
+                }
+                secondaryItem(getString(R.string.navGenreEarlyAccess)) {
+                    icon = R.drawable.ic_ea
+                }
+                secondaryItem(getString(R.string.navGenreExEarlyAccess)) {
+                    icon = R.drawable.ic_ee
+                }
+                secondaryItem(getString(R.string.navGenreMMO)) {
+                    icon = R.drawable.ic_mm
+                }
+                secondaryItem(getString(R.string.navGenreFree)) {
+                    icon = R.drawable.ic_fr
+                }
                 selectable = false
+                icon = R.drawable.ic_star_black_24dp
             }
             divider { }
-            primaryItem(R.string.navigation_notifications) { }
-            primaryItem(R.string.navigation_settings) { }
-            primaryItem(R.string.navigation_about) { }
+            primaryItem(R.string.navigation_notifications) {
+                icon = R.drawable.ic_notifications_black_24dp
+            }
+            primaryItem(R.string.navigation_settings) {
+                icon = R.drawable.ic_settings_black_24dp
+            }
+            primaryItem(R.string.navigation_about) {
+                icon = R.drawable.ic_info_black_24dp
+            }
         }
 
 
