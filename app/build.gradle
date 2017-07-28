@@ -67,4 +67,5 @@ dependencies {
 
     // UI
     implementation 'co.zsmb:materialdrawer-kt:1.0.5'
+    implementation 'com.afollestad:material-cab:0.1.12'
 }
