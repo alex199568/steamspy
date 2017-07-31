@@ -8,7 +8,7 @@ import md.ins8.steamspy.main.mvp.MainView
 
 
 @Module
-class MainModule(val activity: MainActivity) {
+class MainModule(private val activity: MainActivity) {
     @MainScope
     @Provides
     fun mainView(): MainView {

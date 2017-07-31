@@ -28,10 +28,9 @@
 
     </FrameLayout>
 
-    <TextView
+    <FrameLayout
+        android:id="@+id/mainContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="This is the content" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
