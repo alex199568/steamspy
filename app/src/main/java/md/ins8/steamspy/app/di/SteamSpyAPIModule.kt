@@ -154,11 +154,13 @@ fun JsonReader.extractRawSteamApp(): RawSteamApp {
     return steamApp
 }
 
-fun JsonReader.splitNextString(): List<String> {
-    return nextString().split(",")
+fun JsonReader.splitNextString(): MutableList<String> {
+    val result: MutableList<String> = mutableListOf()
+    result.addAll(nextString().split(","))
+    return result
 }
 
-fun JsonReader.extractTags(): List<Tag> {
+fun JsonReader.extractTags(): MutableList<Tag> {
     try {
         beginObject()
         val tags: MutableList<Tag> = mutableListOf()
@@ -170,7 +172,7 @@ fun JsonReader.extractTags(): List<Tag> {
     } catch (e: IllegalStateException) {
         beginArray()
         endArray()
-        return listOf()
+        return mutableListOf()
     }
 }
 

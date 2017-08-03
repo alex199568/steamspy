@@ -13,6 +13,7 @@ import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.fragment_apps_list.*
 import md.ins8.steamspy.R
 import md.ins8.steamspy.SteamAppItem
+import md.ins8.steamspy.app.SteamSpyApp
 import md.ins8.steamspy.screens.apps_list.di.AppsListModule
 import md.ins8.steamspy.screens.apps_list.di.DaggerAppsListComponent
 import md.ins8.steamspy.screens.apps_list.mvp.AppsListPresenter
@@ -50,7 +51,10 @@ class AppsListFragment : Fragment(), AppsListView {
         val appsListTypeName = arguments.getString(APPS_LIST_TYPE_NAME_EXTRA)
         val appsListType = AppsListType.valueOf(appsListTypeName)
 
-        DaggerAppsListComponent.builder().appsListModule(AppsListModule(this, appsListType)).build().inject(this)
+        DaggerAppsListComponent.builder()
+                .appComponent((activity.application as SteamSpyApp).appComponent)
+                .appsListModule(AppsListModule(this, appsListType))
+                .build().inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
