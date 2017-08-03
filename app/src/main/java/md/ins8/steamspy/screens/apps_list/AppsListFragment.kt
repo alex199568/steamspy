@@ -11,8 +11,8 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.fragment_apps_list.*
-import md.ins8.steamspy.MinSteamApp
 import md.ins8.steamspy.R
+import md.ins8.steamspy.SteamAppItem
 import md.ins8.steamspy.screens.apps_list.di.AppsListModule
 import md.ins8.steamspy.screens.apps_list.di.DaggerAppsListComponent
 import md.ins8.steamspy.screens.apps_list.mvp.AppsListPresenter
@@ -27,14 +27,14 @@ enum class AppsListViewEvent {
 interface AppsListView {
     val eventBus: Observable<AppsListViewEvent>
 
-    fun showAppsList(apps: List<MinSteamApp>)
+    fun showAppsList(apps: List<SteamAppItem>)
 }
 
 
 class AppsListFragment : Fragment(), AppsListView {
     override val eventBus: Subject<AppsListViewEvent> = BehaviorSubject.create<AppsListViewEvent>()
 
-    override fun showAppsList(apps: List<MinSteamApp>) {
+    override fun showAppsList(apps: List<SteamAppItem>) {
         val adapter = AppsListAdapter(apps, context)
 
         appsListRecyclerView.adapter = adapter

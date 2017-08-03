@@ -11,6 +11,7 @@ import co.zsmb.materialdrawerkt.draweritems.divider
 import co.zsmb.materialdrawerkt.draweritems.expandable.expandableItem
 import com.afollestad.materialcab.MaterialCab
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.Subject
 import md.ins8.steamspy.R
 import md.ins8.steamspy.main.MainActivity
 import md.ins8.steamspy.main.NavigationEvent
@@ -23,7 +24,7 @@ import md.ins8.steamspy.screens.settings.SettingsFragment
 
 
 class MainView(val activity: MainActivity) {
-    val navigationEventBus = BehaviorSubject.create<NavigationEvent>()
+    val navigationEventBus: Subject<NavigationEvent> = BehaviorSubject.create<NavigationEvent>()
 
     private val context: Context
 

@@ -1,5 +1,7 @@
 package md.ins8.steamspy.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import md.ins8.steamspy.R
@@ -18,4 +20,9 @@ class MainActivity : AppCompatActivity() {
 
         DaggerMainComponent.builder().mainModule(MainModule(this)).build().inject(this)
     }
+}
+
+fun startMainActivity(context: Context) {
+    val intent = Intent(context, MainActivity::class.java)
+    context.startActivity(intent)
 }

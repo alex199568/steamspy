@@ -4,7 +4,9 @@ import android.content.Context
 import dagger.Component
 
 @AppScope
-@Component(modules = arrayOf(AppModule::class))
+@Component(modules = arrayOf(AppModule::class, SteamSpyAPIModule::class))
 interface AppComponent {
     fun context(): Context
+
+    fun steamSpyAPIService(): SteamSpyAPIService
 }

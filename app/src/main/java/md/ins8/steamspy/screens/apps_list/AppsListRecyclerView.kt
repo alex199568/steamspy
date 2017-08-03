@@ -7,21 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_min_steam_app.view.*
-import md.ins8.steamspy.MinSteamApp
 import md.ins8.steamspy.R
+import md.ins8.steamspy.SteamAppItem
 
 class AppsListViewHolder(itemView: View?, private val context: Context) : RecyclerView.ViewHolder(itemView) {
-    fun bind(minSteamApp: MinSteamApp) {
+    fun bind(steamAppItem: SteamAppItem) {
         Picasso.with(context)
-                .load(minSteamApp.imgUrl)
+                .load(steamAppItem.imgUrl)
                 .placeholder(R.drawable.app_thumbnail_placeholder)
                 .fit().centerInside()
                 .into(itemView.appThumbnail)
-        itemView.minAppName.text = minSteamApp.name
+        itemView.minAppName.text = steamAppItem.name
     }
 }
 
-class AppsListAdapter(private val apps: List<MinSteamApp>, private val context: Context) : RecyclerView.Adapter<AppsListViewHolder>() {
+class AppsListAdapter(private val apps: List<SteamAppItem>, private val context: Context) : RecyclerView.Adapter<AppsListViewHolder>() {
     override fun getItemCount(): Int {
         return apps.size
     }
