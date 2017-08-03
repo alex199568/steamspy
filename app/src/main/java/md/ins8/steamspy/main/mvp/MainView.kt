@@ -27,10 +27,12 @@ class MainView(val activity: MainActivity) {
 
     private val context: Context
 
+    private val materialCab: MaterialCab
+
     init {
         context = activity
 
-        val materialCab = MaterialCab(activity, R.id.cab_stub).start(object : MaterialCab.Callback {
+        materialCab = MaterialCab(activity, R.id.cab_stub).start(object : MaterialCab.Callback {
             override fun onCabFinished(cab: MaterialCab?): Boolean {
                 return false
             }
@@ -140,37 +142,34 @@ class MainView(val activity: MainActivity) {
 
     fun switchToHomeFragment() {
         val homeFragment = HomeFragment()
-
-        replaceFragment(homeFragment)
+        replaceFragment(homeFragment, NavigationEvent.HOME.titleStrRes)
     }
 
     fun switchToAboutFragment() {
         val aboutFragment = AboutFragment()
-
-        replaceFragment(aboutFragment)
+        replaceFragment(aboutFragment, NavigationEvent.ABOUT.titleStrRes)
     }
 
     fun switchToNotificationsFragment() {
         val notificationsFragment = NotificationsFragment()
-
-        replaceFragment(notificationsFragment)
+        replaceFragment(notificationsFragment, NavigationEvent.NOTIFICATIONS.titleStrRes)
     }
 
     fun switchToSettingsFragment() {
         val settingsFragment = SettingsFragment()
-
-        replaceFragment(settingsFragment)
+        replaceFragment(settingsFragment, NavigationEvent.SETTINGS.titleStrRes)
     }
 
     fun switchToAppsListFragment(appsListType: AppsListType) {
         val appsListFragment = newAppsListFragmentInstance(appsListType)
-
-        replaceFragment(appsListFragment)
+        replaceFragment(appsListFragment, appsListType.navigation.titleStrRes)
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment, title: Int) {
         val transaction = activity.supportFragmentManager.beginTransaction()
         transaction.replace(R.id.mainContainer, fragment)
         transaction.commit()
+
+        materialCab.toolbar.title = context.getString(title)
     }
 }

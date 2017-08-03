@@ -22,4 +22,24 @@
     <string name="navGenreExEarlyAccess">Ex Early Access</string>
     <string name="navGenreMMO">MMO</string>
     <string name="navGenreFree">Free</string>
+
+    <string name="titleHome">Home</string>
+    <string name="titleAll">All Apps</string>
+    <string name="titleNotifications">Notifications</string>
+    <string name="titleSettings">Settings</string>
+    <string name="titleAbout">About</string>
+    <string name="titleTop2Weeks">Top: 2 Weeks</string>
+    <string name="titleTopOwned">Top: Owned</string>
+    <string name="titleTopTotal">Top: All Time</string>
+    <string name="titleGenreAction">Genre: Action</string>
+    <string name="titleGenreStrategy">Genre: Strategy</string>
+    <string name="titleGenreRPG">Genre: RPG</string>
+    <string name="titleGenreIndie">Genre: Indie</string>
+    <string name="titleGenreAdventure">Genre: Adventure</string>
+    <string name="titleGenreSports">Genre: Sports</string>
+    <string name="titleGenreSimulation">Genre: Simulation</string>
+    <string name="titleGenreEarlyAccess">Genre: Early Access</string>
+    <string name="titleGenreExEarlyAccess">Genre: Ex Early Access</string>
+    <string name="titleGenreMMO">Genre: MMO</string>
+    <string name="titleGenreFree">Genre: Free</string>
 </resources>
