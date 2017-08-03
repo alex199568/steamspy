@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="md.ins8.steamspy">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".app.SteamSpyApp"
         android:icon="@mipmap/ic_launcher"

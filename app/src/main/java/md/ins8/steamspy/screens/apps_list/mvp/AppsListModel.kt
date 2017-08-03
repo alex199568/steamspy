@@ -1,26 +1,16 @@
 package md.ins8.steamspy.screens.apps_list.mvp
 
+import md.ins8.steamspy.MinSteamApp
 import md.ins8.steamspy.screens.apps_list.AppsListType
 
 
-class AppsListModel {
-    fun fetchData(appsListType: AppsListType): String {
-        return when (appsListType) {
-            AppsListType.ALL -> "All apps"
-            AppsListType.TOP_2_WEEKS -> "Top 2 Weeks"
-            AppsListType.TOP_OWNED -> "Top Owned"
-            AppsListType.TOP_TOTAL -> "Top total"
-            AppsListType.GENRE_ACTION -> "Genre action"
-            AppsListType.GENRE_STRATEGY -> "Genre strategy"
-            AppsListType.GENRE_RPG -> "Genre rpg"
-            AppsListType.GENRE_INDIE -> "Genre indie"
-            AppsListType.GENRE_ADVENTURE -> "Genre adventure"
-            AppsListType.GENRE_SPORTS -> "Genre sports"
-            AppsListType.GENRE_SIMULATION -> "Genre simulation"
-            AppsListType.GENRE_EARLY_ACCESS -> "Genre early access"
-            AppsListType.GENRE_EX_EARLY_ACCESS -> "Genre ex early access"
-            AppsListType.GENRE_MMO -> "Genre mmo"
-            AppsListType.GENRE_FREE -> "Genre free"
-        }
+class AppsListModel(private val appsListType: AppsListType) {
+    fun fetchAppsList(): List<MinSteamApp> {
+        val apps: MutableList<MinSteamApp> = mutableListOf()
+        val url = "http://cdn.akamai.steamstatic.com/steam/apps/505460/capsule_184x69.jpg"
+        val url2 = "http://cdn.akamai.steamstatic.com/steam/apps/305620/capsule_184x69.jpg"
+        (1..5).mapTo(apps) { MinSteamApp("app: $appsListType #$it", url) }
+        (1..5).mapTo(apps) { MinSteamApp("app: $appsListType 2$it", url2) }
+        return apps
     }
 }
