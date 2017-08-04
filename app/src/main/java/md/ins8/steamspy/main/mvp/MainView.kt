@@ -1,15 +1,20 @@
 package md.ins8.steamspy.main.mvp
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
 import co.zsmb.materialdrawerkt.draweritems.divider
 import co.zsmb.materialdrawerkt.draweritems.expandable.expandableItem
 import com.afollestad.materialcab.MaterialCab
+import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import md.ins8.steamspy.R
@@ -22,9 +27,28 @@ import md.ins8.steamspy.screens.home.HomeFragment
 import md.ins8.steamspy.screens.notifications.NotificationsFragment
 import md.ins8.steamspy.screens.settings.SettingsFragment
 
+enum class ViewEvent {
+    ACTION_UPDATE_DATA
+}
 
-class MainView(val activity: MainActivity) {
-    val navigationEventBus: Subject<NavigationEvent> = BehaviorSubject.create<NavigationEvent>()
+interface MainView {
+    val navigationEventBus: Observable<NavigationEvent>
+    val eventBus: Observable<ViewEvent>
+
+    fun switchToHomeFragment()
+    fun switchToAboutFragment()
+    fun switchToNotificationsFragment()
+    fun switchToAppsListFragment(appsListType: AppsListType)
+    fun switchToSettingsFragment()
+
+    fun showDataDownloaded()
+    fun showDataUpdated()
+}
+
+
+class MainViewImpl(val activity: MainActivity) : MainView {
+    override val navigationEventBus: Subject<NavigationEvent> = BehaviorSubject.create<NavigationEvent>()
+    override val eventBus: Subject<ViewEvent> = BehaviorSubject.create<ViewEvent>()
 
     private val context: Context
 
@@ -33,17 +57,27 @@ class MainView(val activity: MainActivity) {
     init {
         context = activity
 
-        materialCab = MaterialCab(activity, R.id.cab_stub).start(object : MaterialCab.Callback {
+        materialCab = MaterialCab(activity, R.id.cab_stub)
+                .setMenu(R.menu.main_menu)
+                .start(object : MaterialCab.Callback {
             override fun onCabFinished(cab: MaterialCab?): Boolean {
                 return false
             }
 
             override fun onCabItemClicked(item: MenuItem?): Boolean {
-                return false
+                when (item?.itemId) {
+                    R.id.actionUpdateData -> eventBus.onNext(ViewEvent.ACTION_UPDATE_DATA)
+                }
+                return true
             }
 
             override fun onCabCreated(cab: MaterialCab?, menu: Menu?): Boolean {
-                cab?.setTitle("Home")
+                listOf(
+                        R.id.actionUpdateData
+                ).forEach {
+                    menu?.findItem(it)?.icon?.changeIconColor(Color.WHITE)
+                }
+
                 return true
             }
         })
@@ -141,29 +175,38 @@ class MainView(val activity: MainActivity) {
         }
     }
 
-    fun switchToHomeFragment() {
+    override fun switchToHomeFragment() {
         val homeFragment = HomeFragment()
         replaceFragment(homeFragment, NavigationEvent.HOME.titleStrRes)
     }
 
-    fun switchToAboutFragment() {
+    override fun switchToAboutFragment() {
         val aboutFragment = AboutFragment()
         replaceFragment(aboutFragment, NavigationEvent.ABOUT.titleStrRes)
     }
 
-    fun switchToNotificationsFragment() {
+    override fun switchToNotificationsFragment() {
         val notificationsFragment = NotificationsFragment()
         replaceFragment(notificationsFragment, NavigationEvent.NOTIFICATIONS.titleStrRes)
     }
 
-    fun switchToSettingsFragment() {
+    override fun switchToSettingsFragment() {
         val settingsFragment = SettingsFragment()
         replaceFragment(settingsFragment, NavigationEvent.SETTINGS.titleStrRes)
     }
 
-    fun switchToAppsListFragment(appsListType: AppsListType) {
+    override fun switchToAppsListFragment(appsListType: AppsListType) {
         val appsListFragment = newAppsListFragmentInstance(appsListType)
         replaceFragment(appsListFragment, appsListType.navigation.titleStrRes)
+    }
+
+
+    override fun showDataDownloaded() {
+        Toast.makeText(context, "Data Downloaded", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showDataUpdated() {
+        Toast.makeText(context, "Data Updated", Toast.LENGTH_SHORT).show()
     }
 
     private fun replaceFragment(fragment: Fragment, title: Int) {
@@ -173,4 +216,10 @@ class MainView(val activity: MainActivity) {
 
         materialCab.toolbar.title = context.getString(title)
     }
+
+}
+
+fun Drawable.changeIconColor(color: Int) {
+    mutate()
+    setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
 }

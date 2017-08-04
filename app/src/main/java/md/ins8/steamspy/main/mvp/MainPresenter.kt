@@ -4,7 +4,7 @@ import md.ins8.steamspy.main.NavigationEvent
 import md.ins8.steamspy.screens.apps_list.AppsListType
 
 
-class MainPresenter(val mainView: MainView) {
+class MainPresenter(private val mainView: MainView, private val mainModel: MainModel) {
     init {
         mainView.navigationEventBus.subscribe {
             when (it) {
@@ -30,8 +30,22 @@ class MainPresenter(val mainView: MainView) {
             }
         }
 
+        mainView.eventBus.subscribe {
+            when (it) {
+                ViewEvent.ACTION_UPDATE_DATA -> mainModel.updateData()
+            }
+        }
+
+        mainModel.eventBus.subscribe {
+            when (it) {
+                ModelEvent.DATA_DOWNLOADED -> mainView.showDataDownloaded()
+                ModelEvent.DATA_UPDATED -> mainView.showDataUpdated()
+            }
+        }
+
         home()
     }
+
 
     private fun home() {
         mainView.switchToHomeFragment()
