@@ -42,4 +42,5 @@
     <string name="titleGenreExEarlyAccess">Genre: Ex Early Access</string>
     <string name="titleGenreMMO">Genre: MMO</string>
     <string name="titleGenreFree">Genre: Free</string>
+    <string name="capsuleContentDescription">App Thumbnail</string>
 </resources>
