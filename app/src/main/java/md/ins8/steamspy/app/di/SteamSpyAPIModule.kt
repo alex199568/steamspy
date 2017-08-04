@@ -43,6 +43,20 @@ enum class ResponseField(val fieldName: String) {
     TAGS("tags")
 }
 
+enum class Genre(val paramName: String) {
+    ACTION("Action"),
+    STRATEGY("Strategy"),
+    RPG("RPG"),
+    INDIE("Indie"),
+    ADVENTURE("Adventure"),
+    SPORTS("Sports"),
+    SIMULATION("Simulation"),
+    EARLY_ACCESS("Early+Access"),
+    EX_EARLY_ACCESS("Ex+Early+Access"),
+    //MMO("MMO"),
+    FREE("Free")
+}
+
 
 interface SteamSpyAPIService {
     @GET("api.php?")
@@ -148,7 +162,7 @@ fun JsonReader.extractRawSteamApp(): RawSteamApp {
             ResponseField.DEV.fieldName -> steamApp.dev = splitNextString()
             ResponseField.PUB.fieldName -> steamApp.pub = splitNextString()
             ResponseField.TAGS.fieldName -> steamApp.tags = extractTags()
-            ResponseField.PRICE.fieldName -> steamApp.price = nextString()
+            ResponseField.PRICE.fieldName -> steamApp.price = safeNextString()
         }
     }
     return steamApp
@@ -156,7 +170,7 @@ fun JsonReader.extractRawSteamApp(): RawSteamApp {
 
 fun JsonReader.splitNextString(): MutableList<String> {
     val result: MutableList<String> = mutableListOf()
-    result.addAll(nextString().split(","))
+    result.addAll(safeNextString().split(","))
     return result
 }
 
@@ -182,5 +196,14 @@ fun JsonReader.safeNextInt(): Int {
     } catch (e: NumberFormatException) {
         nextString()
         return -1
+    }
+}
+
+fun JsonReader.safeNextString(): String {
+    try {
+        return nextString()
+    } catch (e: IllegalStateException) {
+        nextNull()
+        return ""
     }
 }

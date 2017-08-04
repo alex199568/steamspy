@@ -148,10 +148,10 @@ class MainViewImpl(val activity: MainActivity) : MainView {
                     icon = R.drawable.ic_ee
                     onClick { _ -> navigationEventBus.onNext(NavigationEvent.GENRE_EX_EARLY_ACCESS); false }
                 }
-                secondaryItem(context.getString(R.string.navGenreMMO)) {
-                    icon = R.drawable.ic_mm
-                    onClick { _ -> navigationEventBus.onNext(NavigationEvent.GENRE_MMO); false }
-                }
+//                secondaryItem(context.getString(R.string.navGenreMMO)) {
+//                    icon = R.drawable.ic_mm
+//                    onClick { _ -> navigationEventBus.onNext(NavigationEvent.GENRE_MMO); false }
+//                }
                 secondaryItem(context.getString(R.string.navGenreFree)) {
                     icon = R.drawable.ic_fr
                     onClick { _ -> navigationEventBus.onNext(NavigationEvent.GENRE_FREE); false }

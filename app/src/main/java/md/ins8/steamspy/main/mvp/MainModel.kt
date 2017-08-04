@@ -5,7 +5,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import java.util.concurrent.TimeUnit
+import md.ins8.steamspy.app.di.RealmManager
+import md.ins8.steamspy.app.di.SteamSpyAPIService
 
 enum class ModelEvent {
     DATA_DOWNLOADED, DATA_UPDATED
@@ -17,29 +18,25 @@ interface MainModel {
     fun updateData()
 }
 
-class MainModelImpl : MainModel {
+class MainModelImpl(private val steamAppsAPIService: SteamSpyAPIService, private val realmManager: RealmManager) : MainModel {
     override val eventBus: Subject<ModelEvent> = PublishSubject.create<ModelEvent>()
 
     override fun updateData() {
-        createDataDownloadObservable()
-                .subscribe {
+        steamAppsAPIService.requestAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe { data ->
                     eventBus.onNext(ModelEvent.DATA_DOWNLOADED)
-                    createDataUpdateObservable()
+                    Observable.fromCallable {
+                        realmManager.delete()
+                        realmManager.get().executeTransaction {
+                            data.toRealm().forEach { realmManager.get().copyToRealm(it) }
+                        }
+                        realmManager.close()
+                    }.subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribe {
                                 eventBus.onNext(ModelEvent.DATA_UPDATED)
                             }
+
                 }
-    }
-
-    private fun createDataDownloadObservable(): Observable<Boolean> {
-        return Observable.just(true).delay(2, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    private fun createDataUpdateObservable(): Observable<Boolean> {
-        return Observable.just(true).delay(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
     }
 }

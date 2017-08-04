@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import md.ins8.steamspy.R
+import md.ins8.steamspy.app.SteamSpyApp
 import md.ins8.steamspy.main.di.DaggerMainComponent
 import md.ins8.steamspy.main.di.MainModule
 import md.ins8.steamspy.main.mvp.MainPresenter
@@ -18,7 +19,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        DaggerMainComponent.builder().mainModule(MainModule(this)).build().inject(this)
+        DaggerMainComponent.builder()
+                .appComponent((application as SteamSpyApp).appComponent)
+                .mainModule(MainModule(this)).build().inject(this)
     }
 }
 

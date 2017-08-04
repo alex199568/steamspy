@@ -70,7 +70,14 @@ data class SteamAppItem(
     }
 }
 
-data class SteamAppsResponse(val apps: List<RawSteamApp>)
+data class SteamAppsResponse(val apps: List<RawSteamApp>) {
+    fun toRealm(): List<RealmSteamApp> {
+        val realmApps: MutableList<RealmSteamApp> = mutableListOf()
+        apps.mapTo(realmApps, { RealmSteamApp(it) })
+        return realmApps
+    }
+}
+
 
 open class RealmDev(var name: String) : RealmObject() {
     constructor() : this("")
