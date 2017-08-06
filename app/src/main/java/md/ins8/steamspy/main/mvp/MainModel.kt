@@ -27,8 +27,9 @@ class MainModelImpl(private val steamAppsAPIService: SteamSpyAPIService, private
                     eventBus.onNext(ModelEvent.DATA_DOWNLOADED)
                     Observable.fromCallable {
                         realmManager.delete()
-                        realmManager.get().executeTransaction {
-                            data.toRealm().forEach { realmManager.get().copyToRealm(it) }
+                        val realm = realmManager.create()
+                        realm.executeTransaction {
+                            data.toRealm().forEach { realm.copyToRealm(it) }
                         }
                         realmManager.close()
                     }.subscribeOn(Schedulers.io())

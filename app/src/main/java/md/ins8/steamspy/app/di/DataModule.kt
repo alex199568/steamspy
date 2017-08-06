@@ -12,22 +12,16 @@ class RealmManager(context: Context) {
         Realm.init(context)
     }
 
-    fun get(): Realm {
-        if (realm == null) {
-            realm = Realm.getDefaultInstance()
-        }
+    fun create(): Realm {
+        realm = Realm.getDefaultInstance()
         return realm!!
     }
 
     fun close() {
         realm?.close()
-        realm = null
     }
 
     fun delete() {
-        if (realm != null) {
-            close()
-        }
         Realm.deleteRealm(Realm.getDefaultConfiguration())
     }
 }

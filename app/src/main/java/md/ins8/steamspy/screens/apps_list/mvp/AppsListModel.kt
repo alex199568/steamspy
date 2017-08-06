@@ -25,28 +25,14 @@ class AppsListModelImpl(private val appsListType: AppsListType, private val real
         if (appsListType == AppsListType.ALL) {
             val apps: MutableList<SteamAppItem> = mutableListOf()
             Observable.fromCallable {
-                val result = realmManager.get().where(RealmSteamApp::class.java)?.findAll()!!
-                listOf(
-                        SteamAppItem(result[3]),
-                        SteamAppItem(result[10]),
-                        SteamAppItem(result[13]),
-                        SteamAppItem(result[23]),
-                        SteamAppItem(result[33]),
-                        SteamAppItem(result[43]),
-                        SteamAppItem(result[223])
-                ).forEach { apps.add(it) }
-                realmManager.close()
+                val realm = realmManager.create()
+                val result = realm.where(RealmSteamApp::class.java)?.findAll()!!
+                result.mapTo(apps, { SteamAppItem(it) })
+                realm.close()
             }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
                         appsObservable.onNext(apps)
                     }
-        } else {
-            val apps: MutableList<SteamAppItem> = mutableListOf()
-            val url = "http://cdn.akamai.steamstatic.com/steam/apps/505460/capsule_184x69.jpg"
-            val url2 = "http://cdn.akamai.steamstatic.com/steam/apps/305620/capsule_184x69.jpg"
-            (1..5).mapTo(apps) { SteamAppItem("app: $appsListType #$it", url) }
-            (1..5).mapTo(apps) { SteamAppItem("app: $appsListType 2$it", url2) }
-            appsObservable.onNext(apps)
         }
     }
 }

@@ -12,6 +12,8 @@ import io.reactivex.Observable
 import md.ins8.steamspy.RawSteamApp
 import md.ins8.steamspy.SteamAppsResponse
 import md.ins8.steamspy.Tag
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -82,10 +84,11 @@ interface SteamSpyAPIService {
 class SteamSpyAPIModule {
     @AppScope
     @Provides
-    fun provideRetrofit(gson: Gson): Retrofit {
+    fun provideRetrofit(gson: Gson, client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(client)
                 .baseUrl(BASE_URL)
                 .build()
     }
@@ -94,6 +97,22 @@ class SteamSpyAPIModule {
     @Provides
     fun provideSteamSpyAPIService(retrofit: Retrofit): SteamSpyAPIService {
         return retrofit.create(SteamSpyAPIService::class.java)
+    }
+
+    @AppScope
+    @Provides
+    fun provideLogginInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.NONE }
+    }
+
+    @AppScope
+    @Provides
+    fun provideClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                //.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                //.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .build()
     }
 
     @AppScope

@@ -28,6 +28,16 @@
 
     </FrameLayout>
 
+
+    <ProgressBar
+        android:id="@+id/mainProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <FrameLayout
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"

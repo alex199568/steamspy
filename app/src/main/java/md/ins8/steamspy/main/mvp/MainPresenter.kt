@@ -32,7 +32,10 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
 
         mainView.eventBus.subscribe {
             when (it) {
-                ViewEvent.ACTION_UPDATE_DATA -> mainModel.updateData()
+                ViewEvent.ACTION_UPDATE_DATA -> {
+                    mainModel.updateData()
+                    mainView.startDataUpdate()
+                }
             }
         }
 

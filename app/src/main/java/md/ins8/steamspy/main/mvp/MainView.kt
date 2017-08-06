@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
@@ -17,6 +18,7 @@ import com.afollestad.materialcab.MaterialCab
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import kotlinx.android.synthetic.main.activity_main.*
 import md.ins8.steamspy.R
 import md.ins8.steamspy.main.MainActivity
 import md.ins8.steamspy.main.NavigationEvent
@@ -25,6 +27,8 @@ import md.ins8.steamspy.screens.apps_list.AppsListType
 import md.ins8.steamspy.screens.apps_list.newAppsListFragmentInstance
 import md.ins8.steamspy.screens.home.HomeFragment
 import md.ins8.steamspy.screens.notifications.NotificationsFragment
+import md.ins8.steamspy.screens.progress.ProgressEvent
+import md.ins8.steamspy.screens.progress.ProgressFragment
 import md.ins8.steamspy.screens.settings.SettingsFragment
 
 enum class ViewEvent {
@@ -41,6 +45,7 @@ interface MainView {
     fun switchToAppsListFragment(appsListType: AppsListType)
     fun switchToSettingsFragment()
 
+    fun startDataUpdate()
     fun showDataDownloaded()
     fun showDataUpdated()
 }
@@ -51,8 +56,8 @@ class MainViewImpl(val activity: MainActivity) : MainView {
     override val eventBus: Subject<ViewEvent> = BehaviorSubject.create<ViewEvent>()
 
     private val context: Context
-
     private val materialCab: MaterialCab
+    private var lastFragment: Fragment? = null
 
     init {
         context = activity
@@ -148,10 +153,10 @@ class MainViewImpl(val activity: MainActivity) : MainView {
                     icon = R.drawable.ic_ee
                     onClick { _ -> navigationEventBus.onNext(NavigationEvent.GENRE_EX_EARLY_ACCESS); false }
                 }
-//                secondaryItem(context.getString(R.string.navGenreMMO)) {
-//                    icon = R.drawable.ic_mm
-//                    onClick { _ -> navigationEventBus.onNext(NavigationEvent.GENRE_MMO); false }
-//                }
+                secondaryItem(context.getString(R.string.navGenreMMO)) {
+                    icon = R.drawable.ic_mm
+                    onClick { _ -> navigationEventBus.onNext(NavigationEvent.GENRE_MMO); false }
+                }
                 secondaryItem(context.getString(R.string.navGenreFree)) {
                     icon = R.drawable.ic_fr
                     onClick { _ -> navigationEventBus.onNext(NavigationEvent.GENRE_FREE); false }
@@ -201,20 +206,38 @@ class MainViewImpl(val activity: MainActivity) : MainView {
     }
 
 
+    override fun startDataUpdate() {
+        val progressFragment = ProgressFragment()
+        replaceFragment(progressFragment, remember = false)
+        progressFragment.eventBus.subscribe {
+            when (it) {
+                ProgressEvent.VIEW_CREATED -> progressFragment.setMessage("Downloading data ...")
+            }
+        }
+    }
+
     override fun showDataDownloaded() {
-        Toast.makeText(context, "Data Downloaded", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "Data downloaded", Toast.LENGTH_SHORT).show()
     }
 
     override fun showDataUpdated() {
-        Toast.makeText(context, "Data Updated", Toast.LENGTH_SHORT).show()
+        activity.mainProgressBar.visibility = View.GONE
+        Toast.makeText(activity, "Data updated", Toast.LENGTH_SHORT).show()
+        lastFragment?.let { replaceFragment(it) }
     }
 
-    private fun replaceFragment(fragment: Fragment, title: Int) {
+    private fun replaceFragment(fragment: Fragment, title: Int = 0, remember: Boolean = true) {
         val transaction = activity.supportFragmentManager.beginTransaction()
         transaction.replace(R.id.mainContainer, fragment)
         transaction.commit()
 
-        materialCab.toolbar.title = context.getString(title)
+        if (title != 0) {
+            materialCab.toolbar.title = context.getString(title)
+        }
+
+        if (remember) {
+            lastFragment = fragment
+        }
     }
 
 }
