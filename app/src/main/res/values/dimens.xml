@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="listItemStartMargin">16dp</dimen>
+    <dimen name="listItemSideMargin">16dp</dimen>
     <dimen name="listItemTopMargin">8dp</dimen>
     <dimen name="listItemCapsuleImageWidth">64dp</dimen>
     <dimen name="listItemCapsuleImageHeight">24dp</dimen>
     <dimen name="listItemTextCapsuleLeftMargin">8dp</dimen>
     <dimen name="listItemTextSize">16sp</dimen>
-    <dimen name="listItemTextRightMargin">16dp</dimen>
+    <dimen name="listItemInnerSideMargin">16dp</dimen>
     <dimen name="listItemDividerThickness">1dp</dimen>
 </resources>

@@ -7,8 +7,6 @@ import android.graphics.drawable.Drawable
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
@@ -18,7 +16,6 @@ import com.afollestad.materialcab.MaterialCab
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.activity_main.*
 import md.ins8.steamspy.R
 import md.ins8.steamspy.main.MainActivity
 import md.ins8.steamspy.main.NavigationEvent
@@ -26,10 +23,9 @@ import md.ins8.steamspy.screens.about.AboutFragment
 import md.ins8.steamspy.screens.apps_list.AppsListFragment
 import md.ins8.steamspy.screens.apps_list.AppsListType
 import md.ins8.steamspy.screens.apps_list.newAppsListFragmentInstance
+import md.ins8.steamspy.screens.apps_list.newTopListFragmentInstance
 import md.ins8.steamspy.screens.home.HomeFragment
 import md.ins8.steamspy.screens.notifications.NotificationsFragment
-import md.ins8.steamspy.screens.progress.ProgressEvent
-import md.ins8.steamspy.screens.progress.ProgressFragment
 import md.ins8.steamspy.screens.settings.SettingsFragment
 
 enum class ViewEvent {
@@ -46,11 +42,6 @@ interface MainView {
     fun switchToAppsListFragment(appsListType: AppsListType)
     fun switchToSettingsFragment()
 
-    fun startDataUpdate(progressMessage: String)
-    fun startDataUpdate(progressMessage: Int)
-    fun updateDataUpdateMessage(message: Int)
-    fun finishDataUpdate()
-
     fun refreshListFragment()
 }
 
@@ -62,7 +53,6 @@ class MainViewImpl(val activity: MainActivity) : MainView {
     private val context: Context
     private val materialCab: MaterialCab
     private var lastFragment: Fragment? = null
-    private var progressFragment: ProgressFragment? = null
 
     init {
         context = activity
@@ -206,34 +196,14 @@ class MainViewImpl(val activity: MainActivity) : MainView {
     }
 
     override fun switchToAppsListFragment(appsListType: AppsListType) {
-        val appsListFragment = newAppsListFragmentInstance(appsListType)
-        replaceFragment(appsListFragment, appsListType.navigation.titleStrRes)
-    }
-
-
-    override fun startDataUpdate(progressMessage: String) {
-        progressFragment = ProgressFragment()
-        replaceFragment(progressFragment!!, remember = false)
-        progressFragment?.eventBus?.subscribe {
-            when (it) {
-                ProgressEvent.VIEW_CREATED -> progressFragment?.setMessage(progressMessage)
-            }
+        val topTypes = arrayOf(AppsListType.TOP_2_WEEKS, AppsListType.TOP_OWNED, AppsListType.TOP_TOTAL)
+        val fragment: AppsListFragment
+        if (topTypes.contains(appsListType)) {
+            fragment = newTopListFragmentInstance(appsListType)
+        } else {
+            fragment = newAppsListFragmentInstance(appsListType)
         }
-    }
-
-    override fun startDataUpdate(progressMessage: Int) {
-        startDataUpdate(activity.getString(progressMessage))
-    }
-
-    override fun updateDataUpdateMessage(message: Int) {
-        progressFragment?.setMessage(activity.getString(message))
-    }
-
-    override fun finishDataUpdate() {
-        activity.mainProgressBar.visibility = View.GONE
-        Toast.makeText(activity, "Data updated", Toast.LENGTH_SHORT).show()
-        lastFragment?.let { replaceFragment(it) }
-        progressFragment = null
+        replaceFragment(fragment, appsListType.navigation.titleStrRes)
     }
 
     override fun refreshListFragment() {

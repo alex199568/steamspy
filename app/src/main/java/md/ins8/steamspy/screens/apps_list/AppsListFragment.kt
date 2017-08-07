@@ -32,7 +32,7 @@ interface AppsListView {
 }
 
 
-class AppsListFragment : Fragment(), AppsListView {
+open class AppsListFragment : Fragment(), AppsListView {
     override val eventBus: Subject<AppsListViewEvent> = BehaviorSubject.create<AppsListViewEvent>()
 
     override fun showAppsList(apps: List<SteamAppItem>) {
@@ -70,9 +70,28 @@ class AppsListFragment : Fragment(), AppsListView {
     }
 }
 
+class TopListFragment : AppsListFragment() {
+    override fun showAppsList(apps: List<SteamAppItem>) {
+        val adapter = TopListAdapter(apps, context)
+
+        appsListRecyclerView.adapter = adapter
+        appsListRecyclerView.layoutManager = LinearLayoutManager(context)
+    }
+}
+
 
 fun newAppsListFragmentInstance(appsListType: AppsListType): AppsListFragment {
     val fragment = AppsListFragment()
+
+    val args = Bundle()
+    args.putString(APPS_LIST_TYPE_NAME_EXTRA, appsListType.name)
+    fragment.arguments = args
+
+    return fragment
+}
+
+fun newTopListFragmentInstance(appsListType: AppsListType): TopListFragment {
+    val fragment = TopListFragment()
 
     val args = Bundle()
     args.putString(APPS_LIST_TYPE_NAME_EXTRA, appsListType.name)
