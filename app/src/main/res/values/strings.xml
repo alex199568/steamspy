@@ -77,4 +77,9 @@
     <string name="updatingGenreMmo">Updating MMO games</string>
     <string name="updatingGenreFree">Updating Free games</string>
 
+    <string name="notificationChannelName">SteamSpy</string>
+    <string name="notificationChannelDescription">SteamSpy Notification Channel</string>
+    <string name="notificationDataUpdateTitle">SteamSpy: Data Update</string>
+    <string name="dataUpdateNotificationText">Updating Steam Apps Data</string>
+
 </resources>

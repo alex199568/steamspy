@@ -55,7 +55,7 @@ enum class Genre(val paramName: String) {
     SIMULATION("Simulation"),
     EARLY_ACCESS("Early+Access"),
     EX_EARLY_ACCESS("Ex+Early+Access"),
-    //MMO("MMO"),
+    MMO("Massively+Multiplayer"),
     FREE("Free")
 }
 
