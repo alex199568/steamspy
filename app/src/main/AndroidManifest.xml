@@ -21,6 +21,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.MainActivity"></activity>
+
+        <service
+            android:name=".update_service.DataUpdateService"
+            android:exported="false" />
     </application>
 
 </manifest>

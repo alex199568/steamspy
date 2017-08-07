@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.fragment_progress.*
 import md.ins8.steamspy.R
 
 enum class ProgressEvent {
@@ -18,7 +17,7 @@ class ProgressFragment : Fragment() {
     val eventBus: Subject<ProgressEvent> = PublishSubject.create<ProgressEvent>()
 
     fun setMessage(message: String) {
-        progressText.text = message
+        //progressText.text = message
     }
 
 

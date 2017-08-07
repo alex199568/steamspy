@@ -2,8 +2,6 @@ package md.ins8.steamspy.main.di
 
 import dagger.Module
 import dagger.Provides
-import md.ins8.steamspy.app.di.RealmManager
-import md.ins8.steamspy.app.di.SteamSpyAPIService
 import md.ins8.steamspy.main.MainActivity
 import md.ins8.steamspy.main.mvp.*
 
@@ -24,7 +22,7 @@ class MainModule(private val activity: MainActivity) {
 
     @MainScope
     @Provides
-    fun mainModel(steamSpyAPIService: SteamSpyAPIService, realmManager: RealmManager): MainModel {
-        return MainModelImpl(steamSpyAPIService, realmManager)
+    fun mainModel(): MainModel {
+        return MainModelImpl(activity)
     }
 }

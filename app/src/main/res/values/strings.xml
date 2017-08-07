@@ -44,4 +44,37 @@
     <string name="titleGenreFree">Genre: Free</string>
     <string name="capsuleContentDescription">App Thumbnail</string>
     <string name="updateData">Update Data</string>
+
+    <string name="downloadingAll">Downloading all apps</string>
+    <string name="downloadingTop2Weeks">Downloading top for 2 weeks</string>
+    <string name="downloadingTopOwned">Downloading top owned apps</string>
+    <string name="downloadingTopTotal">Downloading all time top</string>
+    <string name="downloadingGenreAction">Downloading action games</string>
+    <string name="downloadingGenreStrategy">Downloading strategy games</string>
+    <string name="downloadingGenreRPG">Downloading RPG games</string>
+    <string name="downloadingGenreAdventure">Downloading Adventure games</string>
+    <string name="downloadingGenreIndie">Downloading Indie games</string>
+    <string name="downloadingGenreSports">Downloading sports games</string>
+    <string name="downloadingGenreSimulation">Downloading simulation games</string>
+    <string name="downloadingGenreEarlyAccess">Downloading Early Access games</string>
+    <string name="downloadingGenreExEarlyAccess">Downloading Ex Early Access games</string>
+    <string name="downloadingGenreMmo">Downloading MMO games</string>
+    <string name="downloadingGenreFree">Downloading Free games</string>
+
+    <string name="updatingAll">Updating all apps</string>
+    <string name="updatingTop2Weeks">Updating top for 2 weeks</string>
+    <string name="updatingTopOwned">Updating top owned apps</string>
+    <string name="updatingTopTotal">Updating all time top</string>
+    <string name="updatingGenreAction">Updating action games</string>
+    <string name="updatingGenreStrategy">Updating strategy games</string>
+    <string name="updatingGenreRPG">Updating RPG games</string>
+    <string name="updatingGenreIndie">Updating Indie games</string>
+    <string name="updatingGenreAdventure">Updating Adventure games</string>
+    <string name="updatingGenreSports">Updating sports games</string>
+    <string name="updatingGenreSimulation">Updating simulation games</string>
+    <string name="updatingGenreEarlyAccess">Updating Early Access games</string>
+    <string name="updatingGenreExEarlyAccess">Updating Ex Early Access games</string>
+    <string name="updatingGenreMmo">Updating MMO games</string>
+    <string name="updatingGenreFree">Updating Free games</string>
+
 </resources>

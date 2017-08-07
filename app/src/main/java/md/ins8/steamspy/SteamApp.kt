@@ -157,3 +157,15 @@ open class RealmSteamApp(
             price = ""
     )
 }
+
+open class RealmAppId(var appId: Long) : RealmObject() {
+    constructor() : this(0)
+}
+
+open class RealmGenreFree(
+        var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject() {
+    constructor(steamApps: List<RawSteamApp>) : this() {
+        steamApps.mapTo(apps, { RealmAppId(it.id) })
+    }
+}

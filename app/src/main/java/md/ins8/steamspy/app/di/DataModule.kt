@@ -1,16 +1,12 @@
 package md.ins8.steamspy.app.di
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import io.realm.Realm
 
-class RealmManager(context: Context) {
+class RealmManager {
     private var realm: Realm? = null
 
-    init {
-        Realm.init(context)
-    }
 
     fun create(): Realm {
         realm = Realm.getDefaultInstance()
@@ -30,7 +26,7 @@ class RealmManager(context: Context) {
 class DataModule {
     @AppScope
     @Provides
-    fun provideRealmManager(context: Context): RealmManager {
-        return RealmManager(context)
+    fun provideRealmManager(): RealmManager {
+        return RealmManager()
     }
 }

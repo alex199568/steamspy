@@ -34,15 +34,15 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
             when (it) {
                 ViewEvent.ACTION_UPDATE_DATA -> {
                     mainModel.updateData()
-                    mainView.startDataUpdate()
                 }
             }
         }
 
         mainModel.eventBus.subscribe {
-            when (it) {
-                ModelEvent.DATA_DOWNLOADED -> mainView.showDataDownloaded()
-                ModelEvent.DATA_UPDATED -> mainView.showDataUpdated()
+            if (it == ModelEvent.GENRE_FREE_UPDATED) {
+                mainView.finishDataUpdate()
+            } else {
+                mainView.updateDataUpdateMessage(it.messageRes)
             }
         }
 

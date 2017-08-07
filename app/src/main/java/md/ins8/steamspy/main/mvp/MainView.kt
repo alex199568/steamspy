@@ -45,9 +45,10 @@ interface MainView {
     fun switchToAppsListFragment(appsListType: AppsListType)
     fun switchToSettingsFragment()
 
-    fun startDataUpdate()
-    fun showDataDownloaded()
-    fun showDataUpdated()
+    fun startDataUpdate(progressMessage: String)
+    fun startDataUpdate(progressMessage: Int)
+    fun updateDataUpdateMessage(message: Int)
+    fun finishDataUpdate()
 }
 
 
@@ -58,6 +59,7 @@ class MainViewImpl(val activity: MainActivity) : MainView {
     private val context: Context
     private val materialCab: MaterialCab
     private var lastFragment: Fragment? = null
+    private var progressFragment: ProgressFragment? = null
 
     init {
         context = activity
@@ -206,24 +208,29 @@ class MainViewImpl(val activity: MainActivity) : MainView {
     }
 
 
-    override fun startDataUpdate() {
-        val progressFragment = ProgressFragment()
-        replaceFragment(progressFragment, remember = false)
-        progressFragment.eventBus.subscribe {
+    override fun startDataUpdate(progressMessage: String) {
+        progressFragment = ProgressFragment()
+        replaceFragment(progressFragment!!, remember = false)
+        progressFragment?.eventBus?.subscribe {
             when (it) {
-                ProgressEvent.VIEW_CREATED -> progressFragment.setMessage("Downloading data ...")
+                ProgressEvent.VIEW_CREATED -> progressFragment?.setMessage(progressMessage)
             }
         }
     }
 
-    override fun showDataDownloaded() {
-        Toast.makeText(activity, "Data downloaded", Toast.LENGTH_SHORT).show()
+    override fun startDataUpdate(progressMessage: Int) {
+        startDataUpdate(activity.getString(progressMessage))
     }
 
-    override fun showDataUpdated() {
+    override fun updateDataUpdateMessage(message: Int) {
+        progressFragment?.setMessage(activity.getString(message))
+    }
+
+    override fun finishDataUpdate() {
         activity.mainProgressBar.visibility = View.GONE
         Toast.makeText(activity, "Data updated", Toast.LENGTH_SHORT).show()
         lastFragment?.let { replaceFragment(it) }
+        progressFragment = null
     }
 
     private fun replaceFragment(fragment: Fragment, title: Int = 0, remember: Boolean = true) {
