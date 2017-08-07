@@ -23,6 +23,7 @@ import md.ins8.steamspy.R
 import md.ins8.steamspy.main.MainActivity
 import md.ins8.steamspy.main.NavigationEvent
 import md.ins8.steamspy.screens.about.AboutFragment
+import md.ins8.steamspy.screens.apps_list.AppsListFragment
 import md.ins8.steamspy.screens.apps_list.AppsListType
 import md.ins8.steamspy.screens.apps_list.newAppsListFragmentInstance
 import md.ins8.steamspy.screens.home.HomeFragment
@@ -49,6 +50,8 @@ interface MainView {
     fun startDataUpdate(progressMessage: Int)
     fun updateDataUpdateMessage(message: Int)
     fun finishDataUpdate()
+
+    fun refreshListFragment()
 }
 
 
@@ -231,6 +234,14 @@ class MainViewImpl(val activity: MainActivity) : MainView {
         Toast.makeText(activity, "Data updated", Toast.LENGTH_SHORT).show()
         lastFragment?.let { replaceFragment(it) }
         progressFragment = null
+    }
+
+    override fun refreshListFragment() {
+        lastFragment?.let {
+            if (it is AppsListFragment) {
+                replaceFragment(it)
+            }
+        }
     }
 
     private fun replaceFragment(fragment: Fragment, title: Int = 0, remember: Boolean = true) {

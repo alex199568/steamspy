@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.support.v4.app.NotificationCompat
+import android.support.v4.content.LocalBroadcastManager
 import io.reactivex.Observable
 import io.realm.Realm
 import io.realm.RealmModel
@@ -28,7 +29,6 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     private lateinit var notificationManager: NotificationManager
     private lateinit var notificationBuilder: NotificationCompat.Builder
 
-    private var processesEnded = 0
 
     override fun onCreate() {
         super.onCreate()
@@ -41,30 +41,30 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
         updateNotification(getString(R.string.dataUpdateNotificationText))
         deleteApps()
 
-        downloadAll().subscribe { storeAll(it); endProcess() }
+        downloadAll().subscribe { storeAll(it); }
 
-        downloadTop2Weeks().subscribe { storeTyped(it, RealmTop2Weeks::class.java); endProcess() }
-        downloadTopOwned().subscribe { storeTyped(it, RealmTopOwned::class.java); endProcess() }
-        downloadTopTotal().subscribe { storeTyped(it, RealmTopTotal::class.java); endProcess() }
+        downloadTop2Weeks().subscribe { storeTyped(it, RealmTop2Weeks::class.java); }
+        downloadTopOwned().subscribe { storeTyped(it, RealmTopOwned::class.java); }
+        downloadTopTotal().subscribe { storeTyped(it, RealmTopTotal::class.java); }
 
-        downloadGenre(Genre.ACTION).subscribe { storeTyped(it, RealmGenreAction::class.java); endProcess() }
-        downloadGenre(Genre.RPG).subscribe { storeTyped(it, RealmGenreRPG::class.java); endProcess() }
-        downloadGenre(Genre.STRATEGY).subscribe { storeTyped(it, RealmGenreStrategy::class.java); endProcess() }
-        downloadGenre(Genre.SIMULATION).subscribe { storeTyped(it, RealmGenreSimulation::class.java); endProcess() }
-        downloadGenre(Genre.ADVENTURE).subscribe { storeTyped(it, RealmGenreAdventure::class.java); endProcess() }
-        downloadGenre(Genre.INDIE).subscribe { storeTyped(it, RealmGenreIndie::class.java); endProcess() }
-        downloadGenre(Genre.SPORTS).subscribe { storeTyped(it, RealmGenreEarlyAccess::class.java); endProcess() }
-        downloadGenre(Genre.EARLY_ACCESS).subscribe { storeTyped(it, RealmGenreEarlyAccess::class.java); endProcess() }
-        downloadGenre(Genre.EX_EARLY_ACCESS).subscribe { storeTyped(it, RealmGenreExEarlyAccess::class.java); endProcess() }
-        downloadGenre(Genre.MMO).subscribe { storeTyped(it, RealmGenreMMO::class.java); endProcess() }
-        downloadGenre(Genre.FREE).subscribe { storeTyped(it, RealmGenreFree::class.java); endProcess() }
-    }
+        downloadGenre(Genre.ACTION).subscribe { storeTyped(it, RealmGenreAction::class.java); }
+        downloadGenre(Genre.RPG).subscribe { storeTyped(it, RealmGenreRPG::class.java); }
+        downloadGenre(Genre.STRATEGY).subscribe { storeTyped(it, RealmGenreStrategy::class.java); }
+        downloadGenre(Genre.SIMULATION).subscribe { storeTyped(it, RealmGenreSimulation::class.java); }
+        downloadGenre(Genre.ADVENTURE).subscribe { storeTyped(it, RealmGenreAdventure::class.java); }
+        downloadGenre(Genre.INDIE).subscribe { storeTyped(it, RealmGenreIndie::class.java); }
+        downloadGenre(Genre.SPORTS).subscribe { storeTyped(it, RealmGenreEarlyAccess::class.java); }
+        downloadGenre(Genre.EARLY_ACCESS).subscribe { storeTyped(it, RealmGenreEarlyAccess::class.java); }
+        downloadGenre(Genre.EX_EARLY_ACCESS).subscribe { storeTyped(it, RealmGenreExEarlyAccess::class.java); }
+        downloadGenre(Genre.MMO).subscribe { storeTyped(it, RealmGenreMMO::class.java); }
+        downloadGenre(Genre.FREE).subscribe { storeTyped(it, RealmGenreFree::class.java); }
 
-    private fun endProcess() {
-        ++processesEnded
-        if (processesEnded == TOTAL_PROCESSES) {
-            notificationManager.cancel(NOTIFICATION_ID)
-        }
+        notificationManager.cancel(NOTIFICATION_ID)
+
+        val intent = Intent()
+        intent.action = LOCAL_ACTION
+        val lbm = LocalBroadcastManager.getInstance(this)
+        lbm.sendBroadcast(intent)
     }
 
     private fun downloadAll(): Observable<SteamAppsResponse> {

@@ -39,10 +39,8 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         }
 
         mainModel.eventBus.subscribe {
-            if (it == ModelEvent.GENRE_FREE_UPDATED) {
-                mainView.finishDataUpdate()
-            } else {
-                mainView.updateDataUpdateMessage(it.messageRes)
+            if (it == ModelEvent.ALL_UPDATED) {
+                mainView.refreshListFragment()
             }
         }
 
