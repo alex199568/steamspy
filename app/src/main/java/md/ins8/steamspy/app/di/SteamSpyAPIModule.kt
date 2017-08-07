@@ -65,7 +65,7 @@ interface SteamSpyAPIService {
     fun requestSteamApp(@Query("request") request: String = "appdetails", @Query("appid") appId: Long): Observable<RawSteamApp>
 
     @GET("api.php?")
-    fun requestGenre(@Query("request") request: String = "genre", @Query("genre") genre: String): Observable<SteamAppsResponse>
+    fun requestGenre(@Query("request") request: String = "genre", @Query("genre", encoded = true) genre: String): Observable<SteamAppsResponse>
 
     @GET("api.php?")
     fun requestTop2Weeks(@Query("request") request: String = "top100in2weeks"): Observable<SteamAppsResponse>

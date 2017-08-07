@@ -162,113 +162,117 @@ open class RealmAppId(var appId: Long) : RealmObject() {
     constructor() : this(0)
 }
 
+interface CustomRealmList {
+    var apps: RealmList<RealmAppId>
+}
+
 open class RealmTop2Weeks(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmTopOwned(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmTopTotal(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmGenreAction(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmGenreStrategy(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmGenreRPG(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmGenreIndie(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmGenreAdventure(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmGenreSports(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmGenreSimulation(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmGenreEarlyAccess(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmGenreExEarlyAccess(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmGenreMMO(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }
 }
 
 open class RealmGenreFree(
-        var apps: RealmList<RealmAppId> = RealmList()
-) : RealmObject() {
+        override var apps: RealmList<RealmAppId> = RealmList()
+) : RealmObject(), CustomRealmList {
     constructor(steamApps: List<RawSteamApp>) : this() {
         steamApps.mapTo(apps, { RealmAppId(it.id) })
     }

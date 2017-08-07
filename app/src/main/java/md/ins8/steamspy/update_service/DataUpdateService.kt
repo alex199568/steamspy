@@ -9,6 +9,7 @@ import android.os.Build
 import android.support.v4.app.NotificationCompat
 import io.reactivex.Observable
 import io.realm.Realm
+import io.realm.RealmModel
 import md.ins8.steamspy.*
 import md.ins8.steamspy.app.SteamSpyApp
 import md.ins8.steamspy.app.di.Genre
@@ -42,21 +43,21 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
 
         downloadAll().subscribe { storeAll(it); endProcess() }
 
-        downloadTop2Weeks().subscribe { storeTop2Weeks(it); endProcess() }
-        downloadTopOwned().subscribe { storeTopOwned(it); endProcess() }
-        downloadTopTotal().subscribe { storeTopTotal(it); endProcess() }
+        downloadTop2Weeks().subscribe { storeTyped(it, RealmTop2Weeks::class.java); endProcess() }
+        downloadTopOwned().subscribe { storeTyped(it, RealmTopOwned::class.java); endProcess() }
+        downloadTopTotal().subscribe { storeTyped(it, RealmTopTotal::class.java); endProcess() }
 
-        downloadGenre(Genre.ACTION).subscribe { storeGenreAction(it); endProcess() }
-        downloadGenre(Genre.RPG).subscribe { storeGenreRPG(it); endProcess() }
-        downloadGenre(Genre.STRATEGY).subscribe { storeGenreStrategy(it); endProcess() }
-        downloadGenre(Genre.SIMULATION).subscribe { storeGenreSimulation(it); endProcess() }
-        downloadGenre(Genre.ADVENTURE).subscribe { storeGenreAdventure(it); endProcess() }
-        downloadGenre(Genre.INDIE).subscribe { storeGenreIndie(it); endProcess() }
-        downloadGenre(Genre.SPORTS).subscribe { storeGenreSports(it); endProcess() }
-        downloadGenre(Genre.EARLY_ACCESS).subscribe { storeGenreEarlyAccess(it); endProcess() }
-        downloadGenre(Genre.EX_EARLY_ACCESS).subscribe { storeGenreExEarlyAccess(it); endProcess() }
-        downloadGenre(Genre.MMO).subscribe { storeGenreMMO(it); endProcess() }
-        downloadGenre(Genre.FREE).subscribe { storeGenreFree(it); endProcess() }
+        downloadGenre(Genre.ACTION).subscribe { storeTyped(it, RealmGenreAction::class.java); endProcess() }
+        downloadGenre(Genre.RPG).subscribe { storeTyped(it, RealmGenreRPG::class.java); endProcess() }
+        downloadGenre(Genre.STRATEGY).subscribe { storeTyped(it, RealmGenreStrategy::class.java); endProcess() }
+        downloadGenre(Genre.SIMULATION).subscribe { storeTyped(it, RealmGenreSimulation::class.java); endProcess() }
+        downloadGenre(Genre.ADVENTURE).subscribe { storeTyped(it, RealmGenreAdventure::class.java); endProcess() }
+        downloadGenre(Genre.INDIE).subscribe { storeTyped(it, RealmGenreIndie::class.java); endProcess() }
+        downloadGenre(Genre.SPORTS).subscribe { storeTyped(it, RealmGenreEarlyAccess::class.java); endProcess() }
+        downloadGenre(Genre.EARLY_ACCESS).subscribe { storeTyped(it, RealmGenreEarlyAccess::class.java); endProcess() }
+        downloadGenre(Genre.EX_EARLY_ACCESS).subscribe { storeTyped(it, RealmGenreExEarlyAccess::class.java); endProcess() }
+        downloadGenre(Genre.MMO).subscribe { storeTyped(it, RealmGenreMMO::class.java); endProcess() }
+        downloadGenre(Genre.FREE).subscribe { storeTyped(it, RealmGenreFree::class.java); endProcess() }
     }
 
     private fun endProcess() {
@@ -90,122 +91,22 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
         Realm.deleteRealm(Realm.getDefaultConfiguration())
     }
 
+    private fun <T> storeTyped(appsResponse: SteamAppsResponse, clazz: Class<T>) where T : RealmModel, T : CustomRealmList {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction {
+            val list = clazz.newInstance()
+            appsResponse.apps.forEach {
+                list.apps.add(RealmAppId(it.id))
+            }
+            realm.copyToRealm(list)
+        }
+        realm.close()
+    }
+
     private fun storeAll(appsResponse: SteamAppsResponse) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction {
             appsResponse.toRealm().forEach { realm.copyToRealm(it) }
-        }
-        realm.close()
-    }
-
-    private fun storeTop2Weeks(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmTop2Weeks(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeTopOwned(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmTopOwned(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeTopTotal(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmTopTotal(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeGenreAction(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmGenreAction(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeGenreStrategy(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmGenreStrategy(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeGenreRPG(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmGenreRPG(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeGenreAdventure(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmGenreAdventure(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeGenreIndie(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmGenreIndie(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeGenreSports(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmGenreSports(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeGenreSimulation(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmGenreSimulation(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeGenreEarlyAccess(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmGenreEarlyAccess(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeGenreExEarlyAccess(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmGenreExEarlyAccess(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeGenreMMO(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmGenreMMO(appsResponse.apps))
-        }
-        realm.close()
-    }
-
-    private fun storeGenreFree(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            realm.copyToRealm(RealmGenreFree(appsResponse.apps))
         }
         realm.close()
     }
