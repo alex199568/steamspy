@@ -1,47 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:layout_marginLeft="@dimen/listItemSideMargin"
-    android:layout_marginStart="@dimen/listItemSideMargin"
-    android:layout_marginTop="@dimen/listItemTopMargin"
-    android:orientation="horizontal">
+    android:layout_height="48dp">
 
 
     <ImageView
         android:id="@+id/appThumbnail"
-        android:layout_width="@dimen/listItemCapsuleImageWidth"
-        android:layout_height="@dimen/listItemCapsuleImageHeight"
-        android:layout_gravity="center"
+        android:layout_width="64dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="16dp"
         android:contentDescription="@string/capsuleContentDescription"
         android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
         tools:src="@drawable/app_thumbnail_placeholder" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/listItemTextCapsuleLeftMargin"
-        android:layout_marginStart="@dimen/listItemTextCapsuleLeftMargin"
-        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/minAppName"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/listItemInnerSideMargin"
-            android:layout_marginRight="@dimen/listItemInnerSideMargin"
-            android:layout_weight="99"
-            android:gravity="center_vertical"
-            android:textColor="@android:color/primary_text_light"
-            android:textSize="@dimen/listItemTextSize"
-            tools:text="Some Steam App Name" />
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="0dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="@dimen/listItemTextSize"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/appThumbnail"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
+        tools:text="Some Steam App Name" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/listItemDividerThickness"
-            android:background="@color/colorListItemDivider" />
-    </LinearLayout>
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:background="@color/colorListItemDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/appName"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_conversion_absoluteHeight="1dp"
+        tools:layout_conversion_absoluteWidth="296dp"
+        tools:layout_conversion_absoluteX="72dp"
+        tools:layout_conversion_absoluteY="47dp" />
 
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

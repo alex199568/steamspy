@@ -18,7 +18,7 @@ open class AppsListViewHolder(itemView: View?, private val context: Context) : R
                 .placeholder(R.drawable.app_thumbnail_placeholder)
                 .fit().centerInside()
                 .into(itemView.appThumbnail)
-        itemView.minAppName.text = steamAppItem.name
+        itemView.appName.text = steamAppItem.name
     }
 }
 
