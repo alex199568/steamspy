@@ -190,7 +190,9 @@ fun JsonReader.extractRawSteamApp(): RawSteamApp {
 fun JsonReader.splitNextString(): MutableList<String> {
     val result: MutableList<String> = mutableListOf()
     result.addAll(safeNextString().split(","))
-    return result
+    val treamed: MutableList<String> = mutableListOf()
+    result.mapTo(treamed, { it.trim(' ') })
+    return treamed
 }
 
 fun JsonReader.extractTags(): MutableList<Tag> {

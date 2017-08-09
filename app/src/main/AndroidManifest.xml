@@ -20,11 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.MainActivity"></activity>
+        <activity android:name=".main.MainActivity" />
 
         <service
             android:name=".update_service.DataUpdateService"
             android:exported="false" />
+
+        <activity android:name=".app_details.AppDetailsActivity"></activity>
     </application>
 
 </manifest>

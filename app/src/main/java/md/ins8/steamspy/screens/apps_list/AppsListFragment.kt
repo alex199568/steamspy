@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.fragment_apps_list.*
 import md.ins8.steamspy.R
@@ -27,6 +28,9 @@ enum class AppsListViewEvent {
 
 interface AppsListView {
     val eventBus: Observable<AppsListViewEvent>
+    val itemClickObservable: Observable<Long>
+
+    val appsListContext: Context
 
     fun showAppsList(apps: List<SteamAppItem>)
 }
@@ -34,9 +38,14 @@ interface AppsListView {
 
 open class AppsListFragment : Fragment(), AppsListView {
     override val eventBus: Subject<AppsListViewEvent> = BehaviorSubject.create<AppsListViewEvent>()
+    override val itemClickObservable: Subject<Long> = PublishSubject.create<Long>()
+
+    override val appsListContext: Context
+        get() = context
 
     override fun showAppsList(apps: List<SteamAppItem>) {
         val adapter = AppsListAdapter(apps, context)
+        adapter.itemClickObservable.subscribe { itemClickObservable.onNext(it) }
 
         appsListRecyclerView.adapter = adapter
         appsListRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -73,6 +82,7 @@ open class AppsListFragment : Fragment(), AppsListView {
 class TopListFragment : AppsListFragment() {
     override fun showAppsList(apps: List<SteamAppItem>) {
         val adapter = TopListAdapter(apps, context)
+        adapter.itemClickObservable.subscribe { itemClickObservable.onNext(it) }
 
         appsListRecyclerView.adapter = adapter
         appsListRecyclerView.layoutManager = LinearLayoutManager(context)

@@ -58,14 +58,15 @@ private val IMAGE_CAPSULE_START_URL = "http://cdn.akamai.steamstatic.com/steam/a
 private val IMAGE_CAPSULE_END_URL = "/capsule_184x69.jpg"
 
 data class SteamAppItem(
+        val id: Long,
         val name: String,
         var imgUrl: String = ""
 ) {
-    constructor(rawSteamApp: RawSteamApp) : this(name = rawSteamApp.name) {
+    constructor(rawSteamApp: RawSteamApp) : this(id = rawSteamApp.id, name = rawSteamApp.name) {
         imgUrl = IMAGE_CAPSULE_START_URL + rawSteamApp.id + IMAGE_CAPSULE_END_URL
     }
 
-    constructor(realmSteamApp: RealmSteamApp) : this(name = realmSteamApp.name) {
+    constructor(realmSteamApp: RealmSteamApp) : this(id = realmSteamApp.id, name = realmSteamApp.name) {
         imgUrl = IMAGE_CAPSULE_START_URL + realmSteamApp.id + IMAGE_CAPSULE_END_URL
     }
 }

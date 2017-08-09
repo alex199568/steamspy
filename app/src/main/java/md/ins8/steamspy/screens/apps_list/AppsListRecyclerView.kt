@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.item_min_steam_app.view.*
 import kotlinx.android.synthetic.main.item_top_steam_app.view.*
 import md.ins8.steamspy.R
@@ -35,12 +38,18 @@ class TopListViewHolder(itemView: View?, private val context: Context) : Recycle
 }
 
 class AppsListAdapter(private val apps: List<SteamAppItem>, private val context: Context) : RecyclerView.Adapter<AppsListViewHolder>() {
+    private val itemClickSubject: Subject<Long> = PublishSubject.create<Long>()
+
+    val itemClickObservable: Observable<Long>
+        get() = itemClickSubject
+
     override fun getItemCount(): Int {
         return apps.size
     }
 
     override fun onBindViewHolder(viewHolder: AppsListViewHolder?, position: Int) {
         viewHolder?.bind(apps[position])
+        viewHolder?.itemView?.setOnClickListener { itemClickSubject.onNext(apps[position].id) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): AppsListViewHolder {
@@ -52,8 +61,14 @@ class AppsListAdapter(private val apps: List<SteamAppItem>, private val context:
 }
 
 class TopListAdapter(private val apps: List<SteamAppItem>, private val context: Context) : RecyclerView.Adapter<TopListViewHolder>() {
-    override fun onBindViewHolder(p0: TopListViewHolder?, p1: Int) {
-        p0?.bind(apps[p1], p1 + 1)
+    private val itemClickSubject: Subject<Long> = PublishSubject.create<Long>()
+
+    val itemClickObservable: Observable<Long>
+        get() = itemClickSubject
+
+    override fun onBindViewHolder(viewHolder: TopListViewHolder?, position: Int) {
+        viewHolder?.bind(apps[position], position + 1)
+        viewHolder?.itemView?.setOnClickListener { itemClickSubject.onNext(apps[position].id) }
     }
 
     override fun onCreateViewHolder(p0: ViewGroup?, p1: Int): TopListViewHolder {
