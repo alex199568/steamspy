@@ -20,10 +20,7 @@ import md.ins8.steamspy.R
 import md.ins8.steamspy.main.MainActivity
 import md.ins8.steamspy.main.NavigationEvent
 import md.ins8.steamspy.screens.about.AboutFragment
-import md.ins8.steamspy.screens.apps_list.AppsListFragment
-import md.ins8.steamspy.screens.apps_list.AppsListType
-import md.ins8.steamspy.screens.apps_list.newAppsListFragmentInstance
-import md.ins8.steamspy.screens.apps_list.newTopListFragmentInstance
+import md.ins8.steamspy.screens.apps_list.*
 import md.ins8.steamspy.screens.home.HomeFragment
 import md.ins8.steamspy.screens.notifications.NotificationsFragment
 import md.ins8.steamspy.screens.settings.SettingsFragment
@@ -197,9 +194,24 @@ class MainViewImpl(val activity: MainActivity) : MainView {
 
     override fun switchToAppsListFragment(appsListType: AppsListType) {
         val topTypes = arrayOf(AppsListType.TOP_2_WEEKS, AppsListType.TOP_OWNED, AppsListType.TOP_TOTAL)
+        val genreTypes = arrayOf(
+                AppsListType.GENRE_ACTION,
+                AppsListType.GENRE_ADVENTURE,
+                AppsListType.GENRE_EARLY_ACCESS,
+                AppsListType.GENRE_EX_EARLY_ACCESS,
+                AppsListType.GENRE_FREE,
+                AppsListType.GENRE_INDIE,
+                AppsListType.GENRE_MMO,
+                AppsListType.GENRE_RPG,
+                AppsListType.GENRE_SIMULATION,
+                AppsListType.GENRE_SPORTS,
+                AppsListType.GENRE_STRATEGY
+        )
         val fragment: AppsListFragment
         if (topTypes.contains(appsListType)) {
             fragment = newTopListFragmentInstance(appsListType)
+        } else if (genreTypes.contains(appsListType)) {
+            fragment = newGenreListFragmentInstance(appsListType)
         } else {
             fragment = newAppsListFragmentInstance(appsListType)
         }

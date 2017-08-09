@@ -13,17 +13,69 @@ import md.ins8.steamspy.screens.apps_list.AppsListType
 
 interface AppsListModel {
     val appsObservable: Observable<List<SteamAppItem>>
+    val genreAppsObservable: Observable<List<GenreSteamAppItem>>
+    val appsListType: AppsListType
 
-    fun fetchAppsList()
+    fun fetchSteamAppItems()
+    fun fetchGenreSteamAppItems()
 }
 
 
-class AppsListModelImpl(private val appsListType: AppsListType, private val realmManager: RealmManager) : AppsListModel {
+class AppsListModelImpl(override val appsListType: AppsListType, private val realmManager: RealmManager) : AppsListModel {
     override val appsObservable: Subject<List<SteamAppItem>> = PublishSubject.create<List<SteamAppItem>>()
+    override val genreAppsObservable: Subject<List<GenreSteamAppItem>> = PublishSubject.create<List<GenreSteamAppItem>>()
 
     private val apps: MutableList<SteamAppItem> = mutableListOf()
+    private val genreApps: MutableList<GenreSteamAppItem> = mutableListOf()
 
-    override fun fetchAppsList() {
+    private var returningGenreApps = false
+
+    override fun fetchSteamAppItems() {
+        returningGenreApps = false
+        fetchAppsList()
+    }
+
+    override fun fetchGenreSteamAppItems() {
+        returningGenreApps = true
+        fetchAppsList()
+    }
+
+    private fun initLoading(initFunc: () -> Unit) {
+        Observable.fromCallable { initFunc() }
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    if (returningGenreApps) {
+                        genreAppsObservable.onNext(genreApps)
+                    } else {
+                        appsObservable.onNext(apps)
+                    }
+                }
+    }
+
+    private fun loadAllApps() {
+        val realm = realmManager.create()
+        val result = realm.where(RealmSteamApp::class.java)?.findAll()!!
+        result.mapTo(apps, { SteamAppItem(it) })
+        realm.close()
+    }
+
+    inline private fun <reified T> loadTypeApps() where T : RealmModel, T : CustomRealmList {
+        val realm = realmManager.create()
+        val result = realm.where(T::class.java)?.findAll()!!
+        if (returningGenreApps) {
+            (result.first() as T).apps.mapTo(genreApps, {
+                GenreSteamAppItem(realm.where(RealmSteamApp::class.java)?.equalTo("id", it.appId)?.findFirst()!!)
+            })
+        } else {
+            (result.first() as T).apps.mapTo(apps, {
+                SteamAppItem(realm.where(RealmSteamApp::class.java)?.equalTo("id", it.appId)?.findFirst()!!)
+            })
+        }
+
+        realm.close()
+    }
+
+    private fun fetchAppsList() {
         apps.clear()
         when (appsListType) {
             AppsListType.ALL -> initLoading { loadAllApps() }
@@ -42,27 +94,5 @@ class AppsListModelImpl(private val appsListType: AppsListType, private val real
             AppsListType.GENRE_MMO -> initLoading { loadTypeApps<RealmGenreMMO>() }
             AppsListType.GENRE_FREE -> initLoading { loadTypeApps<RealmGenreFree>() }
         }
-    }
-
-    private fun initLoading(initFunc: () -> Unit) {
-        Observable.fromCallable { initFunc() }
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe { appsObservable.onNext(apps) }
-    }
-
-    private fun loadAllApps() {
-        val realm = realmManager.create()
-        val result = realm.where(RealmSteamApp::class.java)?.findAll()!!
-        result.mapTo(apps, { SteamAppItem(it) })
-        realm.close()
-    }
-
-    inline private fun <reified T> loadTypeApps() where T : RealmModel, T : CustomRealmList {
-        val realm = realmManager.create()
-        val genreResult = realm.where(T::class.java)?.findAll()!!
-        (genreResult.first() as T).apps.mapTo(apps, {
-            SteamAppItem(realm.where(RealmSteamApp::class.java)?.equalTo("id", it.appId)?.findFirst()!!)
-        })
-        realm.close()
     }
 }

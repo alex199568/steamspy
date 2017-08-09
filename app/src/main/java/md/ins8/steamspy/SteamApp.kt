@@ -71,6 +71,16 @@ data class SteamAppItem(
     }
 }
 
+data class GenreSteamAppItem(var steamAppItem: SteamAppItem, var tags: String = "") {
+    constructor(rawSteamApp: RawSteamApp) : this(SteamAppItem(rawSteamApp)) {
+        tags = rawSteamApp.tags.joinToString(", ", transform = { it.name })
+    }
+
+    constructor(realmSteamApp: RealmSteamApp) : this(SteamAppItem(realmSteamApp)) {
+        tags = realmSteamApp.tags.joinToString(", ", transform = { it.name })
+    }
+}
+
 data class SteamAppsResponse(val apps: List<RawSteamApp>) {
     fun toRealm(): List<RealmSteamApp> {
         val realmApps: MutableList<RealmSteamApp> = mutableListOf()

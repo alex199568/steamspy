@@ -1,6 +1,7 @@
 package md.ins8.steamspy.screens.apps_list.mvp
 
 import md.ins8.steamspy.app_details.startAppDetailsActivity
+import md.ins8.steamspy.screens.apps_list.AppsListType
 import md.ins8.steamspy.screens.apps_list.AppsListView
 import md.ins8.steamspy.screens.apps_list.AppsListViewEvent
 
@@ -17,9 +18,28 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
     }
 
     private fun onViewCreated() {
-        model.fetchAppsList()
-        model.appsObservable.subscribe {
-            view.showAppsList(it)
+        if (listOf(
+                AppsListType.GENRE_ACTION,
+                AppsListType.GENRE_ADVENTURE,
+                AppsListType.GENRE_EARLY_ACCESS,
+                AppsListType.GENRE_EX_EARLY_ACCESS,
+                AppsListType.GENRE_FREE,
+                AppsListType.GENRE_INDIE,
+                AppsListType.GENRE_MMO,
+                AppsListType.GENRE_RPG,
+                AppsListType.GENRE_SIMULATION,
+                AppsListType.GENRE_SPORTS,
+                AppsListType.GENRE_STRATEGY
+        ).contains(model.appsListType)) {
+            model.fetchGenreSteamAppItems()
+            model.genreAppsObservable.subscribe {
+                view.showGenreAppsList(it)
+            }
+        } else {
+            model.fetchSteamAppItems()
+            model.appsObservable.subscribe {
+                view.showAppsList(it)
+            }
         }
     }
 }
