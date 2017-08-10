@@ -5,6 +5,8 @@ import md.ins8.steamspy.screens.apps_list.AppsListType
 
 
 class MainPresenter(private val mainView: MainView, private val mainModel: MainModel) {
+    private var lastSearchInput = ""
+
     init {
         mainView.navigationEventBus.subscribe {
             when (it) {
@@ -35,6 +37,15 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
                 ViewEvent.ACTION_UPDATE_DATA -> {
                     mainModel.updateData()
                 }
+                ViewEvent.ACTION_SEARCH -> {
+                    mainView.showInputDialog()
+                    mainView.inputEvents.subscribe {
+                        if (it != lastSearchInput) {
+                            lastSearchInput = it
+                            mainView.switchToAppsListFragment(it)
+                        }
+                    }
+                }
             }
         }
 
@@ -45,6 +56,10 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         }
 
         home()
+    }
+
+    fun updateToolbarText() {
+        mainView.updateToolbarTitle()
     }
 
 

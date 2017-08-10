@@ -5,6 +5,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import io.realm.Case
+import io.realm.Realm
 import io.realm.RealmModel
 import md.ins8.steamspy.*
 import md.ins8.steamspy.app.di.RealmManager
@@ -16,7 +18,7 @@ interface AppsListModel {
     val genreAppsObservable: Observable<List<GenreSteamAppItem>>
     val appsListType: AppsListType
 
-    fun fetchSteamAppItems()
+    fun fetchSteamAppItems(searchFor: String = "")
     fun fetchGenreSteamAppItems()
 }
 
@@ -30,9 +32,9 @@ class AppsListModelImpl(override val appsListType: AppsListType, private val rea
 
     private var returningGenreApps = false
 
-    override fun fetchSteamAppItems() {
+    override fun fetchSteamAppItems(searchFor: String) {
         returningGenreApps = false
-        fetchAppsList()
+        fetchAppsList(searchFor)
     }
 
     override fun fetchGenreSteamAppItems() {
@@ -59,6 +61,13 @@ class AppsListModelImpl(override val appsListType: AppsListType, private val rea
         realm.close()
     }
 
+    private fun loadAppsForName(name: String) {
+        val realm = Realm.getDefaultInstance()
+        val result = realm.where(RealmSteamApp::class.java).contains("name", name, Case.INSENSITIVE).findAll()
+        result.mapTo(apps, { SteamAppItem(it) })
+        realm.close()
+    }
+
     inline private fun <reified T> loadTypeApps() where T : RealmModel, T : CustomRealmList {
         val realm = realmManager.create()
         val result = realm.where(T::class.java)?.findAll()!!
@@ -75,10 +84,16 @@ class AppsListModelImpl(override val appsListType: AppsListType, private val rea
         realm.close()
     }
 
-    private fun fetchAppsList() {
+    private fun fetchAppsList(searchFor: String = "") {
         apps.clear()
         when (appsListType) {
-            AppsListType.ALL -> initLoading { loadAllApps() }
+            AppsListType.ALL -> {
+                if (searchFor.isEmpty()) {
+                    initLoading { loadAllApps() }
+                } else {
+                    initLoading { loadAppsForName(searchFor) }
+                }
+            }
             AppsListType.TOP_2_WEEKS -> initLoading { loadTypeApps<RealmTop2Weeks>() }
             AppsListType.TOP_OWNED -> initLoading { loadTypeApps<RealmTopOwned>() }
             AppsListType.TOP_TOTAL -> initLoading { loadTypeApps<RealmTopTotal>() }

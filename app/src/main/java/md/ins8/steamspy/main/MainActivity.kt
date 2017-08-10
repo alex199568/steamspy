@@ -23,6 +23,11 @@ class MainActivity : AppCompatActivity() {
                 .appComponent((application as SteamSpyApp).appComponent)
                 .mainModule(MainModule(this)).build().inject(this)
     }
+
+    override fun onBackPressed() {
+        presenter.updateToolbarText()
+        super.onBackPressed()
+    }
 }
 
 fun startMainActivity(context: Context) {

@@ -7,4 +7,10 @@
         android:icon="@drawable/ic_system_update_alt_black_24dp"
         android:title="@string/updateData"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/actionSearch"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Search"
+        app:showAsAction="ifRoom" />
 </menu>

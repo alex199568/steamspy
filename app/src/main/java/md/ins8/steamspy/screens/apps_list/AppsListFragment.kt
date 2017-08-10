@@ -23,6 +23,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 private val APPS_LIST_TYPE_NAME_EXTRA = "AppsListTypeExtra"
+private val SEARCH_FOR_EXTRA = "SearchForExtra"
 
 enum class AppsListViewEvent {
     VIEW_CREATED
@@ -47,11 +48,18 @@ open class AppsListFragment : Fragment(), AppsListView {
         get() = context
 
     override fun showAppsList(apps: List<SteamAppItem>) {
-        val adapter = AppsListAdapter(apps, context)
-        adapter.itemClickObservable.subscribe { itemClickObservable.onNext(it) }
+        try {
+            val adapter = AppsListAdapter(apps, context)
+            adapter.itemClickObservable.subscribe { itemClickObservable.onNext(it) }
 
-        appsListRecyclerView.adapter = adapter
-        appsListRecyclerView.layoutManager = LinearLayoutManager(context)
+            appsListRecyclerView.adapter = adapter
+            appsListRecyclerView.layoutManager = LinearLayoutManager(context)
+        } catch (e: IllegalStateException) {
+            Timber.e(e)
+        } catch (e: NullPointerException) {
+            Timber.e(e)
+        }
+
     }
 
     override fun showGenreAppsList(apps: List<GenreSteamAppItem>) {
@@ -71,6 +79,14 @@ open class AppsListFragment : Fragment(), AppsListView {
                 .appComponent((activity.application as SteamSpyApp).appComponent)
                 .appsListModule(AppsListModule(this, appsListType))
                 .build().inject(this)
+
+        var searchFor = ""
+        try {
+            searchFor = arguments.getString(SEARCH_FOR_EXTRA)
+        } catch (e: IllegalStateException) {
+        }
+
+        presenter.searchFor = searchFor
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -98,8 +114,6 @@ class TopListFragment : AppsListFragment() {
 
 class GenreListFragment : AppsListFragment() {
     override fun showGenreAppsList(apps: List<GenreSteamAppItem>) {
-        Timber.i(apps.toString())
-
         val adapter = GenreListAdapter(apps, context)
         adapter.itemClickObservable.subscribe { itemClickObservable.onNext(it) }
 
@@ -114,6 +128,17 @@ fun newAppsListFragmentInstance(appsListType: AppsListType): AppsListFragment {
 
     val args = Bundle()
     args.putString(APPS_LIST_TYPE_NAME_EXTRA, appsListType.name)
+    fragment.arguments = args
+
+    return fragment
+}
+
+fun newAppsListFragmentInstance(searchFor: String): AppsListFragment {
+    val fragment = AppsListFragment()
+
+    val args = Bundle()
+    args.putString(SEARCH_FOR_EXTRA, searchFor)
+    args.putString(APPS_LIST_TYPE_NAME_EXTRA, AppsListType.ALL.name)
     fragment.arguments = args
 
     return fragment

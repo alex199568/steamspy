@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.support.v4.app.Fragment
+import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import co.zsmb.materialdrawerkt.builders.drawer
@@ -13,8 +14,10 @@ import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
 import co.zsmb.materialdrawerkt.draweritems.divider
 import co.zsmb.materialdrawerkt.draweritems.expandable.expandableItem
 import com.afollestad.materialcab.MaterialCab
+import com.afollestad.materialdialogs.MaterialDialog
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import md.ins8.steamspy.R
 import md.ins8.steamspy.main.MainActivity
@@ -26,26 +29,33 @@ import md.ins8.steamspy.screens.notifications.NotificationsFragment
 import md.ins8.steamspy.screens.settings.SettingsFragment
 
 enum class ViewEvent {
-    ACTION_UPDATE_DATA
+    ACTION_UPDATE_DATA,
+    ACTION_SEARCH
 }
 
 interface MainView {
     val navigationEventBus: Observable<NavigationEvent>
     val eventBus: Observable<ViewEvent>
+    val inputEvents: Observable<String>
 
     fun switchToHomeFragment()
     fun switchToAboutFragment()
     fun switchToNotificationsFragment()
     fun switchToAppsListFragment(appsListType: AppsListType)
+    fun switchToAppsListFragment(searchFor: String)
     fun switchToSettingsFragment()
 
     fun refreshListFragment()
+    fun showInputDialog()
+
+    fun updateToolbarTitle()
 }
 
 
 class MainViewImpl(val activity: MainActivity) : MainView {
     override val navigationEventBus: Subject<NavigationEvent> = BehaviorSubject.create<NavigationEvent>()
     override val eventBus: Subject<ViewEvent> = BehaviorSubject.create<ViewEvent>()
+    override val inputEvents: Subject<String> = PublishSubject.create<String>()
 
     private val context: Context
     private val materialCab: MaterialCab
@@ -64,13 +74,14 @@ class MainViewImpl(val activity: MainActivity) : MainView {
             override fun onCabItemClicked(item: MenuItem?): Boolean {
                 when (item?.itemId) {
                     R.id.actionUpdateData -> eventBus.onNext(ViewEvent.ACTION_UPDATE_DATA)
+                    R.id.actionSearch -> eventBus.onNext(ViewEvent.ACTION_SEARCH)
                 }
                 return true
             }
 
             override fun onCabCreated(cab: MaterialCab?, menu: Menu?): Boolean {
                 listOf(
-                        R.id.actionUpdateData
+                        R.id.actionUpdateData, R.id.actionSearch
                 ).forEach {
                     menu?.findItem(it)?.icon?.changeIconColor(Color.WHITE)
                 }
@@ -218,6 +229,11 @@ class MainViewImpl(val activity: MainActivity) : MainView {
         replaceFragment(fragment, appsListType.navigation.titleStrRes)
     }
 
+    override fun switchToAppsListFragment(searchFor: String) {
+        val fragment = newAppsListFragmentInstance(searchFor)
+        replaceFragment(fragment, titleStr = searchFor)
+    }
+
     override fun refreshListFragment() {
         lastFragment?.let {
             if (it is AppsListFragment) {
@@ -226,14 +242,47 @@ class MainViewImpl(val activity: MainActivity) : MainView {
         }
     }
 
-    private fun replaceFragment(fragment: Fragment, title: Int = 0, remember: Boolean = true) {
+    override fun showInputDialog() {
+        MaterialDialog.Builder(activity)
+                .title("Search")
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .input("App's name", "", { _, result -> inputEvents.onNext(result.toString()) })
+                .positiveText("Submit")
+                .negativeText("Cancel")
+                .show()
+    }
+
+    override fun updateToolbarTitle() {
+        val fragmentManager = activity.supportFragmentManager
+        if (fragmentManager.backStackEntryCount < 2) {
+            materialCab.toolbar.title = "Home"
+            return
+        }
+        val fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.backStackEntryCount - 2).name
+        materialCab.toolbar.title = fragmentTag
+    }
+
+    private var firstFragment = true
+
+    private fun replaceFragment(fragment: Fragment, title: Int = 0, remember: Boolean = true, titleStr: String = "") {
+        var titleString = fragment.toString()
+        if (title != 0) {
+            titleString = context.getString(title)
+        }
+        if (!titleStr.isEmpty()) {
+            titleString = titleStr
+        }
+
         val transaction = activity.supportFragmentManager.beginTransaction()
         transaction.replace(R.id.mainContainer, fragment)
+        if (!firstFragment) {
+            transaction.addToBackStack(titleString)
+        } else {
+            firstFragment = false
+        }
         transaction.commit()
 
-        if (title != 0) {
-            materialCab.toolbar.title = context.getString(title)
-        }
+        materialCab.toolbar.title = titleString
 
         if (remember) {
             lastFragment = fragment

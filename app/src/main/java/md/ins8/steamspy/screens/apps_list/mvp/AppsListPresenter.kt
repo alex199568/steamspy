@@ -7,6 +7,8 @@ import md.ins8.steamspy.screens.apps_list.AppsListViewEvent
 
 
 class AppsListPresenter(private val model: AppsListModel, private val view: AppsListView) {
+    var searchFor = ""
+
     init {
         view.eventBus.subscribe {
             when (it) {
@@ -36,7 +38,7 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
                 view.showGenreAppsList(it)
             }
         } else {
-            model.fetchSteamAppItems()
+            model.fetchSteamAppItems(searchFor)
             model.appsObservable.subscribe {
                 view.showAppsList(it)
             }
