@@ -54,12 +54,13 @@ open class AppsListFragment : Fragment(), AppsListView {
 
             appsListRecyclerView.adapter = adapter
             appsListRecyclerView.layoutManager = LinearLayoutManager(context)
+
+            appsListProgressBar.visibility = View.GONE
         } catch (e: IllegalStateException) {
             Timber.e(e)
         } catch (e: NullPointerException) {
             Timber.e(e)
         }
-
     }
 
     override fun showGenreAppsList(apps: List<GenreSteamAppItem>) {
@@ -109,6 +110,8 @@ class TopListFragment : AppsListFragment() {
 
         appsListRecyclerView.adapter = adapter
         appsListRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        appsListProgressBar.visibility = View.GONE
     }
 }
 
@@ -119,6 +122,8 @@ class GenreListFragment : AppsListFragment() {
 
         appsListRecyclerView.adapter = adapter
         appsListRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        appsListProgressBar.visibility = View.GONE
     }
 }
 
