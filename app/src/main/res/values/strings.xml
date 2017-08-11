@@ -84,5 +84,6 @@
     <string name="steamAppImageContentDescription">Steam App Image</string>
     <string name="developers">Developers</string>
     <string name="publishers">Publishers</string>
+    <string name="price">Price</string>
 
 </resources>
