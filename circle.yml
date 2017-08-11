@@ -37,14 +37,12 @@ dependencies:
         - /home/ubuntu/.gradle/caches/
         - /home/ubuntu/.gradle/wrapper/
 
-build:
-  override:
-    - (./gradlew assemble)
-    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
 
 test:
     override:
         - ./gradlew check --no-daemon --console=plain --continue
+        - (./gradlew assemble)
+        - cp -r app/build/outputs $CIRCLE_ARTIFACTS
 
     post:
         - mkdir -p $CIRCLE_TEST_REPORTS/reports/junit

@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp">
+    android:layout_height="@dimen/listTwoLinesHeight"
+    tools:ignore="RtlHardcoded">
 
 
     <ImageView
         android:id="@+id/genreAppThumbnail"
-        android:layout_width="64dp"
-        android:layout_height="24dp"
-        android:layout_marginLeft="16dp"
+        android:layout_width="@dimen/steamAppCapsuleItemWidth"
+        android:layout_height="@dimen/steamAppCapsuleItemHeight"
+        android:layout_marginLeft="@dimen/listItemLeftMargin"
         android:contentDescription="@string/capsuleContentDescription"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,9 +28,9 @@
         android:id="@+id/genreAppName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginLeft="@dimen/listPrimaryTextMargin"
+        android:layout_marginRight="@dimen/listPrimaryTextMargin"
+        android:layout_marginTop="@dimen/listPrimaryTextMargin"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
@@ -55,11 +56,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/genreAppName"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_conversion_absoluteHeight="1dp"
-        tools:layout_conversion_absoluteWidth="296dp"
-        tools:layout_conversion_absoluteX="72dp"
-        tools:layout_conversion_absoluteY="47dp" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/genreAppItemTags"
@@ -67,15 +64,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/listItemInnerTextMargin"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="TextView"
         android:textColor="@android:color/darker_gray"
-        android:textSize="14sp"
+        android:textSize="@dimen/listItemSecondaryTextSize"
         app:layout_constraintLeft_toLeftOf="@+id/genreAppName"
         app:layout_constraintRight_toRightOf="@+id/genreAppName"
-        app:layout_constraintTop_toBottomOf="@+id/genreAppName" />
+        app:layout_constraintTop_toBottomOf="@+id/genreAppName"
+        tools:text="Tag 1, Tag 2" />
 
 
 </android.support.constraint.ConstraintLayout>

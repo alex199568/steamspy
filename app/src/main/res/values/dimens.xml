@@ -13,4 +13,11 @@
     <dimen name="cardsMargin">8dp</dimen>
     <dimen name="cardInnerMargin">16dp</dimen>
     <dimen name="listCardInnerMargin">8dp</dimen>
+    <dimen name="steamAppCapsuleItemWidth">64dp</dimen>
+    <dimen name="steamAppCapsuleItemHeight">24dp</dimen>
+    <dimen name="listTwoLinesHeight">72dp</dimen>
+    <dimen name="listItemLeftMargin">16dp</dimen>
+    <dimen name="listPrimaryTextMargin">16dp</dimen>
+    <dimen name="listItemSecondaryTextSize">14sp</dimen>
+    <dimen name="listItemInnerTextMargin">8dp</dimen>
 </resources>
