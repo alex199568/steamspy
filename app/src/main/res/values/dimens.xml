@@ -9,4 +9,8 @@
     <dimen name="listItemTextSize">16sp</dimen>
     <dimen name="listItemInnerSideMargin">16dp</dimen>
     <dimen name="listItemDividerThickness">1dp</dimen>
+    <dimen name="cardsHalfMargin">4dp</dimen>
+    <dimen name="cardsMargin">8dp</dimen>
+    <dimen name="cardInnerMargin">16dp</dimen>
+    <dimen name="listCardInnerMargin">8dp</dimen>
 </resources>
