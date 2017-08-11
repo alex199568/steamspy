@@ -20,4 +20,6 @@
     <dimen name="listPrimaryTextMargin">16dp</dimen>
     <dimen name="listItemSecondaryTextSize">14sp</dimen>
     <dimen name="listItemInnerTextMargin">8dp</dimen>
+    <dimen name="listItemSingleLineHeight">48dp</dimen>
+    <dimen name="listItemSingleLineTextLeftMargin">8dp</dimen>
 </resources>
