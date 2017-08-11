@@ -86,5 +86,13 @@
     <string name="publishers">Publishers</string>
     <string name="price">Price</string>
     <string name="rank">Rank</string>
+    <string name="concurrentPlayers">Concurrent Players</string>
+    <string name="median2Weeks">Median 2 Weeks</string>
+    <string name="totalMedian">Total Median</string>
+    <string name="average2Weeks">Average 2 Weeks</string>
+    <string name="totalAverage">Total Average</string>
+    <string name="owners">Owners</string>
+    <string name="totalPlayers">Total Players</string>
+    <string name="players2Weeks">Players 2 Weeks</string>
 
 </resources>
