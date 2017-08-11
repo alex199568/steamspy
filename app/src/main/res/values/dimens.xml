@@ -23,4 +23,9 @@
     <dimen name="listItemSingleLineHeight">48dp</dimen>
     <dimen name="listItemSingleLineTextMargin">8dp</dimen>
     <dimen name="listItemSingleLineMargin">16dp</dimen>
+    <dimen name="cardHeaderMargin">16dp</dimen>
+    <dimen name="cardHeaderTextSize">24sp</dimen>
+    <dimen name="cardHeaderTopMargin">24dp</dimen>
+    <dimen name="cardSubtitleTopMargin">16dp</dimen>
+    <dimen name="cardSubtitleTextSize">14sp</dimen>
 </resources>

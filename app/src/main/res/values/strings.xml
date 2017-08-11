@@ -81,5 +81,6 @@
     <string name="notificationChannelDescription">SteamSpy Notification Channel</string>
     <string name="notificationDataUpdateTitle">SteamSpy: Data Update</string>
     <string name="dataUpdateNotificationText">Updating Steam Apps Data</string>
+    <string name="steamAppImageContentDescription">Steam App Image</string>
 
 </resources>
