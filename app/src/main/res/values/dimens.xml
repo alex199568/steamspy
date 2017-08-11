@@ -28,4 +28,9 @@
     <dimen name="cardHeaderTopMargin">24dp</dimen>
     <dimen name="cardSubtitleTopMargin">16dp</dimen>
     <dimen name="cardSubtitleTextSize">14sp</dimen>
+    <dimen name="cardListDividerMarginTop">8dp</dimen>
+    <dimen name="cardListItemNameTextSize">16sp</dimen>
+    <dimen name="CardListItemTextSize">24sp</dimen>
+    <dimen name="cardListItemMargin">16dp</dimen>
+    <dimen name="CardListItemNameContentMargin">32dp</dimen>
 </resources>

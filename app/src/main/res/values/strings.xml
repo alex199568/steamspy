@@ -82,5 +82,7 @@
     <string name="notificationDataUpdateTitle">SteamSpy: Data Update</string>
     <string name="dataUpdateNotificationText">Updating Steam Apps Data</string>
     <string name="steamAppImageContentDescription">Steam App Image</string>
+    <string name="developers">Developers</string>
+    <string name="publishers">Publishers</string>
 
 </resources>
