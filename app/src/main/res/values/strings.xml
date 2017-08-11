@@ -85,5 +85,6 @@
     <string name="developers">Developers</string>
     <string name="publishers">Publishers</string>
     <string name="price">Price</string>
+    <string name="rank">Rank</string>
 
 </resources>
