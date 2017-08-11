@@ -21,5 +21,6 @@
     <dimen name="listItemSecondaryTextSize">14sp</dimen>
     <dimen name="listItemInnerTextMargin">8dp</dimen>
     <dimen name="listItemSingleLineHeight">48dp</dimen>
-    <dimen name="listItemSingleLineTextLeftMargin">8dp</dimen>
+    <dimen name="listItemSingleLineTextMargin">8dp</dimen>
+    <dimen name="listItemSingleLineMargin">16dp</dimen>
 </resources>
