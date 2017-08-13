@@ -20,7 +20,6 @@ import javax.inject.Inject
 private val CHANNEL_ID = "steam_spy_channel_id"
 private val NOTIFICATION_ID = 1
 private val INTENT_SERVICE_NAME = "DataUpdateIntentService"
-private val TOTAL_PROCESSES = 15
 
 class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     @Inject

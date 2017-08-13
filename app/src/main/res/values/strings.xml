@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SteamSpy</string>
+    <string name="app_name">Steam Spyglass</string>
 
     <string name="navigation_home">Home</string>
     <string name="navigation_all">All</string>
