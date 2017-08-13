@@ -25,6 +25,7 @@ import javax.inject.Inject
 private val APPS_LIST_TYPE_NAME_EXTRA = "AppsListTypeExtra"
 private val SEARCH_FOR_EXTRA = "SearchForExtra"
 
+
 enum class AppsListViewEvent {
     VIEW_CREATED
 }

@@ -11,4 +11,6 @@
 
     <color name="colorListItemDivider">#1F000000</color>
     <color name="colorCardsBackground">#DFDFDF</color>
+
+    <color name="onBackgroundPrimaryTextColor">#000000</color>
 </resources>

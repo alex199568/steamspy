@@ -1,20 +1,30 @@
 package md.ins8.steamspy.screens.apps_list
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.item_genre_steam_app.view.*
-import kotlinx.android.synthetic.main.item_min_steam_app.view.*
 import kotlinx.android.synthetic.main.item_top_steam_app.view.*
 import md.ins8.steamspy.GenreSteamAppItem
 import md.ins8.steamspy.R
 import md.ins8.steamspy.SteamAppItem
+import org.jetbrains.anko.*
+
+private enum class MinItemViewIds {
+    APP_THUMBNAIL,
+    APP_NAME
+}
 
 class AppsListViewHolder(itemView: View?, private val context: Context) : RecyclerView.ViewHolder(itemView) {
     fun bind(steamAppItem: SteamAppItem) {
@@ -22,8 +32,8 @@ class AppsListViewHolder(itemView: View?, private val context: Context) : Recycl
                 .load(steamAppItem.imgUrl)
                 .placeholder(R.drawable.app_thumbnail_placeholder)
                 .fit().centerInside()
-                .into(itemView.appThumbnail)
-        itemView.appName.text = steamAppItem.name
+                .into(itemView.find<ImageView>(MinItemViewIds.APP_THUMBNAIL.ordinal))
+        itemView.find<TextView>(MinItemViewIds.APP_NAME.ordinal).text = steamAppItem.name
     }
 }
 
@@ -67,8 +77,37 @@ class AppsListAdapter(private val apps: List<SteamAppItem>, private val context:
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): AppsListViewHolder {
+
+        val itemView: View = context.linearLayout {
+            imageView {
+                id = MinItemViewIds.APP_THUMBNAIL.ordinal
+            }.lparams(width = dimen(R.dimen.steamAppCapsuleItemWidth), height = dimen(R.dimen.steamAppCapsuleItemHeight)) {
+                leftMargin = dimen(R.dimen.listItemSideMargin)
+                verticalGravity = Gravity.CENTER_VERTICAL
+            }
+
+            verticalLayout {
+                textView {
+                    id = MinItemViewIds.APP_NAME.ordinal
+                    textSize = 16f
+                    ellipsize = TextUtils.TruncateAt.END
+                    gravity = Gravity.CENTER_VERTICAL
+                    textColor = ContextCompat.getColor(context, R.color.onBackgroundPrimaryTextColor)
+                }.lparams(width = matchParent, height = 0, weight = 99f)
+
+                view {
+                    backgroundColor = R.color.colorListItemDivider
+                }.lparams(width = matchParent, height = 1)
+            }.lparams(width = matchParent, height = matchParent) {
+                leftMargin = dimen(R.dimen.listItemSingleLineTextMargin)
+                rightMargin = dimen(R.dimen.listItemSideMargin)
+            }
+
+            lparams(height = dimen(R.dimen.listItemSingleLineHeight), width = matchParent)
+        }
+
         return AppsListViewHolder(
-                LayoutInflater.from(context).inflate(R.layout.item_min_steam_app, parent, false),
+                itemView,
                 context
         )
     }
