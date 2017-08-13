@@ -11,5 +11,9 @@
         <item name="md_content_color">@color/secondaryColor</item>
     </style>
 
+    <style name="LaunchTheme" parent="AppTheme">
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
 
 </resources>
