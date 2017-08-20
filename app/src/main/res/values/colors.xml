@@ -13,4 +13,5 @@
     <color name="colorCardsBackground">#DFDFDF</color>
 
     <color name="onBackgroundPrimaryTextColor">#000000</color>
+    <color name="onBackgroundSecondaryTextColor">#BEBEBE</color>
 </resources>

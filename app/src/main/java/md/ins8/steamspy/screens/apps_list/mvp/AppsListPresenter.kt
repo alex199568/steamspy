@@ -35,12 +35,20 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
         ).contains(model.appsListType)) {
             model.fetchGenreSteamAppItems()
             model.genreAppsObservable.subscribe {
-                view.showGenreAppsList(it)
+                if (it.isEmpty()) {
+                    view.showEmptyList("There is a problem, because the app thinks that there are no apps in this genre")
+                } else {
+                    view.showGenreAppsList(it)
+                }
             }
         } else {
             model.fetchSteamAppItems(searchFor)
             model.appsObservable.subscribe {
-                view.showAppsList(it)
+                if (it.isEmpty()) {
+                    view.showEmptyList("There are no apps which match the name '$searchFor'")
+                } else {
+                    view.showAppsList(it)
+                }
             }
         }
     }

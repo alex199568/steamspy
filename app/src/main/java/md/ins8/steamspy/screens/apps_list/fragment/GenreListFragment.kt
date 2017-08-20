@@ -17,10 +17,12 @@ class GenreListFragment : AppsListFragment() {
         val adapter = GenreListAdapter(apps, context)
         adapter.itemClickObservable.subscribe { itemClickObservable.onNext(it) }
 
+        appsListRecyclerView.visibility = View.VISIBLE
         appsListRecyclerView.adapter = adapter
         appsListRecyclerView.layoutManager = LinearLayoutManager(context)
 
         appsListProgressBar.visibility = View.GONE
+        noResultsTextView.visibility = View.GONE
     }
 }
 

@@ -42,4 +42,5 @@
     <dimen name="cardListMargin">8dp</dimen>
     <dimen name="statisticsCardListItemVerticalMargin">16dp</dimen>
     <dimen name="statisticsListItemContentTextSize">24sp</dimen>
+    <dimen name="nonSignificatantText">14sp</dimen>
 </resources>

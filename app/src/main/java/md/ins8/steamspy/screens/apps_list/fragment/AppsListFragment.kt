@@ -39,6 +39,7 @@ interface AppsListView {
     val appsListContext: Context
 
     fun showAppsList(apps: List<SteamAppItem>)
+    fun showEmptyList(message: String)
     fun showGenreAppsList(apps: List<GenreSteamAppItem>)
 }
 
@@ -55,15 +56,25 @@ open class AppsListFragment : Fragment(), AppsListView {
             val adapter = AppsListAdapter(apps, context)
             adapter.itemClickObservable.subscribe { itemClickObservable.onNext(it) }
 
+            appsListRecyclerView.visibility = View.VISIBLE
             appsListRecyclerView.adapter = adapter
             appsListRecyclerView.layoutManager = LinearLayoutManager(context)
 
             appsListProgressBar.visibility = View.GONE
+            noResultsTextView.visibility = View.GONE
         } catch (e: IllegalStateException) {
             Timber.e(e)
         } catch (e: NullPointerException) {
             Timber.e(e)
         }
+    }
+
+    override fun showEmptyList(message: String) {
+        appsListProgressBar.visibility = View.GONE
+        appsListRecyclerView.visibility = View.GONE
+
+        noResultsTextView.visibility = View.VISIBLE
+        noResultsTextView.text = message
     }
 
     override fun showGenreAppsList(apps: List<GenreSteamAppItem>) {
