@@ -7,6 +7,7 @@ class LaunchPresenterImpl(private val view: LaunchView, private val model: Launc
     init {
         if (model.checkFirstTime()) {
             model.updateData()
+            model.setupUpdate()
         } else {
             model.splashWait()
         }

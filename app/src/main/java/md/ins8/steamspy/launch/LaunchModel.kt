@@ -1,5 +1,8 @@
 package md.ins8.steamspy.launch
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -13,6 +16,7 @@ import md.ins8.steamspy.R
 import md.ins8.steamspy.update_service.DataUpdateService
 import md.ins8.steamspy.update_service.LOCAL_ACTION
 import md.ins8.steamspy.update_service.Receiver
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -26,12 +30,14 @@ interface LaunchModel {
     fun checkFirstTime(): Boolean
     fun splashWait()
     fun updateData()
+    fun setupUpdate()
 }
 
 private val SPLASH_SCREEN_DURATION: Long = 3
 private val FIRST_TIME_KEY = "FirstTimeKey"
 private val FIRST_TIME_DEFAULT = "FirstTimeDefault"
 private val FIRST_TIME_VALUE = "FirstTimeValue"
+private val BOOT_COMPLETED_NAME = "android.intent.action.BOOT_COMPLETED"
 
 class LaunchModelImpl(private val context: Context) : LaunchModel {
     override val eventBus: Subject<ModelEvent> = PublishSubject.create<ModelEvent>()
@@ -55,9 +61,7 @@ class LaunchModelImpl(private val context: Context) : LaunchModel {
     }
 
     override fun updateData() {
-        val intent = Intent(context, DataUpdateService::class.java)
-        context.startService(intent)
-
+        context.startService(Intent(context, DataUpdateService::class.java))
 
         val receiver = Receiver()
         val broadcastFilter = IntentFilter(LOCAL_ACTION)
@@ -68,4 +72,31 @@ class LaunchModelImpl(private val context: Context) : LaunchModel {
             eventBus.onNext(ModelEvent.DATA_UPDATED)
         }
     }
+
+    override fun setupUpdate() = setupDataUpdateAlarm(context)
+}
+
+class DataUpdateAlarmBootReceiver : BroadcastReceiver() {
+    override fun onReceive(p0: Context?, p1: Intent?) {
+        if (p1?.action.equals(BOOT_COMPLETED_NAME)) {
+            setupDataUpdateAlarm(p0!!)
+        }
+    }
+
+}
+
+fun setupDataUpdateAlarm(context: Context) {
+    val random = Random()
+
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = System.currentTimeMillis()
+    calendar.set(Calendar.HOUR_OF_DAY, random.nextInt(4))
+    calendar.set(Calendar.MINUTE, random.nextInt(60))
+
+    val dataIntent = Intent(context, DataUpdateService::class.java)
+
+    val pendingIntent = PendingIntent.getService(context, 0, dataIntent, 0)
+
+    val alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
 }
