@@ -5,8 +5,17 @@ interface LaunchPresenter
 
 class LaunchPresenterImpl(private val view: LaunchView, private val model: LaunchModel) : LaunchPresenter {
     init {
+        if (model.checkFirstTime()) {
+            model.updateData()
+        } else {
+            model.splashWait()
+        }
+
         model.eventBus.subscribe {
-            view.startMainActivity()
+            when (it) {
+                ModelEvent.DONE -> view.startMainActivity()
+                ModelEvent.DATA_UPDATED -> view.startMainActivity()
+            }
         }
     }
 }

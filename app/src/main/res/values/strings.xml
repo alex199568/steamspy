@@ -95,4 +95,6 @@
     <string name="totalPlayers">Total Players</string>
     <string name="players2Weeks">Players 2 Weeks</string>
 
+    <string name="sharedPreferencesFileKey">shared_preferences_file</string>
+
 </resources>

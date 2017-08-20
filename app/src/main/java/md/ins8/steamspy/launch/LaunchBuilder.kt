@@ -1,5 +1,6 @@
 package md.ins8.steamspy.launch
 
+import android.content.Context
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -21,7 +22,7 @@ interface LaunchComponent {
 class LaunchModule(private val view: LaunchView) {
     @LaunchScope
     @Provides
-    fun provideModel(): LaunchModel = LaunchModelImpl()
+    fun provideModel(context: Context): LaunchModel = LaunchModelImpl(context)
 
     @LaunchScope
     @Provides
