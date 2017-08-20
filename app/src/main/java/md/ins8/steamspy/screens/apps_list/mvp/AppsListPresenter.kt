@@ -2,8 +2,8 @@ package md.ins8.steamspy.screens.apps_list.mvp
 
 import md.ins8.steamspy.app_details.startAppDetailsActivity
 import md.ins8.steamspy.screens.apps_list.AppsListType
-import md.ins8.steamspy.screens.apps_list.AppsListView
-import md.ins8.steamspy.screens.apps_list.AppsListViewEvent
+import md.ins8.steamspy.screens.apps_list.fragment.AppsListView
+import md.ins8.steamspy.screens.apps_list.fragment.AppsListViewEvent
 
 
 class AppsListPresenter(private val model: AppsListModel, private val view: AppsListView) {

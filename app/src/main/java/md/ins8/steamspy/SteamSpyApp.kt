@@ -1,10 +1,7 @@
-package md.ins8.steamspy.app
+package md.ins8.steamspy
 
 import android.app.Application
 import io.realm.Realm
-import md.ins8.steamspy.app.di.AppComponent
-import md.ins8.steamspy.app.di.AppModule
-import md.ins8.steamspy.app.di.DaggerAppComponent
 import timber.log.Timber
 
 

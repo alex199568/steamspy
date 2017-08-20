@@ -1,4 +1,4 @@
-package md.ins8.steamspy.main.mvp
+package md.ins8.steamspy.main
 
 import android.content.Context
 import android.content.Intent

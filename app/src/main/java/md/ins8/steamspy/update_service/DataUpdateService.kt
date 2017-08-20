@@ -12,9 +12,6 @@ import io.reactivex.Observable
 import io.realm.Realm
 import io.realm.RealmModel
 import md.ins8.steamspy.*
-import md.ins8.steamspy.app.SteamSpyApp
-import md.ins8.steamspy.app.di.Genre
-import md.ins8.steamspy.app.di.SteamSpyAPIService
 import javax.inject.Inject
 
 private val CHANNEL_ID = "steam_spy_channel_id"
@@ -66,25 +63,19 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
         lbm.sendBroadcast(intent)
     }
 
-    private fun downloadAll(): Observable<SteamAppsResponse> {
-        return steamAppsAPIService.requestAll()
-    }
+    private fun downloadAll(): Observable<SteamAppsResponse> = steamAppsAPIService.requestAll()
 
-    private fun downloadTop2Weeks(): Observable<SteamAppsResponse> {
-        return steamAppsAPIService.requestTop2Weeks()
-    }
+    private fun downloadTop2Weeks(): Observable<SteamAppsResponse> =
+            steamAppsAPIService.requestTop2Weeks()
 
-    private fun downloadTopOwned(): Observable<SteamAppsResponse> {
-        return steamAppsAPIService.requestTopOwned()
-    }
+    private fun downloadTopOwned(): Observable<SteamAppsResponse> =
+            steamAppsAPIService.requestTopOwned()
 
-    private fun downloadTopTotal(): Observable<SteamAppsResponse> {
-        return steamAppsAPIService.requestTopTotal()
-    }
+    private fun downloadTopTotal(): Observable<SteamAppsResponse> =
+            steamAppsAPIService.requestTopTotal()
 
-    private fun downloadGenre(genre: Genre): Observable<SteamAppsResponse> {
-        return steamAppsAPIService.requestGenre(genre = genre.paramName)
-    }
+    private fun downloadGenre(genre: Genre): Observable<SteamAppsResponse> =
+            steamAppsAPIService.requestGenre(genre = genre.paramName)
 
     private fun deleteApps() {
         Realm.deleteRealm(Realm.getDefaultConfiguration())

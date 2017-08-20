@@ -1,4 +1,4 @@
-package md.ins8.steamspy.app.di
+package md.ins8.steamspy
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -9,9 +9,6 @@ import com.google.gson.stream.JsonWriter
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Observable
-import md.ins8.steamspy.RawSteamApp
-import md.ins8.steamspy.SteamAppsResponse
-import md.ins8.steamspy.Tag
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

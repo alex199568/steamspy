@@ -1,6 +1,5 @@
-package md.ins8.steamspy.main.mvp
+package md.ins8.steamspy.main
 
-import md.ins8.steamspy.main.NavigationEvent
 import md.ins8.steamspy.screens.apps_list.AppsListType
 
 

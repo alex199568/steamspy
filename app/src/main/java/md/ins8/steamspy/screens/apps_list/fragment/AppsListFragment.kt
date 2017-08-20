@@ -1,4 +1,4 @@
-package md.ins8.steamspy.screens.apps_list
+package md.ins8.steamspy.screens.apps_list.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -15,9 +15,11 @@ import kotlinx.android.synthetic.main.fragment_apps_list.*
 import md.ins8.steamspy.GenreSteamAppItem
 import md.ins8.steamspy.R
 import md.ins8.steamspy.SteamAppItem
-import md.ins8.steamspy.app.SteamSpyApp
-import md.ins8.steamspy.screens.apps_list.di.AppsListModule
-import md.ins8.steamspy.screens.apps_list.di.DaggerAppsListComponent
+import md.ins8.steamspy.SteamSpyApp
+import md.ins8.steamspy.screens.apps_list.AppsListModule
+import md.ins8.steamspy.screens.apps_list.AppsListType
+import md.ins8.steamspy.screens.apps_list.DaggerAppsListComponent
+import md.ins8.steamspy.screens.apps_list.list.AppsListAdapter
 import md.ins8.steamspy.screens.apps_list.mvp.AppsListPresenter
 import timber.log.Timber
 import javax.inject.Inject
@@ -104,30 +106,6 @@ open class AppsListFragment : Fragment(), AppsListView {
     }
 }
 
-class TopListFragment : AppsListFragment() {
-    override fun showAppsList(apps: List<SteamAppItem>) {
-        val adapter = TopListAdapter(apps, context)
-        adapter.itemClickObservable.subscribe { itemClickObservable.onNext(it) }
-
-        appsListRecyclerView.adapter = adapter
-        appsListRecyclerView.layoutManager = LinearLayoutManager(context)
-
-        appsListProgressBar.visibility = View.GONE
-    }
-}
-
-class GenreListFragment : AppsListFragment() {
-    override fun showGenreAppsList(apps: List<GenreSteamAppItem>) {
-        val adapter = GenreListAdapter(apps, context)
-        adapter.itemClickObservable.subscribe { itemClickObservable.onNext(it) }
-
-        appsListRecyclerView.adapter = adapter
-        appsListRecyclerView.layoutManager = LinearLayoutManager(context)
-
-        appsListProgressBar.visibility = View.GONE
-    }
-}
-
 
 fun newAppsListFragmentInstance(appsListType: AppsListType): AppsListFragment {
     val fragment = AppsListFragment()
@@ -150,22 +128,3 @@ fun newAppsListFragmentInstance(searchFor: String): AppsListFragment {
     return fragment
 }
 
-fun newTopListFragmentInstance(appsListType: AppsListType): TopListFragment {
-    val fragment = TopListFragment()
-
-    val args = Bundle()
-    args.putString(APPS_LIST_TYPE_NAME_EXTRA, appsListType.name)
-    fragment.arguments = args
-
-    return fragment
-}
-
-fun newGenreListFragmentInstance(appsListType: AppsListType): GenreListFragment {
-    val fragment = GenreListFragment()
-
-    val args = Bundle()
-    args.putString(APPS_LIST_TYPE_NAME_EXTRA, appsListType.name)
-    fragment.arguments = args
-
-    return fragment
-}

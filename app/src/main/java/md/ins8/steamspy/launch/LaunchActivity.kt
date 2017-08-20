@@ -3,7 +3,7 @@ package md.ins8.steamspy.launch
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import md.ins8.steamspy.R
-import md.ins8.steamspy.app.SteamSpyApp
+import md.ins8.steamspy.SteamSpyApp
 import md.ins8.steamspy.main.startMainActivity
 import javax.inject.Inject
 

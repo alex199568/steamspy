@@ -9,7 +9,6 @@ import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmModel
 import md.ins8.steamspy.*
-import md.ins8.steamspy.app.di.RealmManager
 import md.ins8.steamspy.screens.apps_list.AppsListType
 
 
@@ -23,7 +22,7 @@ interface AppsListModel {
 }
 
 
-class AppsListModelImpl(override val appsListType: AppsListType, private val realmManager: RealmManager) : AppsListModel {
+class AppsListModelImpl(override val appsListType: AppsListType) : AppsListModel {
     override val appsObservable: Subject<List<SteamAppItem>> = PublishSubject.create<List<SteamAppItem>>()
     override val genreAppsObservable: Subject<List<GenreSteamAppItem>> = PublishSubject.create<List<GenreSteamAppItem>>()
 
@@ -55,7 +54,7 @@ class AppsListModelImpl(override val appsListType: AppsListType, private val rea
     }
 
     private fun loadAllApps() {
-        val realm = realmManager.create()
+        val realm = Realm.getDefaultInstance()
         val result = realm.where(RealmSteamApp::class.java)?.findAll()!!
         result.mapTo(apps, { SteamAppItem(it) })
         realm.close()
@@ -69,7 +68,7 @@ class AppsListModelImpl(override val appsListType: AppsListType, private val rea
     }
 
     inline private fun <reified T> loadTypeApps() where T : RealmModel, T : CustomRealmList {
-        val realm = realmManager.create()
+        val realm = Realm.getDefaultInstance()
         val result = realm.where(T::class.java)?.findAll()!!
         if (returningGenreApps) {
             (result.first() as T).apps.mapTo(genreApps, {
