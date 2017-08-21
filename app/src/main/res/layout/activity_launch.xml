@@ -4,17 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="md.ins8.steamspy.launch.LaunchActivity">
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/splashLogoWidth"
+        android:layout_height="@dimen/splashLogoHeight"
+        android:contentDescription="@string/splashScreenLogo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -23,15 +19,14 @@
         app:srcCompat="@drawable/spyglass_white" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/splashScreenText"
+        style="@style/largePrimaryText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/defaultGap"
         android:text="@string/app_name"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="@+id/imageView"
         app:layout_constraintRight_toRightOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView"

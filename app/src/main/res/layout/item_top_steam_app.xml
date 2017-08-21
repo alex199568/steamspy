@@ -9,9 +9,9 @@
 
     <ImageView
         android:id="@+id/topAppThumbnail"
-        android:layout_width="@dimen/steamAppCapsuleItemWidth"
-        android:layout_height="@dimen/steamAppCapsuleItemHeight"
-        android:layout_marginLeft="16dp"
+        android:layout_width="@dimen/listItemCapsuleImageWidth"
+        android:layout_height="@dimen/listItemCapsuleImageHeight"
+        android:layout_marginLeft="@dimen/defaultGap"
         android:contentDescription="@string/capsuleContentDescription"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,49 +22,34 @@
 
     <TextView
         android:id="@+id/topAppName"
+        style="@style/singleLineListItemText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="@dimen/listItemSingleLineTextMargin"
-        android:layout_marginRight="@dimen/listItemSingleLineTextMargin"
-        android:layout_marginTop="0dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:textColor="@android:color/primary_text_light"
-        android:textSize="@dimen/listItemTextSize"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
+        android:layout_marginLeft="@dimen/smallGap"
+        android:layout_marginRight="@dimen/smallGap"
+        app:layout_constraintBottom_toBottomOf="@+id/divider"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/topAppThumbnail"
         app:layout_constraintRight_toLeftOf="@+id/topAppPosition"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Some Steam App Name" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/divider"
+        style="@style/divider"
         android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:background="@color/colorListItemDivider"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/topAppName"
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/topAppPosition"
+        style="@style/singleLineListItemInlineText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginRight="@dimen/listItemSingleLineMargin"
-        android:layout_marginTop="0dp"
-        android:textColor="@android:color/secondary_text_dark"
-        android:textSize="@dimen/listItemSecondaryTextSize"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginRight="@dimen/smallGap"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="#12" />
+        app:layout_constraintTop_toTopOf="@+id/topAppName" />
 
 
 </android.support.constraint.ConstraintLayout>

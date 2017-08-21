@@ -15,5 +15,44 @@
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
+    <style name="toolbarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">?colorPrimary</item>
+    </style>
+
+    <style name="largePrimaryText">
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textSize">@dimen/largeText</item>
+    </style>
+
+    <style name="nonSignificantText">
+        <item name="android:textSize">@dimen/smallText</item>
+        <item name="android:textColor">@color/onBackgroundSecondaryTextColor</item>
+    </style>
+
+    <style name="singleLineListItemText">
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/onBackgroundPrimaryTextColor</item>
+        <item name="android:textSize">@dimen/defaultTextSize</item>
+    </style>
+
+    <style name="doubleLineListItemSecondaryText">
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/onBackgroundSecondaryTextColor</item>
+        <item name="android:textSize">@dimen/defaultTextSize</item>
+    </style>
+
+    <style name="singleLineListItemInlineText">
+        <item name="android:textColor">@color/onBackgroundSecondaryTextColor</item>
+        <item name="android:textSize">@dimen/smallText</item>
+    </style>
+
+    <style name="divider">
+        <item name="android:layout_height">@dimen/dividerHeight</item>
+        <item name="android:background">@color/colorListItemDivider</item>
+    </style>
 
 </resources>

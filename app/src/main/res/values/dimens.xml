@@ -1,46 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <dimen name="listItemSideMargin">16dp</dimen>
-    <dimen name="listItemTopMargin">8dp</dimen>
     <dimen name="listItemCapsuleImageWidth">64dp</dimen>
     <dimen name="listItemCapsuleImageHeight">24dp</dimen>
-    <dimen name="listItemTextCapsuleLeftMargin">8dp</dimen>
-    <dimen name="listItemTextSize">16sp</dimen>
-    <dimen name="listItemInnerSideMargin">16dp</dimen>
-    <dimen name="listItemDividerThickness">1dp</dimen>
-    <dimen name="cardsHalfMargin">4dp</dimen>
-    <dimen name="cardsMargin">8dp</dimen>
-    <dimen name="cardInnerMargin">16dp</dimen>
-    <dimen name="listCardInnerMargin">8dp</dimen>
-    <dimen name="steamAppCapsuleItemWidth">64dp</dimen>
-    <dimen name="steamAppCapsuleItemHeight">24dp</dimen>
     <dimen name="listTwoLinesHeight">72dp</dimen>
-    <dimen name="listItemLeftMargin">16dp</dimen>
-    <dimen name="listPrimaryTextMargin">16dp</dimen>
-    <dimen name="listItemSecondaryTextSize">14sp</dimen>
-    <dimen name="listItemInnerTextMargin">8dp</dimen>
     <dimen name="listItemSingleLineHeight">48dp</dimen>
-    <dimen name="listItemSingleLineTextMargin">8dp</dimen>
-    <dimen name="listItemSingleLineMargin">16dp</dimen>
-    <dimen name="cardHeaderMargin">16dp</dimen>
-    <dimen name="cardHeaderTextSize">24sp</dimen>
-    <dimen name="cardHeaderTopMargin">24dp</dimen>
-    <dimen name="cardSubtitleTopMargin">16dp</dimen>
-    <dimen name="cardSubtitleTextSize">14sp</dimen>
-    <dimen name="cardListDividerMarginTop">8dp</dimen>
-    <dimen name="cardListItemNameTextSize">16sp</dimen>
-    <dimen name="CardListItemTextSize">24sp</dimen>
-    <dimen name="cardListItemMargin">16dp</dimen>
-    <dimen name="CardListItemNameContentMargin">32dp</dimen>
-    <dimen name="cardSmallTitleTextSize">14sp</dimen>
-    <dimen name="smallCardTextSize">24sp</dimen>
-    <dimen name="smallCardContentMargin">8dp</dimen>
     <dimen name="dividerHeight">1dp</dimen>
-    <dimen name="dividerMargin">16dp</dimen>
-    <dimen name="statisticsListItemTitleTextSize">16sp</dimen>
-    <dimen name="cardListMargin">8dp</dimen>
-    <dimen name="statisticsCardListItemVerticalMargin">16dp</dimen>
-    <dimen name="statisticsListItemContentTextSize">24sp</dimen>
     <dimen name="nonSignificatantText">14sp</dimen>
+    <dimen name="splashLogoWidth">128dp</dimen>
+    <dimen name="splashLogoHeight">128dp</dimen>
+    <dimen name="defaultGap">16dp</dimen>
+    <dimen name="largeText">24sp</dimen>
+    <dimen name="largeGap">24dp</dimen>
+    <dimen name="drawerImageHeight">169dp</dimen>
+    <dimen name="smallText">14sp</dimen>
+    <dimen name="defaultTextSize">16sp</dimen>
+    <dimen name="extraLargeGap">32dp</dimen>
+    <dimen name="smallGap">8dp</dimen>
+    <dimen name="extraSmallGap">4dp</dimen>
 </resources>

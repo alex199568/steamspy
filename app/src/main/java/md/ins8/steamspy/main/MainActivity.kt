@@ -211,6 +211,8 @@ class MainActivity : AppCompatActivity(), MainView {
                 onClick { _ -> navigationEventBus.onNext(NavigationEvent.ABOUT); false }
             }
         }
+
+        switchToHomeFragment()
     }
 
     override fun onBackPressed() {
@@ -259,13 +261,10 @@ class MainActivity : AppCompatActivity(), MainView {
                 AppsListType.GENRE_SPORTS,
                 AppsListType.GENRE_STRATEGY
         )
-        val fragment: AppsListFragment
-        if (topTypes.contains(appsListType)) {
-            fragment = newTopListFragmentInstance(appsListType)
-        } else if (genreTypes.contains(appsListType)) {
-            fragment = newGenreListFragmentInstance(appsListType)
-        } else {
-            fragment = newAppsListFragmentInstance(appsListType)
+        val fragment: AppsListFragment = when {
+            topTypes.contains(appsListType) -> newTopListFragmentInstance(appsListType)
+            genreTypes.contains(appsListType) -> newGenreListFragmentInstance(appsListType)
+            else -> newAppsListFragmentInstance(appsListType)
         }
         replaceFragment(fragment, appsListType.navigation.titleStrRes)
     }

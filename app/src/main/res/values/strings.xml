@@ -96,5 +96,10 @@
     <string name="players2Weeks">Players 2 Weeks</string>
 
     <string name="sharedPreferencesFileKey">shared_preferences_file</string>
+    <string name="splashScreenLogo">Steam Spyglass Logo</string>
+    <string name="aboutTempMessage">About, coming soon</string>
+    <string name="homeScreenTempMessage">Home Screen, Coming Soon</string>
+    <string name="notificationsTempMessage">Notifications Screen, Coming Soon</string>
+    <string name="settingsTempMessage">Settings Screen, Coming Soon</string>
 
 </resources>

@@ -7,30 +7,11 @@
     android:orientation="vertical"
     tools:ignore="RtlHardcoded">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
+
+    <include
+        layout="@layout/layout_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/main_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="?colorPrimary"
-            android:elevation="@dimen/mcab_toolbar_elevation"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:contentInsetStart="@dimen/mcab_default_content_inset"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            tools:ignore="UnusedAttribute" />
-
-        <ViewStub
-            android:id="@+id/cab_stub"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize" />
-
-    </FrameLayout>
-
+        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -46,9 +27,9 @@
                 android:id="@+id/priceCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/cardsHalfMargin"
-                android:layout_marginRight="@dimen/cardsMargin"
-                android:layout_marginTop="@dimen/cardsMargin"
+                android:layout_marginLeft="@dimen/extraSmallGap"
+                android:layout_marginRight="@dimen/smallGap"
+                android:layout_marginTop="@dimen/smallGap"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/devPubCard">
@@ -57,16 +38,16 @@
                     layout="@layout/layout_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/cardInnerMargin" />
+                    android:layout_margin="@dimen/defaultGap" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/rankCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/cardsMargin"
-                android:layout_marginRight="@dimen/cardsHalfMargin"
-                android:layout_marginTop="@dimen/cardsMargin"
+                android:layout_marginLeft="@dimen/smallGap"
+                android:layout_marginRight="@dimen/extraSmallGap"
+                android:layout_marginTop="@dimen/smallGap"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/devPubCard">
@@ -74,17 +55,16 @@
                 <include
                     layout="@layout/layout_rank"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/cardInnerMargin" />
+                    android:layout_height="wrap_content" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/devPubCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/cardsMargin"
-                android:layout_marginRight="@dimen/cardsMargin"
-                android:layout_marginTop="@dimen/cardsMargin"
+                android:layout_marginLeft="@dimen/smallGap"
+                android:layout_marginRight="@dimen/smallGap"
+                android:layout_marginTop="@dimen/smallGap"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/appDetailsCard">
@@ -92,19 +72,16 @@
                 <include
                     layout="@layout/layout_dev_pub"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/cardInnerMargin"
-                    android:layout_marginLeft="@dimen/cardInnerMargin"
-                    android:layout_marginTop="@dimen/cardInnerMargin" />
+                    android:layout_height="wrap_content" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/ownedCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/cardsMargin"
-                android:layout_marginRight="@dimen/cardsMargin"
-                android:layout_marginTop="@dimen/cardsMargin"
+                android:layout_marginLeft="@dimen/smallGap"
+                android:layout_marginRight="@dimen/smallGap"
+                android:layout_marginTop="@dimen/smallGap"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rankCard">
@@ -112,16 +89,14 @@
                 <include
                     layout="@layout/layout_statistics"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/listCardInnerMargin"
-                    android:layout_marginTop="@dimen/listCardInnerMargin" />
+                    android:layout_height="wrap_content" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/pubsCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/cardsMargin"
+                android:layout_margin="@dimen/smallGap"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline"
                 app:layout_constraintRight_toRightOf="parent"
@@ -134,9 +109,9 @@
                 android:id="@+id/appDetailsCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/cardsMargin"
-                android:layout_marginRight="@dimen/cardsMargin"
-                android:layout_marginTop="@dimen/cardsMargin"
+                android:layout_marginLeft="@dimen/smallGap"
+                android:layout_marginRight="@dimen/smallGap"
+                android:layout_marginTop="@dimen/smallGap"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -144,8 +119,7 @@
                 <include
                     layout="@layout/layout_app_details"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/cardInnerMargin" />
+                    android:layout_height="wrap_content" />
             </android.support.v7.widget.CardView>
 
 

@@ -9,7 +9,7 @@ import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.item_top_steam_app.view.*
+import kotlinx.android.synthetic.main.item_min_steam_app.view.*
 import md.ins8.steamspy.R
 import md.ins8.steamspy.SteamAppItem
 
@@ -20,8 +20,8 @@ class AppsListViewHolder(itemView: View?, private val context: Context) : Recycl
                 .load(steamAppItem.imgUrl)
                 .placeholder(R.drawable.app_thumbnail_placeholder)
                 .fit().centerInside()
-                .into(itemView.topAppThumbnail)
-        itemView.topAppName.text = steamAppItem.name
+                .into(itemView.appThumbnail)
+        itemView.appName.text = steamAppItem.name
     }
 }
 
@@ -40,7 +40,7 @@ class AppsListAdapter(private val apps: List<SteamAppItem>, private val context:
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): AppsListViewHolder {
         return AppsListViewHolder(
-                LayoutInflater.from(context).inflate(R.layout.item_top_steam_app, parent, false),
+                LayoutInflater.from(context).inflate(R.layout.item_min_steam_app, parent, false),
                 context
         )
     }
