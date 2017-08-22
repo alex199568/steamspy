@@ -102,4 +102,10 @@
     <string name="notificationsTempMessage">Notifications Screen, Coming Soon</string>
     <string name="settingsTempMessage">Settings Screen, Coming Soon</string>
 
+    <string name="appDetailsViewPagerInfo">Info</string>
+    <string name="appDetailsViewPagerTags">Tags</string>
+    <string name="appDetailsViewPagerNumbers">Numbers</string>
+
+    <string name="wtf">WTF has just happen?</string>
+
 </resources>

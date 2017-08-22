@@ -13,126 +13,66 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ScrollView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorCardsBackground">
+        android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <View
+            android:id="@+id/divider"
+            style="@style/divider"
+            android:layout_width="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appName" />
 
+        <ImageView
+            android:id="@+id/appImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/app_placeholder" />
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/priceCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/extraSmallGap"
-                android:layout_marginRight="@dimen/smallGap"
-                android:layout_marginTop="@dimen/smallGap"
-                app:layout_constraintLeft_toLeftOf="@+id/guideline"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/devPubCard">
+        <TextView
+            android:id="@+id/appName"
+            style="@style/largePrimaryTextOnBackground"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/defaultGap"
+            android:layout_marginLeft="@dimen/defaultGap"
+            android:layout_marginRight="@dimen/defaultGap"
+            android:layout_marginStart="@dimen/defaultGap"
+            android:layout_marginTop="@dimen/largeGap"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appImage"
+            tools:text="Some Awesome Steam Game" />
 
-                <include
-                    layout="@layout/layout_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/defaultGap" />
-            </android.support.v7.widget.CardView>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/rankCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/smallGap"
-                android:layout_marginRight="@dimen/extraSmallGap"
-                android:layout_marginTop="@dimen/smallGap"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/devPubCard">
-
-                <include
-                    layout="@layout/layout_rank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/devPubCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/smallGap"
-                android:layout_marginRight="@dimen/smallGap"
-                android:layout_marginTop="@dimen/smallGap"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appDetailsCard">
-
-                <include
-                    layout="@layout/layout_dev_pub"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/ownedCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/smallGap"
-                android:layout_marginRight="@dimen/smallGap"
-                android:layout_marginTop="@dimen/smallGap"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rankCard">
-
-                <include
-                    layout="@layout/layout_statistics"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/pubsCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/smallGap"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="@+id/guideline"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ownedCard"
-                app:layout_constraintVertical_bias="0.0">
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/appDetailsCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/smallGap"
-                android:layout_marginRight="@dimen/smallGap"
-                android:layout_marginTop="@dimen/smallGap"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <include
-                    layout="@layout/layout_app_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </android.support.v7.widget.CardView>
-
-
-            <android.support.constraint.Guideline
-                android:id="@+id/guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-
-        </android.support.constraint.ConstraintLayout>
-
-    </ScrollView>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/appDetailsViewPager"
+            style="@style/viewpager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tabs"
+            app:layout_constraintVertical_bias="0.0" />
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

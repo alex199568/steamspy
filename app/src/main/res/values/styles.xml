@@ -24,6 +24,16 @@
         <item name="android:textSize">@dimen/largeText</item>
     </style>
 
+    <style name="largePrimaryTextOnBackground">
+        <item name="android:textColor">@color/onBackgroundPrimaryTextColor</item>
+        <item name="android:textSize">@dimen/largeText</item>
+    </style>
+
+    <style name="normalText">
+        <item name="android:textColor">@color/onBackgroundPrimaryTextColor</item>
+        <item name="android:textSize">@dimen/defaultTextSize</item>
+    </style>
+
     <style name="nonSignificantText">
         <item name="android:textSize">@dimen/smallText</item>
         <item name="android:textColor">@color/onBackgroundSecondaryTextColor</item>
@@ -53,6 +63,12 @@
     <style name="divider">
         <item name="android:layout_height">@dimen/dividerHeight</item>
         <item name="android:background">@color/colorListItemDivider</item>
+    </style>
+
+    <style name="tabs"></style>
+
+    <style name="viewpager">
+        <item name="android:background">@color/colorCardsBackground</item>
     </style>
 
 </resources>

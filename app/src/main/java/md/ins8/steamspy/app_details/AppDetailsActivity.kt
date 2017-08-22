@@ -8,11 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.afollestad.materialcab.MaterialCab
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.layout_app_details.*
-import kotlinx.android.synthetic.main.layout_dev_pub.*
-import kotlinx.android.synthetic.main.layout_price.*
-import kotlinx.android.synthetic.main.layout_rank.*
-import kotlinx.android.synthetic.main.layout_statistics.*
+import kotlinx.android.synthetic.main.activity_app_details.*
 import md.ins8.steamspy.R
 import md.ins8.steamspy.RawSteamApp
 import java.text.DecimalFormat
@@ -27,6 +23,8 @@ private val URL_START = "http://cdn.akamai.steamstatic.com/steam/apps/"
 private val URL_END = "/header.jpg"
 
 private val PLUS_MINUS = "\u00B1"
+
+private val INFO_VIEWPAGER_PADDING = 16
 
 interface AppDetailsView {
     fun showApp(app: RawSteamApp)
@@ -52,32 +50,16 @@ class AppDetailsActivity : AppCompatActivity(), AppDetailsView {
                 .fit()
                 .placeholder(R.drawable.app_placeholder)
                 .into(appImage)
-        appTitle.text = app.name
+        appName.text = app.name
 
-        developersList.text = app.dev.joinToString(", ")
-
-        publishersList.text = app.pub.joinToString(", ")
-
-
-        ownedRange.text = formatDecimal(app.numOwners)
-        ownersVariance.text = "$PLUS_MINUS${formatDecimal(app.ownersVariance)}"
-
-        totalPlayers.text = formatDecimal(app.playersTotal)
-        playersTotalVariance.text = "$PLUS_MINUS${formatDecimal(app.playersTotalVariance)}"
-
-        players2Weeks.text = formatDecimal(app.players2Weeks)
-        players2WeeksVariance.text = "$PLUS_MINUS${formatDecimal(app.players2WeeksVariance)}"
-
-        totalAverage.text = formatDecimal(app.averageTotal)
-        average2Weeks.text = formatDecimal(app.average2Weeks)
-        totalMedian.text = formatDecimal(app.medianTotal)
-        median2Weeks.text = formatDecimal(app.median2Weeks)
-        ccu.text = formatDecimal(app.ccu)
-
-        tagsList.text = app.tags.joinToString(separator = ", ", transform = { it.name })
-
-        rank.text = app.rank.toString()
-        price.text = app.price
+        val infoAdapter = AppInfoPagerAdapter(supportFragmentManager, this, app)
+        appDetailsViewPager.apply {
+            adapter = infoAdapter
+            clipToPadding = false
+            setPadding(INFO_VIEWPAGER_PADDING, INFO_VIEWPAGER_PADDING, INFO_VIEWPAGER_PADDING, INFO_VIEWPAGER_PADDING)
+            pageMargin = INFO_VIEWPAGER_PADDING
+        }
+        tabs.setupWithViewPager(appDetailsViewPager)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,17 +71,11 @@ class AppDetailsActivity : AppCompatActivity(), AppDetailsView {
 
         materialCab = MaterialCab(this, R.id.cab_stub)
                 .start(object : MaterialCab.Callback {
-                    override fun onCabFinished(cab: MaterialCab?): Boolean {
-                        return true
-                    }
+                    override fun onCabFinished(cab: MaterialCab?): Boolean = true
 
-                    override fun onCabItemClicked(item: MenuItem?): Boolean {
-                        return true
-                    }
+                    override fun onCabItemClicked(item: MenuItem?): Boolean = true
 
-                    override fun onCabCreated(cab: MaterialCab?, menu: Menu?): Boolean {
-                        return true
-                    }
+                    override fun onCabCreated(cab: MaterialCab?, menu: Menu?): Boolean = true
                 })
         materialCab.toolbar.setNavigationOnClickListener { onBackPressed() }
         materialCab.toolbar.title = "App Details"
