@@ -22,15 +22,13 @@ private val APP_ID_EXTRA = "AppIdExtra"
 private val URL_START = "http://cdn.akamai.steamstatic.com/steam/apps/"
 private val URL_END = "/header.jpg"
 
-private val PLUS_MINUS = "\u00B1"
-
 private val INFO_VIEWPAGER_PADDING = 16
 
 interface AppDetailsView {
     fun showApp(app: RawSteamApp)
 }
 
-fun formatDecimal(decimal: Int): String {
+fun formatDecimal(decimal: Int?): String {
     val formatter = NumberFormat.getInstance(Locale.getDefault()) as DecimalFormat
     val symbols = formatter.decimalFormatSymbols
 

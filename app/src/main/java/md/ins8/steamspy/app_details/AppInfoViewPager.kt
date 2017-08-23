@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_app_info.*
+import kotlinx.android.synthetic.main.fragment_app_numbers.*
+import kotlinx.android.synthetic.main.fragment_app_numbers_2.*
 import kotlinx.android.synthetic.main.fragment_app_tags.*
 import md.ins8.steamspy.R
 import md.ins8.steamspy.RawSteamApp
@@ -19,11 +21,15 @@ import java.util.*
 private val INFO_INDEX = 0
 private val TAGS_INDEX = 1
 private val NUMBERS_INDEX = 2
-private val TOTAL_PAGES = 3
+private val NUMBERS_2_INDEX = 3
+private val TOTAL_PAGES = 4
 
 private val GENERAL_INFO_EXTRA = "GeneralInfoExtra"
 private val TAGS_EXTRA = "TagsExtra"
 private val NUMBERS_EXTRA = "NumbersExtra"
+private val NUMBERS_2_EXTRA = "Numbers2Extra"
+
+private val PLUS_MINUS = "\u00B1"
 
 data class GeneralAppInfo(
         val rank: Int,
@@ -69,19 +75,9 @@ data class AppNumbers(
         val playersTotal: Int,
         val playersTotalVariance: Int,
         val players2Weeks: Int,
-        val players2WeeksVariance: Int,
-        val averageTotal: Int,
-        val average2Weeks: Int,
-        val medianTotal: Int,
-        val median2Weeks: Int,
-        val ccu: Int
+        val players2WeeksVariance: Int
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
             parcel.readInt(),
             parcel.readInt(),
             parcel.readInt(),
@@ -95,12 +91,7 @@ data class AppNumbers(
             app.playersTotal,
             app.playersTotalVariance,
             app.players2Weeks,
-            app.players2WeeksVariance,
-            app.averageTotal,
-            app.average2Weeks,
-            app.medianTotal,
-            app.median2Weeks,
-            app.ccu
+            app.players2WeeksVariance
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -110,11 +101,6 @@ data class AppNumbers(
         parcel.writeInt(playersTotalVariance)
         parcel.writeInt(players2Weeks)
         parcel.writeInt(players2WeeksVariance)
-        parcel.writeInt(averageTotal)
-        parcel.writeInt(average2Weeks)
-        parcel.writeInt(medianTotal)
-        parcel.writeInt(median2Weeks)
-        parcel.writeInt(ccu)
     }
 
     override fun describeContents(): Int = 0
@@ -124,6 +110,46 @@ data class AppNumbers(
 
         override fun newArray(size: Int): Array<AppNumbers?> = arrayOfNulls(size)
     }
+}
+
+data class AppNumbers2(
+        val averageTotal: Int,
+        val average2Weeks: Int,
+        val medianTotal: Int,
+        val median2Weeks: Int,
+        val ccu: Int
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt())
+
+    constructor(app: RawSteamApp) : this(
+            app.averageTotal,
+            app.average2Weeks,
+            app.medianTotal,
+            app.median2Weeks,
+            app.ccu
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(averageTotal)
+        parcel.writeInt(average2Weeks)
+        parcel.writeInt(medianTotal)
+        parcel.writeInt(median2Weeks)
+        parcel.writeInt(ccu)
+    }
+
+    override fun describeContents(): Int = 0
+
+    companion object CREATOR : Parcelable.Creator<AppNumbers2> {
+        override fun createFromParcel(parcel: Parcel): AppNumbers2 = AppNumbers2(parcel)
+
+        override fun newArray(size: Int): Array<AppNumbers2?> = arrayOfNulls(size)
+    }
+
 }
 
 class GeneralInfoFragment : Fragment() {
@@ -176,6 +202,38 @@ class NumbersFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater?.inflate(R.layout.fragment_app_numbers, container, false)
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ownersNumber.text = formatDecimal(numbers?.numOwners)
+        ownersVariance.text = "$PLUS_MINUS${formatDecimal(numbers?.ownersVariance)}"
+        playersNumber.text = formatDecimal(numbers?.playersTotal)
+        playersVariance.text = "$PLUS_MINUS${formatDecimal(numbers?.playersTotalVariance)}"
+        players2WNumber.text = formatDecimal(numbers?.players2Weeks)
+        players2WVariance.text = "$PLUS_MINUS${formatDecimal(numbers?.players2WeeksVariance)}"
+    }
+}
+
+class Numbers2Fragment : Fragment() {
+    private var numbers2: AppNumbers2? = null
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        numbers2 = arguments.getParcelable(NUMBERS_2_EXTRA)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater?.inflate(R.layout.fragment_app_numbers_2, container, false)
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        averageNumber.text = formatDecimal(numbers2?.averageTotal)
+        average2WNumber.text = formatDecimal(numbers2?.average2Weeks)
+        medianNumber.text = formatDecimal(numbers2?.medianTotal)
+        median2WNumber.text = formatDecimal(numbers2?.median2Weeks)
+        ccuNumber.text = formatDecimal(numbers2?.ccu)
+    }
 }
 
 class AppInfoPagerAdapter(fm: FragmentManager, private val context: Context, private val app: RawSteamApp) : FragmentPagerAdapter(fm) {
@@ -183,6 +241,7 @@ class AppInfoPagerAdapter(fm: FragmentManager, private val context: Context, pri
         INFO_INDEX -> createGeneralInfoFragment()
         TAGS_INDEX -> createTagsFragment()
         NUMBERS_INDEX -> createNumbersFragment()
+        NUMBERS_2_INDEX -> createNumbers2Fragment()
         else -> Fragment() // will never happen
     }
 
@@ -193,6 +252,7 @@ class AppInfoPagerAdapter(fm: FragmentManager, private val context: Context, pri
             INFO_INDEX -> R.string.appDetailsViewPagerInfo
             TAGS_INDEX -> R.string.appDetailsViewPagerTags
             NUMBERS_INDEX -> R.string.appDetailsViewPagerNumbers
+            NUMBERS_2_INDEX -> R.string.appDetailsViewPagerNumbers2
             else -> R.string.wtf
         }
         return context.getString(titleRes)
@@ -218,6 +278,14 @@ class AppInfoPagerAdapter(fm: FragmentManager, private val context: Context, pri
         val fragment = NumbersFragment()
         val args = Bundle()
         args.putParcelable(NUMBERS_EXTRA, AppNumbers(app))
+        fragment.arguments = args
+        return fragment
+    }
+
+    private fun createNumbers2Fragment(): Fragment {
+        val fragment = Numbers2Fragment()
+        val args = Bundle()
+        args.putParcelable(NUMBERS_2_EXTRA, AppNumbers2(app))
         fragment.arguments = args
         return fragment
     }

@@ -14,6 +14,7 @@
     <dimen name="drawerImageHeight">169dp</dimen>
     <dimen name="smallText">14sp</dimen>
     <dimen name="defaultTextSize">16sp</dimen>
+    <dimen name="biggerTextSize">20sp</dimen>
     <dimen name="extraLargeGap">32dp</dimen>
     <dimen name="smallGap">8dp</dimen>
     <dimen name="extraSmallGap">4dp</dimen>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:ignore="RtlHardcoded">
 
     <android.support.constraint.ConstraintLayout
@@ -11,19 +11,112 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/defaultGap">
 
-        <TextView
-            android:id="@+id/textView"
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/ownersName"
+            style="@style/normalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:text="App Numbers, Comming Soon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="24dp"
+            android:text="@string/owners"
+            app:layout_constraintRight_toLeftOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ownersNumber"
+            style="@style/mainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="0dp"
+            android:text="TextView"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/ownersName" />
+
+        <TextView
+            android:id="@+id/ownersVariance"
+            style="@style/nonSignificantText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            app:layout_constraintRight_toRightOf="@+id/ownersNumber"
+            app:layout_constraintTop_toBottomOf="@+id/ownersNumber" />
+
+        <TextView
+            android:id="@+id/playersName"
+            style="@style/normalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/totalPlayers"
+            app:layout_constraintRight_toLeftOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/ownersVariance" />
+
+        <TextView
+            android:id="@+id/playersNumber"
+            style="@style/mainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="0dp"
+            android:text="TextView"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/playersName" />
+
+        <TextView
+            android:id="@+id/playersVariance"
+            style="@style/nonSignificantText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            app:layout_constraintRight_toRightOf="@+id/playersNumber"
+            app:layout_constraintTop_toBottomOf="@+id/playersNumber" />
+
+        <TextView
+            android:id="@+id/players2WName"
+            style="@style/normalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/players2Weeks"
+            app:layout_constraintRight_toLeftOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/playersVariance" />
+
+        <TextView
+            android:id="@+id/players2WNumber"
+            style="@style/mainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="0dp"
+            android:text="TextView"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/players2WName" />
+
+        <TextView
+            android:id="@+id/players2WVariance"
+            style="@style/nonSignificantText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            app:layout_constraintRight_toRightOf="@+id/players2WNumber"
+            app:layout_constraintTop_toBottomOf="@+id/players2WNumber" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

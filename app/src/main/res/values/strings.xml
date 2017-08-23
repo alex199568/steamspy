@@ -105,6 +105,7 @@
     <string name="appDetailsViewPagerInfo">Info</string>
     <string name="appDetailsViewPagerTags">Tags</string>
     <string name="appDetailsViewPagerNumbers">Numbers</string>
+    <string name="appDetailsViewPagerNumbers2">More</string>
 
     <string name="wtf">WTF has just happen?</string>
 
