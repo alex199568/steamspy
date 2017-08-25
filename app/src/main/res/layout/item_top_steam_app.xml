@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/smallGap"
         android:layout_marginRight="@dimen/smallGap"
-        app:layout_constraintBottom_toBottomOf="@+id/divider"
+        app:layout_constraintBottom_toBottomOf="@+id/nameTagsDivider"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/topAppThumbnail"
         app:layout_constraintRight_toLeftOf="@+id/topAppPosition"
@@ -35,7 +35,7 @@
         tools:text="Some Steam App Name" />
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/nameTagsDivider"
         style="@style/divider"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

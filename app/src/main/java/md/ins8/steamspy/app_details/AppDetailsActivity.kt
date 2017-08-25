@@ -6,8 +6,12 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.afollestad.materialcab.MaterialCab
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.layout_app_main_info.*
 import kotlinx.android.synthetic.main.layout_average.*
 import kotlinx.android.synthetic.main.layout_average_2w.*
@@ -36,7 +40,14 @@ private val URL_END = "/header.jpg"
 
 private val PLUS_MINUS = "\u00B1"
 
+enum class ViewEvent {
+    EXPAND_BTN_CLICK, CREATED
+}
+
 interface AppDetailsView {
+    val viewEvents: Observable<ViewEvent>
+    var expanded: Boolean
+
     fun showApp(app: RawSteamApp)
 }
 
@@ -55,6 +66,17 @@ class AppDetailsActivity : AppCompatActivity(), AppDetailsView {
     lateinit var presenter: AppDetailsPresenter
 
     private lateinit var materialCab: MaterialCab
+
+    override val viewEvents: Subject<ViewEvent> = PublishSubject.create<ViewEvent>()
+
+    override var expanded: Boolean = false
+        set(value) {
+            if (value) {
+                expand()
+            } else {
+                fold()
+            }
+        }
 
     override fun showApp(app: RawSteamApp) {
         Picasso.with(this)
@@ -84,6 +106,8 @@ class AppDetailsActivity : AppCompatActivity(), AppDetailsView {
 
         medianTextView.text = formatDecimal(app.medianTotal)
         median2WTextView.text = formatDecimal(app.median2Weeks)
+
+        tagGroup.setTags(app.tags.map { it.name })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,6 +127,23 @@ class AppDetailsActivity : AppCompatActivity(), AppDetailsView {
                 })
         materialCab.toolbar.setNavigationOnClickListener { onBackPressed() }
         materialCab.toolbar.title = "App Details"
+
+        viewEvents.onNext(ViewEvent.CREATED)
+        expand.setOnClickListener { viewEvents.onNext(ViewEvent.EXPAND_BTN_CLICK) }
+
+        fold()
+    }
+
+    private fun expand() {
+        nameTagsDivider.visibility = View.VISIBLE
+        tagGroup.visibility = View.VISIBLE
+        expand.setImageResource(R.drawable.ic_expand_less_black_24dp)
+    }
+
+    private fun fold() {
+        nameTagsDivider.visibility = View.GONE
+        tagGroup.visibility = View.GONE
+        expand.setImageResource(R.drawable.ic_expand_more_black_24dp)
     }
 }
 

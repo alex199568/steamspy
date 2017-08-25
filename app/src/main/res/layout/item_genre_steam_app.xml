@@ -35,7 +35,7 @@
         tools:text="Some Steam App Name" />
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/nameTagsDivider"
         style="@style/divider"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

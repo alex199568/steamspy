@@ -11,12 +11,15 @@ import md.ins8.steamspy.RealmSteamApp
 
 interface AppDetailsModel {
     val appLoadedObservable: Observable<RawSteamApp>
+    var viewExpanded: Boolean
 
     fun loadApp()
 }
 
 class AppDetailsModelImpl(private val appId: Long) : AppDetailsModel {
     override val appLoadedObservable: Subject<RawSteamApp> = PublishSubject.create<RawSteamApp>()
+
+    override var viewExpanded: Boolean = false
 
     override fun loadApp() {
         var app: RawSteamApp? = null
