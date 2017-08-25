@@ -39,6 +39,11 @@
         <item name="android:textSize">@dimen/biggerTextSize</item>
     </style>
 
+    <style name="supportingText">
+        <item name="android:textColor">@color/onBackgroundPrimaryTextColor</item>
+        <item name="android:textSize">@dimen/smallText</item>
+    </style>
+
     <style name="nonSignificantText">
         <item name="android:textSize">@dimen/smallText</item>
         <item name="android:textColor">@color/onBackgroundSecondaryTextColor</item>
