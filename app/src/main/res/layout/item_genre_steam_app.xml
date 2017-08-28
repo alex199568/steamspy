@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/genreAppThumbnail"
-        android:layout_width="@dimen/listItemCapsuleImageWidth"
-        android:layout_height="@dimen/listItemCapsuleImageHeight"
+        android:layout_width="@dimen/doubleLineListItemCapsuleImageWidth"
+        android:layout_height="@dimen/doubleLineListItemCapsuleImageHeight"
         android:layout_marginLeft="@dimen/defaultGap"
         android:contentDescription="@string/capsuleContentDescription"
         android:scaleType="fitXY"

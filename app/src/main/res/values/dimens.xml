@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="listItemCapsuleImageWidth">64dp</dimen>
-    <dimen name="listItemCapsuleImageHeight">24dp</dimen>
+    <dimen name="listItemCapsuleImageWidth">86dp</dimen>
+    <dimen name="listItemCapsuleImageHeight">32dp</dimen>
+    <dimen name="doubleLineListItemCapsuleImageHeight">56dp</dimen>
+    <dimen name="doubleLineListItemCapsuleImageWidth">148dp</dimen>
     <dimen name="listTwoLinesHeight">72dp</dimen>
     <dimen name="listItemSingleLineHeight">48dp</dimen>
     <dimen name="dividerHeight">1dp</dimen>
@@ -18,4 +20,5 @@
     <dimen name="extraLargeGap">32dp</dimen>
     <dimen name="smallGap">8dp</dimen>
     <dimen name="extraSmallGap">4dp</dimen>
+    <dimen name="halfGap">4dp</dimen>
 </resources>
