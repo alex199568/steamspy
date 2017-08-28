@@ -25,8 +25,6 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
                 NavigationEvent.GENRE_EX_EARLY_ACCESS -> genreExEarlyAccess()
                 NavigationEvent.GENRE_MMO -> genreMMO()
                 NavigationEvent.GENRE_FREE -> genreFree()
-                NavigationEvent.NOTIFICATIONS -> notifications()
-                NavigationEvent.SETTINGS -> settings()
                 NavigationEvent.ABOUT -> about()
             }
         }
@@ -34,7 +32,7 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         mainView.eventBus.subscribe {
             when (it) {
                 ViewEvent.ACTION_UPDATE_DATA -> {
-                    mainModel.updateData()
+                    mainView.showUpdateDialog()
                 }
                 ViewEvent.ACTION_SEARCH -> {
                     mainView.showInputDialog()
@@ -45,6 +43,7 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
                         }
                     }
                 }
+                ViewEvent.UPDATE_CONFIRMED -> mainModel.updateData()
             }
         }
 
@@ -124,14 +123,6 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
 
     private fun genreFree() {
         mainView.switchToAppsListFragment(AppsListType.GENRE_FREE)
-    }
-
-    private fun notifications() {
-        mainView.switchToNotificationsFragment()
-    }
-
-    private fun settings() {
-        mainView.switchToSettingsFragment()
     }
 
     private fun about() {

@@ -31,12 +31,11 @@ import md.ins8.steamspy.screens.apps_list.fragment.newAppsListFragmentInstance
 import md.ins8.steamspy.screens.apps_list.fragment.newGenreListFragmentInstance
 import md.ins8.steamspy.screens.apps_list.fragment.newTopListFragmentInstance
 import md.ins8.steamspy.screens.home.HomeFragment
-import md.ins8.steamspy.screens.notifications.NotificationsFragment
-import md.ins8.steamspy.screens.settings.SettingsFragment
 import javax.inject.Inject
 
 enum class ViewEvent {
     ACTION_UPDATE_DATA,
+    UPDATE_CONFIRMED,
     ACTION_SEARCH
 }
 
@@ -57,8 +56,6 @@ enum class NavigationEvent(val titleStrRes: Int) {
     GENRE_EX_EARLY_ACCESS(R.string.titleGenreExEarlyAccess),
     GENRE_MMO(R.string.titleGenreMMO),
     GENRE_FREE(R.string.titleGenreFree),
-    NOTIFICATIONS(R.string.titleNotifications),
-    SETTINGS(R.string.titleSettings),
     ABOUT(R.string.titleAbout)
 }
 
@@ -70,13 +67,12 @@ interface MainView {
 
     fun switchToHomeFragment()
     fun switchToAboutFragment()
-    fun switchToNotificationsFragment()
     fun switchToAppsListFragment(appsListType: AppsListType)
     fun switchToAppsListFragment(searchFor: String)
-    fun switchToSettingsFragment()
 
     fun refreshListFragment()
     fun showInputDialog()
+    fun showUpdateDialog()
 
     fun updateToolbarTitle()
 }
@@ -198,14 +194,6 @@ class MainActivity : AppCompatActivity(), MainView {
                 icon = R.drawable.ic_star_black_24dp
             }
             divider { }
-            primaryItem(R.string.navigation_notifications) {
-                icon = R.drawable.ic_notifications_black_24dp
-                onClick { _ -> navigationEventBus.onNext(NavigationEvent.NOTIFICATIONS); false }
-            }
-            primaryItem(R.string.navigation_settings) {
-                icon = R.drawable.ic_settings_black_24dp
-                onClick { _ -> navigationEventBus.onNext(NavigationEvent.SETTINGS); false }
-            }
             primaryItem(R.string.navigation_about) {
                 icon = R.drawable.ic_info_black_24dp
                 onClick { _ -> navigationEventBus.onNext(NavigationEvent.ABOUT); false }
@@ -234,16 +222,6 @@ class MainActivity : AppCompatActivity(), MainView {
     override fun switchToAboutFragment() {
         val aboutFragment = AboutFragment()
         replaceFragment(aboutFragment, NavigationEvent.ABOUT.titleStrRes)
-    }
-
-    override fun switchToNotificationsFragment() {
-        val notificationsFragment = NotificationsFragment()
-        replaceFragment(notificationsFragment, NavigationEvent.NOTIFICATIONS.titleStrRes)
-    }
-
-    override fun switchToSettingsFragment() {
-        val settingsFragment = SettingsFragment()
-        replaceFragment(settingsFragment, NavigationEvent.SETTINGS.titleStrRes)
     }
 
     override fun switchToAppsListFragment(appsListType: AppsListType) {
@@ -284,11 +262,22 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun showInputDialog() {
         MaterialDialog.Builder(this)
-                .title("Search")
+                .title(R.string.searchDialogHeader)
                 .inputType(InputType.TYPE_CLASS_TEXT)
-                .input("App's name", "", { _, result -> inputEvents.onNext(result.toString()) })
-                .positiveText("Submit")
-                .negativeText("Cancel")
+                .input(getString(R.string.searchDialogInputHint), "", { _, result -> inputEvents.onNext(result.toString()) })
+                .positiveText(R.string.searchDialogSubmitAction)
+                .negativeText(R.string.searchDialogCancelAction)
+                .show()
+    }
+
+    override fun showUpdateDialog() {
+        MaterialDialog.Builder(this)
+                .title(R.string.updateDataDialogHeader)
+                .content(R.string.updateDataDialogMessage)
+                .contentColor(R.color.onBackgroundPrimaryTextColor)
+                .positiveText(R.string.updateDataDialogUpdateAction)
+                .negativeText(R.string.updateDataDialogCancelAction)
+                .onPositive { _, _ -> eventBus.onNext(ViewEvent.UPDATE_CONFIRMED) }
                 .show()
     }
 
