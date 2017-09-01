@@ -1,17 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="RtlHardcoded">
 
     <TextView
+        android:id="@+id/appName"
+        style="@style/normalText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/aboutTempMessage"
+        android:text="@string/app_name"
+        app:layout_constraintBottom_toTopOf="@+id/version"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/version"
+        style="@style/nonSignificantText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/smallGap"
+        android:layout_marginLeft="@dimen/smallGap"
+        android:layout_marginRight="@dimen/smallGap"
+        android:layout_marginStart="@dimen/smallGap"
+        android:layout_marginTop="@dimen/smallGap"
+        app:layout_constraintBottom_toTopOf="@+id/poweredBy"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appName"
+        tools:text="1.0.0" />
+
+    <TextView
+        android:id="@+id/poweredBy"
+        style="@style/supportingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/smallGap"
+        android:layout_marginLeft="@dimen/smallGap"
+        android:layout_marginRight="@dimen/smallGap"
+        android:layout_marginStart="@dimen/smallGap"
+        android:layout_marginTop="@dimen/largeGap"
+        android:autoLink="web"
+        android:text="@string/poweredBy"
+        app:layout_constraintBottom_toTopOf="@+id/contactMe"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/version" />
+
+    <TextView
+        android:id="@+id/contactMe"
+        style="@style/supportingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/smallGap"
+        android:layout_marginLeft="@dimen/smallGap"
+        android:layout_marginRight="@dimen/smallGap"
+        android:layout_marginStart="@dimen/smallGap"
+        android:layout_marginTop="@dimen/largeGap"
+        android:autoLink="email"
+        android:text="@string/contactMe"
+        app:layout_constraintBottom_toTopOf="@+id/viewSource"
+        app:layout_constraintHorizontal_bias="0.587"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/poweredBy" />
+
+    <TextView
+        android:id="@+id/viewSource"
+        style="@style/supportingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/smallGap"
+        android:layout_marginLeft="@dimen/smallGap"
+        android:layout_marginRight="@dimen/smallGap"
+        android:layout_marginStart="@dimen/smallGap"
+        android:layout_marginTop="@dimen/largeGap"
+        android:autoLink="web"
+        android:text="@string/viewSource"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/contactMe" />
 
 
 </android.support.constraint.ConstraintLayout>
