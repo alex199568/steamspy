@@ -108,6 +108,10 @@ class AppDetailsActivity : AppCompatActivity(), AppDetailsView {
         median2WTextView.text = formatDecimal(app.median2Weeks)
 
         tagGroup.setTags(app.tags.map { it.name })
+
+        if (app.tags.isEmpty()) {
+            expand.visibility = View.GONE
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
