@@ -106,10 +106,6 @@
     <string name="appDetailsViewPagerNumbers2">More</string>
 
     <string name="wtf">WTF has just happen?</string>
-    <string name="updateDataDialogHeader">Update Data</string>
-    <string name="updateDataDialogMessage">The app is supposed to update data on its own. If you feel like something is broken you can request fresh data yourself. Would like to download the newest data?</string>
-    <string name="updateDataDialogUpdateAction">Update</string>
-    <string name="updateDataDialogCancelAction">Cancel</string>
     <string name="searchDialogHeader">Search</string>
     <string name="searchDialogInputHint">App\'s name</string>
     <string name="searchDialogSubmitAction">Submit</string>

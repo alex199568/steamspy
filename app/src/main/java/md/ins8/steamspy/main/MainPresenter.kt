@@ -32,7 +32,7 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         mainView.eventBus.subscribe {
             when (it) {
                 ViewEvent.ACTION_UPDATE_DATA -> {
-                    mainView.showUpdateDialog()
+                    mainModel.updateData()
                 }
                 ViewEvent.ACTION_SEARCH -> {
                     mainView.showInputDialog()
@@ -43,7 +43,6 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
                         }
                     }
                 }
-                ViewEvent.UPDATE_CONFIRMED -> mainModel.updateData()
             }
         }
 

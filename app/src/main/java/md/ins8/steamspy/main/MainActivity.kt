@@ -35,7 +35,6 @@ import javax.inject.Inject
 
 enum class ViewEvent {
     ACTION_UPDATE_DATA,
-    UPDATE_CONFIRMED,
     ACTION_SEARCH
 }
 
@@ -72,7 +71,6 @@ interface MainView {
 
     fun refreshListFragment()
     fun showInputDialog()
-    fun showUpdateDialog()
 
     fun updateToolbarTitle()
 }
@@ -267,17 +265,6 @@ class MainActivity : AppCompatActivity(), MainView {
                 .input(getString(R.string.searchDialogInputHint), "", { _, result -> inputEvents.onNext(result.toString()) })
                 .positiveText(R.string.searchDialogSubmitAction)
                 .negativeText(R.string.searchDialogCancelAction)
-                .show()
-    }
-
-    override fun showUpdateDialog() {
-        MaterialDialog.Builder(this)
-                .title(R.string.updateDataDialogHeader)
-                .content(R.string.updateDataDialogMessage)
-                .contentColor(R.color.onBackgroundPrimaryTextColor)
-                .positiveText(R.string.updateDataDialogUpdateAction)
-                .negativeText(R.string.updateDataDialogCancelAction)
-                .onPositive { _, _ -> eventBus.onNext(ViewEvent.UPDATE_CONFIRMED) }
                 .show()
     }
 
