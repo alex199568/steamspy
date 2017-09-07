@@ -8,6 +8,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'realm-android'
 
+apply plugin: "io.intrepid.static-analysis"
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_about.*
 import md.ins8.steamspy.R
+import md.ins8.steamspy.retrieveVersionName
 
 
 class AboutFragment : Fragment() {
@@ -15,8 +16,7 @@ class AboutFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-        val versionName = pInfo.versionName
-        version.text = versionName
+        version.text = retrieveVersionName(context)
     }
 }
+
