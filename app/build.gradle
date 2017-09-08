@@ -13,6 +13,14 @@ apply plugin: "io.intrepid.static-analysis"
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
+    signingConfigs {
+        release {
+            storeFile file("./release.jks")
+            storePassword System.getenv("STORE_PASSWORD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
+        }
+    }
     defaultConfig {
         applicationId "md.ins8.steamspy"
         minSdkVersion 16
@@ -24,8 +32,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     lintOptions {

@@ -26,6 +26,7 @@ dependencies:
     override:
         - chmod +x gradlew
         - if [ -f ./gradlew ]; then ./gradlew app:dependencies --console=plain --no-daemon;else gradle app:dependencies --console=plain --no-daemon;fi
+        - curl -L -o ./app/release.jks $KEYSTORE_PATH
 
     cache_directories:
         - /usr/local/android-sdk-linux/tools
