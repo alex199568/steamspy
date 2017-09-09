@@ -3,7 +3,6 @@ package md.ins8.steamspy.app_details
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,6 +24,7 @@ import kotlinx.android.synthetic.main.layout_players_2w.*
 import kotlinx.android.synthetic.main.layout_price.*
 import kotlinx.android.synthetic.main.layout_publishers.*
 import kotlinx.android.synthetic.main.layout_rank.*
+import md.ins8.steamspy.BaseActivity
 import md.ins8.steamspy.R
 import md.ins8.steamspy.RawSteamApp
 import java.text.DecimalFormat
@@ -61,7 +61,7 @@ fun formatDecimal(decimal: Int?): String {
 
 fun choosePriceUnits(): String = "Units"
 
-class AppDetailsActivity : AppCompatActivity(), AppDetailsView {
+class AppDetailsActivity : BaseActivity(), AppDetailsView {
     @Inject
     lateinit var presenter: AppDetailsPresenter
 

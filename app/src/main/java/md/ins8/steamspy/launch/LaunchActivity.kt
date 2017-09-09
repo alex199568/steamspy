@@ -1,7 +1,7 @@
 package md.ins8.steamspy.launch
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import md.ins8.steamspy.BaseActivity
 import md.ins8.steamspy.R
 import md.ins8.steamspy.SteamSpyApp
 import md.ins8.steamspy.main.startMainActivity
@@ -12,7 +12,7 @@ interface LaunchView {
 }
 
 
-class LaunchActivity : AppCompatActivity(), LaunchView {
+class LaunchActivity : BaseActivity(), LaunchView {
     @Inject
     lateinit var presenter: LaunchPresenter
 

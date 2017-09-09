@@ -7,7 +7,6 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
@@ -22,6 +21,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import md.ins8.steamspy.BaseActivity
 import md.ins8.steamspy.R
 import md.ins8.steamspy.SteamSpyApp
 import md.ins8.steamspy.screens.about.AboutFragment
@@ -76,7 +76,7 @@ interface MainView {
 }
 
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : BaseActivity(), MainView {
     @Inject
     lateinit var presenter: MainPresenter
 

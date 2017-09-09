@@ -1,6 +1,8 @@
 package md.ins8.steamspy
 
 import android.app.Application
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 import io.realm.Realm
 import timber.log.Timber
 
@@ -14,5 +16,9 @@ class SteamSpyApp : Application() {
         Realm.init(applicationContext)
 
         appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()
+
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, Crashlytics())
+        }
     }
 }
