@@ -8,12 +8,6 @@ machine:
     environment:
         ANDROID_HOME: /usr/local/android-sdk-linux
         ANDROID_BUILD_TOOLS: 26.0.1
-        APPLICATION_ID: md.ins8.steamspy
-        FABRIC_API_KEY: 0000000000000000000000000000000000000000
-        GOOGLE_MAPS_API_KEY: DUMMY_GOOGLE_MAPS_API_KEY
-        NEARIT_API_KEY: DUMMY_NEARIT_API_KEY
-        TWITTER_API_KEY: DUMMY_TWITTER_API_KEY
-        TWITTER_SECRET: DUMMY_TWITTER_SECRET
 
 dependencies:
     pre:
@@ -27,6 +21,7 @@ dependencies:
         - chmod +x gradlew
         - if [ -f ./gradlew ]; then ./gradlew app:dependencies --console=plain --no-daemon;else gradle app:dependencies --console=plain --no-daemon;fi
         - curl -L -o ./app/release.jks $KEYSTORE_PATH
+        - curl -L -o ./app/google-services.json $GOOGLE_SERVICES_JSON_PATH
 
     cache_directories:
         - /usr/local/android-sdk-linux/tools
