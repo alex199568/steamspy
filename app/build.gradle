@@ -105,4 +105,7 @@ dependencies {
     // Leakcanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.2'
+
+    // Required by firebase
+    apply plugin: 'com.google.gms.google-services'
 }
