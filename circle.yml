@@ -42,7 +42,7 @@ dependencies:
 test:
     override:
         - ./gradlew check --no-daemon --console=plain --continue
-        - (./gradlew assemble)
+        - ./gradlew assembleRelease
         - cp -r app/build/outputs $CIRCLE_ARTIFACTS
 
     post:
