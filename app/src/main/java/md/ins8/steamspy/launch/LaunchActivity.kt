@@ -11,7 +11,6 @@ interface LaunchView {
     fun startMainActivity()
 }
 
-
 class LaunchActivity : BaseActivity(), LaunchView {
     @Inject
     lateinit var presenter: LaunchPresenter

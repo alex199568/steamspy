@@ -1,4 +1,4 @@
-package md.ins8.steamspy.app_details
+package md.ins8.steamspy.details
 
 import android.content.Context
 import android.content.Intent

@@ -1,4 +1,4 @@
-package md.ins8.steamspy.app_details
+package md.ins8.steamspy.details
 
 class AppDetailsPresenter(private val model: AppDetailsModel, private val view: AppDetailsView) {
     init {

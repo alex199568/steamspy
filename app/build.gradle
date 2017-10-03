@@ -74,6 +74,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.pwittchen:reactivenetwork-rx2:0.12.1'
 
     // Data
     compile 'com.google.code.gson:gson:2.8.0'
@@ -106,6 +107,8 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.2'
 
-    // Required by firebase
-    apply plugin: 'com.google.gms.google-services'
+    // Firebase
+    compile 'com.google.firebase:firebase-core:11.4.2'
 }
+
+apply plugin: 'com.google.gms.google-services'

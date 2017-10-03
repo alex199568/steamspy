@@ -1,4 +1,4 @@
-package md.ins8.steamspy.update_service
+package md.ins8.steamspy.service.update
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -15,7 +15,7 @@ interface DataUpdateServiceReceiver {
     val eventBus: Observable<DataUpdateEvent>
 }
 
-val LOCAL_ACTION = "md.ins8.steamspy.update_service.DataUpdateEvent.DONE"
+const val LOCAL_ACTION = "md.ins8.steamspy.update_service.DataUpdateEvent.DONE"
 
 
 class Receiver : BroadcastReceiver(), DataUpdateServiceReceiver {

@@ -21,15 +21,16 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import md.ins8.steamspy.BASE_URL
 import md.ins8.steamspy.BaseActivity
 import md.ins8.steamspy.R
 import md.ins8.steamspy.SteamSpyApp
 import md.ins8.steamspy.screens.about.AboutFragment
-import md.ins8.steamspy.screens.apps_list.AppsListType
-import md.ins8.steamspy.screens.apps_list.fragment.AppsListFragment
-import md.ins8.steamspy.screens.apps_list.fragment.newAppsListFragmentInstance
-import md.ins8.steamspy.screens.apps_list.fragment.newGenreListFragmentInstance
-import md.ins8.steamspy.screens.apps_list.fragment.newTopListFragmentInstance
+import md.ins8.steamspy.screens.appslist.AppsListType
+import md.ins8.steamspy.screens.appslist.fragment.AppsListFragment
+import md.ins8.steamspy.screens.appslist.fragment.newAppsListFragmentInstance
+import md.ins8.steamspy.screens.appslist.fragment.newGenreListFragmentInstance
+import md.ins8.steamspy.screens.appslist.fragment.newTopListFragmentInstance
 import md.ins8.steamspy.screens.home.HomeFragment
 import javax.inject.Inject
 
@@ -71,6 +72,7 @@ interface MainView {
 
     fun refreshListFragment()
     fun showInputDialog()
+    fun showHostUnavailableDialog()
 
     fun updateToolbarTitle()
 }
@@ -265,6 +267,15 @@ class MainActivity : BaseActivity(), MainView {
                 .input(getString(R.string.searchDialogInputHint), "", { _, result -> inputEvents.onNext(result.toString()) })
                 .positiveText(R.string.searchDialogSubmitAction)
                 .negativeText(R.string.searchDialogCancelAction)
+                .show()
+    }
+
+    override fun showHostUnavailableDialog() {
+        MaterialDialog.Builder(this)
+                .title(getString(R.string.networkErrorTitle))
+                .content("$BASE_URL ${getString(R.string.hostUnreachableErrorMessage)}")
+                .positiveText(getString(R.string.dialogDismissDefault))
+                .contentColor(R.color.onBackgroundPrimaryTextColor)
                 .show()
     }
 

@@ -1,6 +1,8 @@
 package md.ins8.steamspy.main
 
-import md.ins8.steamspy.screens.apps_list.AppsListType
+import md.ins8.steamspy.PING_URL
+import md.ins8.steamspy.pingHost
+import md.ins8.steamspy.screens.appslist.AppsListType
 
 
 class MainPresenter(private val mainView: MainView, private val mainModel: MainModel) {
@@ -32,7 +34,13 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         mainView.eventBus.subscribe {
             when (it) {
                 ViewEvent.ACTION_UPDATE_DATA -> {
-                    mainModel.updateData()
+                    pingHost(PING_URL, {
+                        if (it) {
+                            mainModel.updateData()
+                        } else {
+                            mainView.showHostUnavailableDialog()
+                        }
+                    }, true)
                 }
                 ViewEvent.ACTION_SEARCH -> {
                     mainView.showInputDialog()

@@ -1,4 +1,4 @@
-package md.ins8.steamspy.screens.apps_list.fragment
+package md.ins8.steamspy.screens.appslist.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -16,16 +16,16 @@ import md.ins8.steamspy.GenreSteamAppItem
 import md.ins8.steamspy.R
 import md.ins8.steamspy.SteamAppItem
 import md.ins8.steamspy.SteamSpyApp
-import md.ins8.steamspy.screens.apps_list.AppsListModule
-import md.ins8.steamspy.screens.apps_list.AppsListType
-import md.ins8.steamspy.screens.apps_list.DaggerAppsListComponent
-import md.ins8.steamspy.screens.apps_list.list.AppsListAdapter
-import md.ins8.steamspy.screens.apps_list.mvp.AppsListPresenter
+import md.ins8.steamspy.screens.appslist.AppsListModule
+import md.ins8.steamspy.screens.appslist.AppsListType
+import md.ins8.steamspy.screens.appslist.DaggerAppsListComponent
+import md.ins8.steamspy.screens.appslist.list.AppsListAdapter
+import md.ins8.steamspy.screens.appslist.mvp.AppsListPresenter
 import timber.log.Timber
 import javax.inject.Inject
 
-private val APPS_LIST_TYPE_NAME_EXTRA = "AppsListTypeExtra"
-private val SEARCH_FOR_EXTRA = "SearchForExtra"
+private const val APPS_LIST_TYPE_NAME_EXTRA = "AppsListTypeExtra"
+private const val SEARCH_FOR_EXTRA = "SearchForExtra"
 
 
 enum class AppsListViewEvent {

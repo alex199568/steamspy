@@ -26,10 +26,10 @@
         <activity android:name=".main.MainActivity" />
 
         <service
-            android:name=".update_service.DataUpdateService"
+            android:name="md.ins8.steamspy.service.update.DataUpdateService"
             android:exported="false" />
 
-        <activity android:name=".app_details.AppDetailsActivity" />
+        <activity android:name=".details.AppDetailsActivity"/>
 
         <receiver
             android:name=".launch.DataUpdateAlarmBootReceiver"

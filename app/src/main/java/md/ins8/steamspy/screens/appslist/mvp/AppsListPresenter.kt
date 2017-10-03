@@ -1,9 +1,9 @@
-package md.ins8.steamspy.screens.apps_list.mvp
+package md.ins8.steamspy.screens.appslist.mvp
 
-import md.ins8.steamspy.app_details.startAppDetailsActivity
-import md.ins8.steamspy.screens.apps_list.AppsListType
-import md.ins8.steamspy.screens.apps_list.fragment.AppsListView
-import md.ins8.steamspy.screens.apps_list.fragment.AppsListViewEvent
+import md.ins8.steamspy.details.startAppDetailsActivity
+import md.ins8.steamspy.screens.appslist.AppsListType
+import md.ins8.steamspy.screens.appslist.fragment.AppsListView
+import md.ins8.steamspy.screens.appslist.fragment.AppsListViewEvent
 
 
 class AppsListPresenter(private val model: AppsListModel, private val view: AppsListView) {
@@ -36,7 +36,7 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
             model.fetchGenreSteamAppItems()
             model.genreAppsObservable.subscribe {
                 if (it.isEmpty()) {
-                    view.showEmptyList("There is a problem, because the app thinks that there are no apps in this genre")
+                    view.showEmptyList("Looks like the genre is dead, things happen...")
                 } else {
                     view.showGenreAppsList(it)
                 }
