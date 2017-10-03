@@ -13,9 +13,9 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import md.ins8.steamspy.R
-import md.ins8.steamspy.update_service.DataUpdateService
-import md.ins8.steamspy.update_service.LOCAL_ACTION
-import md.ins8.steamspy.update_service.Receiver
+import md.ins8.steamspy.service.update.DataUpdateService
+import md.ins8.steamspy.service.update.LOCAL_ACTION
+import md.ins8.steamspy.service.update.Receiver
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -33,11 +33,11 @@ interface LaunchModel {
     fun setupUpdate()
 }
 
-private val SPLASH_SCREEN_DURATION: Long = 3
-private val FIRST_TIME_KEY = "FirstTimeKey"
-private val FIRST_TIME_DEFAULT = "FirstTimeDefault"
-private val FIRST_TIME_VALUE = "FirstTimeValue"
-private val BOOT_COMPLETED_NAME = "android.intent.action.BOOT_COMPLETED"
+private const val SPLASH_SCREEN_DURATION: Long = 3
+private const val FIRST_TIME_KEY = "FirstTimeKey"
+private const val FIRST_TIME_DEFAULT = "FirstTimeDefault"
+private const val FIRST_TIME_VALUE = "FirstTimeValue"
+private const val BOOT_COMPLETED_NAME = "android.intent.action.BOOT_COMPLETED"
 
 class LaunchModelImpl(private val context: Context) : LaunchModel {
     override val eventBus: Subject<ModelEvent> = PublishSubject.create<ModelEvent>()
@@ -67,10 +67,6 @@ class LaunchModelImpl(private val context: Context) : LaunchModel {
         val broadcastFilter = IntentFilter(LOCAL_ACTION)
         val lbm = LocalBroadcastManager.getInstance(context)
         lbm.registerReceiver(receiver, broadcastFilter)
-
-        receiver.eventBus.subscribe {
-            eventBus.onNext(ModelEvent.DATA_UPDATED)
-        }
     }
 
     override fun setupUpdate() = setupDataUpdateAlarm(context)

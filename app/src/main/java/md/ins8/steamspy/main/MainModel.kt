@@ -7,9 +7,9 @@ import android.support.v4.content.LocalBroadcastManager
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import md.ins8.steamspy.update_service.DataUpdateService
-import md.ins8.steamspy.update_service.LOCAL_ACTION
-import md.ins8.steamspy.update_service.Receiver
+import md.ins8.steamspy.service.update.DataUpdateService
+import md.ins8.steamspy.service.update.LOCAL_ACTION
+import md.ins8.steamspy.service.update.Receiver
 
 enum class ModelEvent {
     ALL_UPDATED
@@ -33,9 +33,5 @@ class MainModelImpl(private val context: Context) : MainModel {
         val broadcastFilter = IntentFilter(LOCAL_ACTION)
         val lbm = LocalBroadcastManager.getInstance(context)
         lbm.registerReceiver(receiver, broadcastFilter)
-
-        receiver.eventBus.subscribe {
-            eventBus.onNext(ModelEvent.ALL_UPDATED)
-        }
     }
 }

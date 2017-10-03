@@ -113,5 +113,8 @@
     <string name="poweredBy">Powered by www.steamspy.com</string>
     <string name="viewSource">View source: https://github.com/alex199568/steamspy</string>
     <string name="contactMe">Contact me sasha.199568@gmail.com</string>
+    <string name="hostUnreachableErrorMessage">is unrechable</string>
+    <string name="networkErrorTitle">Network Error</string>
+    <string name="dialogDismissDefault">Ok</string>
 
 </resources>

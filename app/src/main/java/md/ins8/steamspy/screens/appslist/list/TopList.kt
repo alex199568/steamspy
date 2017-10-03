@@ -1,4 +1,4 @@
-package md.ins8.steamspy.screens.apps_list.list
+package md.ins8.steamspy.screens.appslist.list
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

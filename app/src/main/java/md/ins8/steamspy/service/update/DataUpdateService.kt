@@ -1,4 +1,4 @@
-package md.ins8.steamspy.update_service
+package md.ins8.steamspy.service.update
 
 import android.app.IntentService
 import android.app.NotificationChannel
@@ -14,9 +14,9 @@ import io.realm.RealmModel
 import md.ins8.steamspy.*
 import javax.inject.Inject
 
-private val CHANNEL_ID = "steam_spy_channel_id"
-private val NOTIFICATION_ID = 1
-private val INTENT_SERVICE_NAME = "DataUpdateIntentService"
+private const val CHANNEL_ID = "steam_spy_channel_id"
+private const val NOTIFICATION_ID = 1
+private const val INTENT_SERVICE_NAME = "DataUpdateIntentService"
 
 class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     @Inject
@@ -34,6 +34,14 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     }
 
     override fun onHandleIntent(workIntent: Intent?) {
+        pingHost(PING_URL, {
+            if (it) {
+                doUpdate()
+            }
+        })
+    }
+
+    private fun doUpdate() {
         updateNotification(getString(R.string.dataUpdateNotificationText))
         deleteApps()
 
@@ -122,5 +130,4 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
         notificationBuilder.setContentText(message)
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
     }
-
 }

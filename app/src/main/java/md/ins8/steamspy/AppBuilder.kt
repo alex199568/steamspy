@@ -23,7 +23,5 @@ interface AppComponent {
 class AppModule(val context: Context) {
     @AppScope
     @Provides
-    fun provideContext(): Context {
-        return context
-    }
+    fun provideContext(): Context = context
 }

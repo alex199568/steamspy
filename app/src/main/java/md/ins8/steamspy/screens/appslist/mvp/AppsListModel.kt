@@ -1,4 +1,4 @@
-package md.ins8.steamspy.screens.apps_list.mvp
+package md.ins8.steamspy.screens.appslist.mvp
 
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -9,7 +9,7 @@ import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmModel
 import md.ins8.steamspy.*
-import md.ins8.steamspy.screens.apps_list.AppsListType
+import md.ins8.steamspy.screens.appslist.AppsListType
 
 
 interface AppsListModel {

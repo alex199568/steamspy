@@ -1,4 +1,4 @@
-package md.ins8.steamspy.screens.apps_list
+package md.ins8.steamspy.screens.appslist
 
 import md.ins8.steamspy.main.NavigationEvent
 

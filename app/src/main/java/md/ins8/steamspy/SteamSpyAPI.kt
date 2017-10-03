@@ -17,9 +17,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
+const val BASE_URL = "http://steamspy.com/"
+const val PING_URL = "www.steamspy.com"
 
-private val BASE_URL = "http://steamspy.com/"
+private const val CONNECT_TIMEOUT = 60L
+private const val READ_TIMEOUT = 300L
 
 enum class ResponseField(val fieldName: String) {
     APP_ID("appid"),
@@ -92,23 +96,21 @@ class SteamSpyAPIModule {
 
     @AppScope
     @Provides
-    fun provideSteamSpyAPIService(retrofit: Retrofit): SteamSpyAPIService {
-        return retrofit.create(SteamSpyAPIService::class.java)
-    }
+    fun provideSteamSpyAPIService(retrofit: Retrofit): SteamSpyAPIService =
+            retrofit.create(SteamSpyAPIService::class.java)
 
     @AppScope
     @Provides
-    fun provideLogginInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.NONE }
-    }
+    fun provideLogginInterceptor(): HttpLoggingInterceptor =
+            HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.NONE }
 
     @AppScope
     @Provides
     fun provideClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
-                //.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
-                //.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .build()
     }
 
@@ -193,35 +195,35 @@ fun JsonReader.splitNextString(): MutableList<String> {
 }
 
 fun JsonReader.extractTags(): MutableList<Tag> {
-    try {
+    return try {
         beginObject()
         val tags: MutableList<Tag> = mutableListOf()
         while (hasNext()) {
             tags.add(Tag(nextName(), nextInt()))
         }
         endObject()
-        return tags
+        tags
     } catch (e: IllegalStateException) {
         beginArray()
         endArray()
-        return mutableListOf()
+        mutableListOf()
     }
 }
 
 fun JsonReader.safeNextInt(): Int {
-    try {
-        return nextInt()
+    return try {
+        nextInt()
     } catch (e: NumberFormatException) {
         nextString()
-        return -1
+        -1
     }
 }
 
 fun JsonReader.safeNextString(): String {
-    try {
-        return nextString()
+    return try {
+        nextString()
     } catch (e: IllegalStateException) {
         nextNull()
-        return ""
+        ""
     }
 }
