@@ -1,12 +1,14 @@
 package md.ins8.steamspy.screens.appslist.mvp
 
+import android.content.Context
+import md.ins8.steamspy.R
 import md.ins8.steamspy.details.startAppDetailsActivity
 import md.ins8.steamspy.screens.appslist.AppsListType
 import md.ins8.steamspy.screens.appslist.fragment.AppsListView
 import md.ins8.steamspy.screens.appslist.fragment.AppsListViewEvent
 
 
-class AppsListPresenter(private val model: AppsListModel, private val view: AppsListView) {
+class AppsListPresenter(private val model: AppsListModel, private val view: AppsListView, private val context: Context) {
     var searchFor = ""
 
     init {
@@ -36,7 +38,9 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
             model.fetchGenreSteamAppItems()
             model.genreAppsObservable.subscribe {
                 if (it.isEmpty()) {
-                    view.showEmptyList("Looks like the genre is dead, things happen...")
+                    val genreName = context.getString(model.appsListType.navigation.titleStrRes)
+                    val message = context.getString(R.string.noAppsInGenreMessage)
+                    view.showEmptyList("$genreName $message")
                 } else {
                     view.showGenreAppsList(it)
                 }
@@ -45,7 +49,12 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
             model.fetchSteamAppItems(searchFor)
             model.appsObservable.subscribe {
                 if (it.isEmpty()) {
-                    view.showEmptyList("There are no apps which match the name '$searchFor'")
+                    if (searchFor.isEmpty()) {
+                        view.showEmptyList(context.getString(R.string.noAppsMessage))
+                    } else {
+                        val message = context.getString(R.string.noSearchResultsMessage)
+                        view.showEmptyList("$message '$searchFor'")
+                    }
                 } else {
                     view.showAppsList(it)
                 }
