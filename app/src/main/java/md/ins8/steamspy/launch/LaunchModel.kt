@@ -67,6 +67,8 @@ class LaunchModelImpl(private val context: Context) : LaunchModel {
         val broadcastFilter = IntentFilter(LOCAL_ACTION)
         val lbm = LocalBroadcastManager.getInstance(context)
         lbm.registerReceiver(receiver, broadcastFilter)
+
+        receiver.eventBus.subscribe { eventBus.onNext(ModelEvent.DATA_UPDATED) }
     }
 
     override fun setupUpdate() = setupDataUpdateAlarm(context)
