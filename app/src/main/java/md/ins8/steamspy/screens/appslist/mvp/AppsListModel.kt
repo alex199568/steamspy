@@ -44,13 +44,19 @@ class AppsListModelImpl(override val appsListType: AppsListType) : AppsListModel
     private fun initLoading(initFunc: () -> Unit) {
         Observable.fromCallable { initFunc() }
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
+                .subscribe({
                     if (returningGenreApps) {
                         genreAppsObservable.onNext(genreApps)
                     } else {
                         appsObservable.onNext(apps)
                     }
-                }
+                }, {
+                    if (returningGenreApps) {
+                        genreAppsObservable.onNext(listOf())
+                    } else {
+                        appsObservable.onNext(listOf())
+                    }
+                })
     }
 
     private fun loadAllApps() {
