@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
+import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
@@ -117,7 +118,7 @@ class MainActivity : BaseActivity(), MainView {
                 })
 
         drawer {
-            headerViewRes = R.layout.drawer_header
+            accountHeader { background = R.drawable.fractal }
             toolbar = materialCab?.toolbar!!
             primaryItem(R.string.navigation_home) {
                 onClick { _ -> navigationEventBus.onNext(NavigationEvent.HOME); false }
