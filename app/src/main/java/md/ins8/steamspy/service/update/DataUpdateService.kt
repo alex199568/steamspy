@@ -126,7 +126,7 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notificationBuilder.setSmallIcon(R.drawable.spyglass_white)
         } else {
-            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher)
+            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher_square)
         }
     }
 
