@@ -119,11 +119,15 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
             notificationManager.createNotificationChannel(channel)
         }
 
-
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
         notificationBuilder.setContentTitle(getString(R.string.notificationDataUpdateTitle))
-                .setSmallIcon(R.mipmap.ic_launcher)
                 .setProgress(0, 0, true)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notificationBuilder.setSmallIcon(R.drawable.spyglass_white)
+        } else {
+            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher)
+        }
     }
 
     private fun updateNotification(message: String) {
