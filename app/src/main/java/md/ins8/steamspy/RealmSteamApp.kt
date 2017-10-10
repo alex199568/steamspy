@@ -1,8 +1,6 @@
 package md.ins8.steamspy
 
-import io.realm.Realm
-import io.realm.RealmList
-import io.realm.RealmObject
+import io.realm.*
 import io.realm.annotations.PrimaryKey
 
 open class RealmDev(var name: String) : RealmObject() {
@@ -104,6 +102,7 @@ fun storeAppsList(appsResponse: SteamAppsResponse, listTypeId: Int) {
         list.listTypeId = listTypeId
         realm.copyToRealm(list)
     }
+    realm.close()
 }
 
 fun storeAll(appsResponse: SteamAppsResponse) {
@@ -128,4 +127,39 @@ fun deleteAppsList(listTypeId: Int) {
         realm.where(RealmAppsList::class.java).findAll().removeAll { it.listTypeId == listTypeId }
     }
     realm.close()
+}
+
+
+fun loadAllApps(): List<RawSteamApp> {
+    val realm = Realm.getDefaultInstance()
+    val result = realm.where(RealmSteamApp::class.java)?.findAll()!!
+    realm.close()
+    return result.mapToRaw()
+}
+
+fun loadAppsForName(name: String): List<RawSteamApp> {
+    val realm = Realm.getDefaultInstance()
+    val result = realm.where(RealmSteamApp::class.java).contains("name", name, Case.INSENSITIVE).findAll()
+    realm.close()
+    return result.mapToRaw()
+}
+
+fun loadAppsList(listTypeId: Int): List<RawSteamApp> {
+    val realm = Realm.getDefaultInstance()
+    val result = realm.where(RealmAppsList::class.java).equalTo("listTypeId", listTypeId).findFirst()
+    val ids = mutableListOf<Long>()
+    result.apps.mapTo(ids, { it.appId })
+    val apps = realm.where(RealmSteamApp::class.java).findAll().filter {
+        ids.contains(it.id)
+    }
+    realm.close()
+    val ret = mutableListOf<RawSteamApp>()
+    apps.mapTo(ret, { RawSteamApp(it) })
+    return ret
+}
+
+private fun RealmResults<RealmSteamApp>.mapToRaw(): List<RawSteamApp> {
+    val ret = mutableListOf<RawSteamApp>()
+    mapTo(ret, { RawSteamApp(it) })
+    return ret
 }

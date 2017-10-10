@@ -9,7 +9,6 @@ import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.LocalBroadcastManager
 import io.reactivex.Observable
-import io.realm.Realm
 import md.ins8.steamspy.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -59,7 +58,7 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     private fun downloadAll() {
         steamAppsAPIService.requestAll()
                 .subscribe({
-                    deleteApps()
+                    deleteAllApps()
                     storeAll(it)
                 }, {
                     Timber.e(it)
@@ -93,10 +92,6 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
 
     private fun downloadGenre(genre: String): Observable<SteamAppsResponse> =
             steamAppsAPIService.requestGenre(genre = genre)
-
-    private fun deleteApps() {
-        Realm.deleteRealm(Realm.getDefaultConfiguration())
-    }
 
     private fun setupNotifications() {
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

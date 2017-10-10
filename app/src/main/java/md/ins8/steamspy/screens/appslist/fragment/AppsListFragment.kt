@@ -87,12 +87,9 @@ open class AppsListFragment : Fragment(), AppsListView {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        val appsListTypeName = arguments.getString(APPS_LIST_TYPE_NAME_EXTRA)
-        val appsListType = AppsListType.valueOf(appsListTypeName)
-
         DaggerAppsListComponent.builder()
                 .appComponent((activity.application as SteamSpyApp).appComponent)
-                .appsListModule(AppsListModule(this, appsListType))
+                .appsListModule(AppsListModule(this))
                 .build().inject(this)
 
         var searchFor = ""
@@ -100,8 +97,6 @@ open class AppsListFragment : Fragment(), AppsListView {
             searchFor = arguments.getString(SEARCH_FOR_EXTRA)
         } catch (e: IllegalStateException) {
         }
-
-        presenter.searchFor = searchFor
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {

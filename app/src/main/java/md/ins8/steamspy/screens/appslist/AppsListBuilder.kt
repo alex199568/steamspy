@@ -1,6 +1,5 @@
 package md.ins8.steamspy.screens.appslist
 
-import android.content.Context
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -26,13 +25,13 @@ interface AppsListComponent {
 
 
 @Module
-class AppsListModule(private val appsListFragment: AppsListFragment, private val appsListType: AppsListType) {
+class AppsListModule(private val appsListFragment: AppsListFragment) {
     @AppsListScope
     @Provides
-    fun model(): AppsListModel = AppsListModelImpl(appsListType)
+    fun model(): AppsListModel = AppsListModelImpl()
 
     @AppsListScope
     @Provides
-    fun presenter(model: AppsListModel, context: Context): AppsListPresenter =
-            AppsListPresenter(model, appsListFragment, context)
+    fun presenter(model: AppsListModel): AppsListPresenter =
+            AppsListPresenter(model, appsListFragment)
 }
