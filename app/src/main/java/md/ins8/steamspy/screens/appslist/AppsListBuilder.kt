@@ -1,11 +1,10 @@
 package md.ins8.steamspy.screens.appslist
 
-import android.content.Context
 import dagger.Component
 import dagger.Module
 import dagger.Provides
 import md.ins8.steamspy.AppComponent
-import md.ins8.steamspy.screens.appslist.fragment.AppsListFragment
+import md.ins8.steamspy.screens.appslist.mvp.AppsListFragment
 import md.ins8.steamspy.screens.appslist.mvp.AppsListModel
 import md.ins8.steamspy.screens.appslist.mvp.AppsListModelImpl
 import md.ins8.steamspy.screens.appslist.mvp.AppsListPresenter
@@ -26,13 +25,15 @@ interface AppsListComponent {
 
 
 @Module
-class AppsListModule(private val appsListFragment: AppsListFragment, private val appsListType: AppsListType) {
+class AppsListModule(private val appsListFragment: AppsListFragment,
+                     private val listType: Int, private val listTypeId: Int,
+                     private val searchParam: String = "") {
     @AppsListScope
     @Provides
-    fun model(): AppsListModel = AppsListModelImpl(appsListType)
+    fun model(): AppsListModel = AppsListModelImpl()
 
     @AppsListScope
     @Provides
-    fun presenter(model: AppsListModel, context: Context): AppsListPresenter =
-            AppsListPresenter(model, appsListFragment, context)
+    fun presenter(model: AppsListModel): AppsListPresenter =
+            AppsListPresenter(model, appsListFragment, appsListFragment.context, listType, listTypeId, searchParam)
 }

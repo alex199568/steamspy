@@ -46,20 +46,6 @@ enum class ResponseField(val fieldName: String) {
     TAGS("tags")
 }
 
-enum class Genre(val paramName: String) {
-    ACTION("Action"),
-    STRATEGY("Strategy"),
-    RPG("RPG"),
-    INDIE("Indie"),
-    ADVENTURE("Adventure"),
-    SPORTS("Sports"),
-    SIMULATION("Simulation"),
-    EARLY_ACCESS("Early+Access"),
-    EX_EARLY_ACCESS("Ex+Early+Access"),
-    MMO("Massively+Multiplayer"),
-    FREE("Free")
-}
-
 
 interface SteamSpyAPIService {
     @GET("api.php?")
@@ -69,13 +55,7 @@ interface SteamSpyAPIService {
     fun requestGenre(@Query("request") request: String = "genre", @Query("genre", encoded = true) genre: String): Observable<SteamAppsResponse>
 
     @GET("api.php?")
-    fun requestTop2Weeks(@Query("request") request: String = "top100in2weeks"): Observable<SteamAppsResponse>
-
-    @GET("api.php?")
-    fun requestTopOwned(@Query("request") request: String = "top100owned"): Observable<SteamAppsResponse>
-
-    @GET("api.php?")
-    fun requestTopTotal(@Query("request") request: String = "top100forever"): Observable<SteamAppsResponse>
+    fun requestTop(@Query("request") request: String): Observable<SteamAppsResponse>
 
     @GET("api.php?")
     fun requestAll(@Query("request") request: String = "all"): Observable<SteamAppsResponse>

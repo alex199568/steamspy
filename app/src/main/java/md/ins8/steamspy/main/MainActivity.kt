@@ -22,16 +22,10 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import md.ins8.steamspy.BASE_URL
-import md.ins8.steamspy.BaseActivity
-import md.ins8.steamspy.R
-import md.ins8.steamspy.SteamSpyApp
+import md.ins8.steamspy.*
 import md.ins8.steamspy.screens.about.AboutFragment
-import md.ins8.steamspy.screens.appslist.AppsListType
-import md.ins8.steamspy.screens.appslist.fragment.AppsListFragment
-import md.ins8.steamspy.screens.appslist.fragment.newAppsListFragmentInstance
-import md.ins8.steamspy.screens.appslist.fragment.newGenreListFragmentInstance
-import md.ins8.steamspy.screens.appslist.fragment.newTopListFragmentInstance
+import md.ins8.steamspy.screens.appslist.mvp.AppsListFragment
+import md.ins8.steamspy.screens.appslist.mvp.newAppsListFragmentInstance
 import md.ins8.steamspy.screens.home.HomeFragment
 import javax.inject.Inject
 
@@ -68,7 +62,7 @@ interface MainView {
 
     fun switchToHomeFragment()
     fun switchToAboutFragment()
-    fun switchToAppsListFragment(appsListType: AppsListType)
+    fun switchToAppsListFragment(listType: ListType)
     fun switchToAppsListFragment(searchFor: String)
 
     fun refreshListFragment()
@@ -225,27 +219,9 @@ class MainActivity : BaseActivity(), MainView {
         replaceFragment(aboutFragment, NavigationEvent.ABOUT.titleStrRes)
     }
 
-    override fun switchToAppsListFragment(appsListType: AppsListType) {
-        val topTypes = arrayOf(AppsListType.TOP_2_WEEKS, AppsListType.TOP_OWNED, AppsListType.TOP_TOTAL)
-        val genreTypes = arrayOf(
-                AppsListType.GENRE_ACTION,
-                AppsListType.GENRE_ADVENTURE,
-                AppsListType.GENRE_EARLY_ACCESS,
-                AppsListType.GENRE_EX_EARLY_ACCESS,
-                AppsListType.GENRE_FREE,
-                AppsListType.GENRE_INDIE,
-                AppsListType.GENRE_MMO,
-                AppsListType.GENRE_RPG,
-                AppsListType.GENRE_SIMULATION,
-                AppsListType.GENRE_SPORTS,
-                AppsListType.GENRE_STRATEGY
-        )
-        val fragment: AppsListFragment = when {
-            topTypes.contains(appsListType) -> newTopListFragmentInstance(appsListType)
-            genreTypes.contains(appsListType) -> newGenreListFragmentInstance(appsListType)
-            else -> newAppsListFragmentInstance(appsListType)
-        }
-        replaceFragment(fragment, appsListType.navigation.titleStrRes)
+    override fun switchToAppsListFragment(listType: ListType) {
+        val fragment = newAppsListFragmentInstance(listType.toAppListType(), listType)
+        replaceFragment(fragment, listType.displayName)
     }
 
     override fun switchToAppsListFragment(searchFor: String) {

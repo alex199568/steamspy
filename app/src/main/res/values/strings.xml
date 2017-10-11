@@ -118,6 +118,5 @@
     <string name="dialogDismissDefault">Ok</string>
     <string name="noSearchResultsMessage">There are no apps which match the name</string>
     <string name="noAppsMessage">No apps to show, try to update data</string>
-    <string name="noAppsInGenreMessage">contains no apps, try to update data</string>
 
 </resources>

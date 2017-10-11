@@ -9,9 +9,8 @@ import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.LocalBroadcastManager
 import io.reactivex.Observable
-import io.realm.Realm
-import io.realm.RealmModel
 import md.ins8.steamspy.*
+import timber.log.Timber
 import javax.inject.Inject
 
 private const val CHANNEL_ID = "steam_spy_channel_id"
@@ -43,25 +42,10 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
 
     private fun doUpdate() {
         updateNotification(getString(R.string.dataUpdateNotificationText))
-        deleteApps()
 
-        downloadAll().subscribe { storeAll(it); }
-
-        downloadTop2Weeks().subscribe { storeTyped(it, RealmTop2Weeks::class.java); }
-        downloadTopOwned().subscribe { storeTyped(it, RealmTopOwned::class.java); }
-        downloadTopTotal().subscribe { storeTyped(it, RealmTopTotal::class.java); }
-
-        downloadGenre(Genre.ACTION).subscribe { storeTyped(it, RealmGenreAction::class.java); }
-        downloadGenre(Genre.RPG).subscribe { storeTyped(it, RealmGenreRPG::class.java); }
-        downloadGenre(Genre.STRATEGY).subscribe { storeTyped(it, RealmGenreStrategy::class.java); }
-        downloadGenre(Genre.SIMULATION).subscribe { storeTyped(it, RealmGenreSimulation::class.java); }
-        downloadGenre(Genre.ADVENTURE).subscribe { storeTyped(it, RealmGenreAdventure::class.java); }
-        downloadGenre(Genre.INDIE).subscribe { storeTyped(it, RealmGenreIndie::class.java); }
-        downloadGenre(Genre.SPORTS).subscribe { storeTyped(it, RealmGenreEarlyAccess::class.java); }
-        downloadGenre(Genre.EARLY_ACCESS).subscribe { storeTyped(it, RealmGenreEarlyAccess::class.java); }
-        downloadGenre(Genre.EX_EARLY_ACCESS).subscribe { storeTyped(it, RealmGenreExEarlyAccess::class.java); }
-        downloadGenre(Genre.MMO).subscribe { storeTyped(it, RealmGenreMMO::class.java); }
-        downloadGenre(Genre.FREE).subscribe { storeTyped(it, RealmGenreFree::class.java); }
+        downloadAll()
+        val observables = downloadListTypes()
+        startDownloading(observables)
 
         notificationManager.cancel(NOTIFICATION_ID)
 
@@ -71,43 +55,43 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
         lbm.sendBroadcast(intent)
     }
 
-    private fun downloadAll(): Observable<SteamAppsResponse> = steamAppsAPIService.requestAll()
-
-    private fun downloadTop2Weeks(): Observable<SteamAppsResponse> =
-            steamAppsAPIService.requestTop2Weeks()
-
-    private fun downloadTopOwned(): Observable<SteamAppsResponse> =
-            steamAppsAPIService.requestTopOwned()
-
-    private fun downloadTopTotal(): Observable<SteamAppsResponse> =
-            steamAppsAPIService.requestTopTotal()
-
-    private fun downloadGenre(genre: Genre): Observable<SteamAppsResponse> =
-            steamAppsAPIService.requestGenre(genre = genre.paramName)
-
-    private fun deleteApps() {
-        Realm.deleteRealm(Realm.getDefaultConfiguration())
+    private fun downloadAll() {
+        steamAppsAPIService.requestAll()
+                .subscribe({
+                    deleteAllApps()
+                    storeAll(it)
+                }, {
+                    Timber.e(it)
+                })
     }
 
-    private fun <T> storeTyped(appsResponse: SteamAppsResponse, clazz: Class<T>) where T : RealmModel, T : CustomRealmList {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            val list = clazz.newInstance()
-            appsResponse.apps.forEach {
-                list.apps.add(RealmAppId(it.id))
-            }
-            realm.copyToRealm(list)
+    private fun downloadListTypes(): Map<ListType, Observable<SteamAppsResponse>> {
+        val result = hashMapOf<ListType, Observable<SteamAppsResponse>>()
+        TopListTypes.values().forEach {
+            result[it.listType] = downloadTop(it.listType.paramName)
         }
-        realm.close()
+        GenreListTypes.values().forEach {
+            result[it.listType] = downloadGenre(it.listType.paramName)
+        }
+        return result
     }
 
-    private fun storeAll(appsResponse: SteamAppsResponse) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            appsResponse.toRealm().forEach { realm.copyToRealm(it) }
+    private fun startDownloading(observables: Map<ListType, Observable<SteamAppsResponse>>) {
+        for ((key, value) in observables) {
+            value.subscribe({
+                deleteAppsList(key.id)
+                storeAppsList(it, key.id)
+            }, {
+                Timber.e(it)
+            })
         }
-        realm.close()
     }
+
+    private fun downloadTop(param: String): Observable<SteamAppsResponse> =
+            steamAppsAPIService.requestTop(param)
+
+    private fun downloadGenre(genre: String): Observable<SteamAppsResponse> =
+            steamAppsAPIService.requestGenre(genre = genre)
 
     private fun setupNotifications() {
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
