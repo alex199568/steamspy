@@ -7,14 +7,17 @@ machine:
         version: oraclejdk8
     environment:
         ANDROID_HOME: /usr/local/android-sdk-linux
-        ANDROID_BUILD_TOOLS: 26.0.1
+        ANDROID_BUILD_TOOLS: 26.0.2
+
+checkout:
+   post:
+        - cp -r licenses/. $ANDROID_HOME/licenses
 
 dependencies:
     pre:
         - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
         - if [ ! -e $ANDROID_HOME/tools/bin/sdkmanager ]; then echo y | android update sdk --no-ui --all --filter tools; fi
         - mkdir "$ANDROID_HOME/licenses" || true
-        - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
         - $ANDROID_HOME/tools/bin/sdkmanager --verbose "platform-tools" "build-tools;"$ANDROID_BUILD_TOOLS "extras;google;m2repository"
 
     override:
