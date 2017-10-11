@@ -1,8 +1,6 @@
 package md.ins8.steamspy.main
 
-import md.ins8.steamspy.PING_URL
-import md.ins8.steamspy.pingHost
-import md.ins8.steamspy.screens.appslist.AppsListType
+import md.ins8.steamspy.*
 
 
 class MainPresenter(private val mainView: MainView, private val mainModel: MainModel) {
@@ -12,21 +10,21 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         mainView.navigationEventBus.subscribe {
             when (it) {
                 NavigationEvent.HOME -> home()
-                NavigationEvent.ALL -> all()
-                NavigationEvent.TOP_2_WEEKS -> top2Weeks()
-                NavigationEvent.TOP_OWNED -> topOwned()
-                NavigationEvent.TOP_TOTAL -> topTotal()
-                NavigationEvent.GENRE_ACTION -> genreAction()
-                NavigationEvent.GENRE_STRATEGY -> genreStrategy()
-                NavigationEvent.GENRE_RPG -> genreRPG()
-                NavigationEvent.GENRE_INDIE -> genreIndie()
-                NavigationEvent.GENRE_ADVENTURE -> genreAdventure()
-                NavigationEvent.GENRE_SPORTS -> genreSports()
-                NavigationEvent.GENRE_SIMULATION -> genreSimulation()
-                NavigationEvent.GENRE_EARLY_ACCESS -> genreEarlyAccess()
-                NavigationEvent.GENRE_EX_EARLY_ACCESS -> genreExEarlyAccess()
-                NavigationEvent.GENRE_MMO -> genreMMO()
-                NavigationEvent.GENRE_FREE -> genreFree()
+                NavigationEvent.ALL -> appsList(ListTypes.ALL.listType)
+                NavigationEvent.TOP_2_WEEKS -> appsList(TopListTypes.TOP_2_WEEKS.listType)
+                NavigationEvent.TOP_OWNED -> appsList(TopListTypes.TOP_OWNED.listType)
+                NavigationEvent.TOP_TOTAL -> appsList(TopListTypes.TOP_TOTAL.listType)
+                NavigationEvent.GENRE_ACTION -> appsList(GenreListTypes.GENRE_ACTION.listType)
+                NavigationEvent.GENRE_STRATEGY -> appsList(GenreListTypes.GENRE_STRATEGY.listType)
+                NavigationEvent.GENRE_RPG -> appsList(GenreListTypes.GENRE_RPG.listType)
+                NavigationEvent.GENRE_INDIE -> appsList(GenreListTypes.GENRE_INDIE.listType)
+                NavigationEvent.GENRE_ADVENTURE -> appsList(GenreListTypes.GENRE_ADVENTURE.listType)
+                NavigationEvent.GENRE_SPORTS -> appsList(GenreListTypes.GENRE_SPORTS.listType)
+                NavigationEvent.GENRE_SIMULATION -> appsList(GenreListTypes.GENRE_SIMULATION.listType)
+                NavigationEvent.GENRE_EARLY_ACCESS -> appsList(GenreListTypes.GENRE_EARLY_ACCESS.listType)
+                NavigationEvent.GENRE_EX_EARLY_ACCESS -> appsList(GenreListTypes.GENRE_EX_EARLY_ACCESS.listType)
+                NavigationEvent.GENRE_MMO -> appsList(GenreListTypes.GENRE_MMO.listType)
+                NavigationEvent.GENRE_FREE -> appsList(GenreListTypes.GENRE_FREE.listType)
                 NavigationEvent.ABOUT -> about()
             }
         }
@@ -72,66 +70,9 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         mainView.switchToHomeFragment()
     }
 
-    private fun all() {
-        mainView.switchToAppsListFragment(AppsListType.ALL)
+    private fun appsList(listType: ListType) {
+        mainView.switchToAppsListFragment(listType)
     }
-
-    private fun top2Weeks() {
-        mainView.switchToAppsListFragment(AppsListType.TOP_2_WEEKS)
-    }
-
-    private fun topOwned() {
-        mainView.switchToAppsListFragment(AppsListType.TOP_OWNED)
-    }
-
-    private fun topTotal() {
-        mainView.switchToAppsListFragment(AppsListType.TOP_TOTAL)
-    }
-
-    private fun genreAction() {
-        mainView.switchToAppsListFragment(AppsListType.GENRE_ACTION)
-    }
-
-    private fun genreStrategy() {
-        mainView.switchToAppsListFragment(AppsListType.GENRE_STRATEGY)
-    }
-
-    private fun genreRPG() {
-        mainView.switchToAppsListFragment(AppsListType.GENRE_RPG)
-    }
-
-    private fun genreIndie() {
-        mainView.switchToAppsListFragment(AppsListType.GENRE_INDIE)
-    }
-
-    private fun genreAdventure() {
-        mainView.switchToAppsListFragment(AppsListType.GENRE_ADVENTURE)
-    }
-
-    private fun genreSports() {
-        mainView.switchToAppsListFragment(AppsListType.GENRE_SPORTS)
-    }
-
-    private fun genreSimulation() {
-        mainView.switchToAppsListFragment(AppsListType.GENRE_SIMULATION)
-    }
-
-    private fun genreEarlyAccess() {
-        mainView.switchToAppsListFragment(AppsListType.GENRE_EARLY_ACCESS)
-    }
-
-    private fun genreExEarlyAccess() {
-        mainView.switchToAppsListFragment(AppsListType.GENRE_EX_EARLY_ACCESS)
-    }
-
-    private fun genreMMO() {
-        mainView.switchToAppsListFragment(AppsListType.GENRE_MMO)
-    }
-
-    private fun genreFree() {
-        mainView.switchToAppsListFragment(AppsListType.GENRE_FREE)
-    }
-
     private fun about() {
         mainView.switchToAboutFragment()
     }

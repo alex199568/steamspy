@@ -1,10 +1,15 @@
 package md.ins8.steamspy
 
+private const val IMAGE_CAPSULE_START_URL = "http://cdn.akamai.steamstatic.com/steam/apps/"
+private const val IMAGE_CAPSULE_END_URL = "/capsule_184x69.jpg"
+
 data class Tag(
         var name: String = "",
         var votes: Int = 0
 ) {
     constructor(realmTag: RealmTag) : this(realmTag.name, realmTag.votes)
+
+    override fun toString(): String = name
 }
 
 data class RawSteamApp(
@@ -27,6 +32,11 @@ data class RawSteamApp(
         var price: String = "0",
         var tags: MutableList<Tag> = mutableListOf()
 ) {
+    val imgUrl = "$IMAGE_CAPSULE_START_URL$id$IMAGE_CAPSULE_END_URL"
+
+    val tagsText: String
+        get() = tags.joinToString()
+
     constructor(realmSteamApp: RealmSteamApp) : this(
             id = realmSteamApp.id,
             name = realmSteamApp.name,
@@ -47,33 +57,6 @@ data class RawSteamApp(
         realmSteamApp.dev.mapTo(dev, { it.name })
         realmSteamApp.pub.mapTo(pub, { it.name })
         realmSteamApp.tags.mapTo(tags, { Tag(it) })
-    }
-}
-
-private const val IMAGE_CAPSULE_START_URL = "http://cdn.akamai.steamstatic.com/steam/apps/"
-private const val IMAGE_CAPSULE_END_URL = "/capsule_184x69.jpg"
-
-data class SteamAppItem(
-        val id: Long,
-        val name: String,
-        var imgUrl: String = ""
-) {
-    constructor(rawSteamApp: RawSteamApp) : this(id = rawSteamApp.id, name = rawSteamApp.name) {
-        imgUrl = IMAGE_CAPSULE_START_URL + rawSteamApp.id + IMAGE_CAPSULE_END_URL
-    }
-
-    constructor(realmSteamApp: RealmSteamApp) : this(id = realmSteamApp.id, name = realmSteamApp.name) {
-        imgUrl = IMAGE_CAPSULE_START_URL + realmSteamApp.id + IMAGE_CAPSULE_END_URL
-    }
-}
-
-data class GenreSteamAppItem(var steamAppItem: SteamAppItem, var tags: String = "") {
-    constructor(rawSteamApp: RawSteamApp) : this(SteamAppItem(rawSteamApp)) {
-        tags = rawSteamApp.tags.joinToString(", ", transform = { it.name })
-    }
-
-    constructor(realmSteamApp: RealmSteamApp) : this(SteamAppItem(realmSteamApp)) {
-        tags = realmSteamApp.tags.joinToString(", ", transform = { it.name })
     }
 }
 

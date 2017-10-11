@@ -11,7 +11,7 @@ interface AppsListModel {
 
     fun fetchAllApps()
     fun fetchAppsForName(name: String = "")
-    fun fetchAppsList(listType: ListType)
+    fun fetchAppsList(listType: Int)
 }
 
 
@@ -28,9 +28,9 @@ class AppsListModelImpl : AppsListModel {
         }
     }
 
-    override fun fetchAppsList(listType: ListType) {
+    override fun fetchAppsList(listType: Int) {
         initLoading {
-            loadAppsList(listType.id)
+            loadAppsList(listType)
         }
     }
 

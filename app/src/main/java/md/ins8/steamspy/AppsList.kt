@@ -1,5 +1,7 @@
 package md.ins8.steamspy
 
+import md.ins8.steamspy.screens.appslist.mvp.AppsListType
+
 data class ListType(
         val id: Int,
         val displayName: Int,
@@ -30,3 +32,12 @@ enum class GenreListTypes(val listType: ListType) {
     GENRE_FREE(ListType(14, R.string.titleGenreFree, "Free"))
 }
 
+fun ListType.toAppListType(): AppsListType {
+    if (!TopListTypes.values().none { it.listType.id == id }) {
+        return AppsListType.TOP
+    }
+    if (!GenreListTypes.values().none { it.listType.id == id }) {
+        return AppsListType.GENRE
+    }
+    return AppsListType.DEFAULT
+}
