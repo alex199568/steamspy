@@ -1,4 +1,4 @@
-package md.ins8.steamspy.screens.appslist.mvp
+package md.ins8.steamspy.screens.appslist
 
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +13,6 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.fragment_apps_list.*
 import md.ins8.steamspy.*
-import md.ins8.steamspy.screens.appslist.*
 import timber.log.Timber
 import javax.inject.Inject
 

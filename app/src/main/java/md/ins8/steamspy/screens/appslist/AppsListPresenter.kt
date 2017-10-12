@@ -1,4 +1,4 @@
-package md.ins8.steamspy.screens.appslist.mvp
+package md.ins8.steamspy.screens.appslist
 
 import android.content.Context
 import md.ins8.steamspy.R

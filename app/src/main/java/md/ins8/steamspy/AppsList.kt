@@ -1,6 +1,6 @@
 package md.ins8.steamspy
 
-import md.ins8.steamspy.screens.appslist.mvp.AppsListType
+import md.ins8.steamspy.screens.appslist.AppsListType
 
 data class ListType(
         val id: Int,
