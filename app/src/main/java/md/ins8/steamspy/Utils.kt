@@ -7,6 +7,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import java.text.DateFormat
 import java.util.*
 
@@ -18,7 +19,13 @@ fun pingHost(host: String, callback: (connected: Boolean) -> Unit, concurrent: B
     if (concurrent) {
         connectivityObserver = connectivityObserver.ioToMain()
     }
-    connectivityObserver.subscribe { result -> callback.invoke(result) }
+    connectivityObserver.subscribe({
+        callback.invoke(it)
+    }, {
+        Timber.e(it)
+        callback(false)
+    }
+    )
 }
 
 fun <T> Single<T>.ioToMain(): Single<T> =
