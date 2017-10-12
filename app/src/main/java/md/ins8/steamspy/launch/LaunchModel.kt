@@ -16,6 +16,7 @@ import md.ins8.steamspy.R
 import md.ins8.steamspy.service.update.DataUpdateService
 import md.ins8.steamspy.service.update.LOCAL_ACTION
 import md.ins8.steamspy.service.update.Receiver
+import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -55,9 +56,11 @@ class LaunchModelImpl(private val context: Context) : LaunchModel {
     override fun splashWait() {
         Observable.just(true).delay(SPLASH_SCREEN_DURATION, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
+                .subscribe({
                     eventBus.onNext(ModelEvent.DONE)
-                }
+                }, {
+                    Timber.e(it)
+                })
     }
 
     override fun updateData() {

@@ -8,6 +8,7 @@ import io.reactivex.subjects.Subject
 import io.realm.Realm
 import md.ins8.steamspy.RawSteamApp
 import md.ins8.steamspy.RealmSteamApp
+import timber.log.Timber
 
 interface AppDetailsModel {
     val appLoadedObservable: Observable<RawSteamApp>
@@ -30,8 +31,11 @@ class AppDetailsModelImpl(private val appId: Long) : AppDetailsModel {
             app = RawSteamApp(result)
             realm.close()
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
+                .subscribe({
                     appLoadedObservable.onNext(app!!)
-                }
+                }, {
+                    Timber.e(it)
+                    appLoadedObservable.onNext(RawSteamApp())
+                })
     }
 }
