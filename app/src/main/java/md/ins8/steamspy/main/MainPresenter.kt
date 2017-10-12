@@ -61,11 +61,6 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         home()
     }
 
-    fun updateToolbarText() {
-        mainView.updateToolbarTitle()
-    }
-
-
     private fun home() {
         mainView.switchToHomeFragment()
     }

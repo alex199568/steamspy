@@ -68,8 +68,6 @@ interface MainView {
     fun refreshListFragment()
     fun showInputDialog()
     fun showHostUnavailableDialog()
-
-    fun updateToolbarTitle()
 }
 
 
@@ -198,11 +196,6 @@ class MainActivity : BaseActivity(), MainView {
         switchToHomeFragment()
     }
 
-    override fun onBackPressed() {
-        presenter.updateToolbarText()
-        super.onBackPressed()
-    }
-
     override val navigationEventBus: Subject<NavigationEvent> = BehaviorSubject.create<NavigationEvent>()
     override val eventBus: Subject<ViewEvent> = BehaviorSubject.create<ViewEvent>()
     override val inputEvents: Subject<String> = PublishSubject.create<String>()
@@ -256,17 +249,6 @@ class MainActivity : BaseActivity(), MainView {
                 .show()
     }
 
-    override fun updateToolbarTitle() {
-        if (supportFragmentManager.backStackEntryCount < 2) {
-            materialCab?.toolbar?.title = "Home"
-            return
-        }
-        val fragmentTag = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 2).name
-        materialCab?.toolbar?.title = fragmentTag
-    }
-
-    private var firstFragment = true
-
     private fun replaceFragment(fragment: Fragment, title: Int = 0, remember: Boolean = true, titleStr: String = "") {
         var titleString = fragment.toString()
         if (title != 0) {
@@ -278,11 +260,6 @@ class MainActivity : BaseActivity(), MainView {
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.mainContainer, fragment)
-        if (!firstFragment) {
-            transaction.addToBackStack(titleString)
-        } else {
-            firstFragment = false
-        }
         transaction.commit()
 
         materialCab?.toolbar?.title = titleString
