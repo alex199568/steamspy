@@ -24,8 +24,8 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import md.ins8.steamspy.*
 import md.ins8.steamspy.screens.about.AboutFragment
-import md.ins8.steamspy.screens.appslist.mvp.AppsListFragment
-import md.ins8.steamspy.screens.appslist.mvp.newAppsListFragmentInstance
+import md.ins8.steamspy.screens.appslist.AppsListFragment
+import md.ins8.steamspy.screens.appslist.newAppsListFragmentInstance
 import md.ins8.steamspy.screens.home.HomeFragment
 import javax.inject.Inject
 

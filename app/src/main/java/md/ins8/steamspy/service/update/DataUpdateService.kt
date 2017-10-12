@@ -17,6 +17,8 @@ private const val CHANNEL_ID = "steam_spy_channel_id"
 private const val NOTIFICATION_ID = 1
 private const val INTENT_SERVICE_NAME = "DataUpdateIntentService"
 
+const val LAST_UPDATE_TIME_KEY = "LastUpdateTimeKey"
+
 class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     @Inject
     lateinit var steamAppsAPIService: SteamSpyAPIService
@@ -46,6 +48,8 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
         downloadAll()
         val observables = downloadListTypes()
         startDownloading(observables)
+
+        saveUpdateTime()
 
         notificationManager.cancel(NOTIFICATION_ID)
 
@@ -117,5 +121,11 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     private fun updateNotification(message: String) {
         notificationBuilder.setContentText(message)
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
+    }
+
+    private fun saveUpdateTime() {
+        val sharedPrefs = getSharedPreferences(getString(R.string.sharedPreferencesFileKey), Context.MODE_PRIVATE)
+        val currentTime = retrieveCurrentTime()
+        sharedPrefs.edit().putString(LAST_UPDATE_TIME_KEY, currentTime).apply()
     }
 }

@@ -119,4 +119,7 @@
     <string name="noSearchResultsMessage">There are no apps which match the name</string>
     <string name="noAppsMessage">No apps to show, try to update data</string>
 
+    <string name="lastDataUpdate">Last Data Update: </string>
+    <string name="dataHasNeverBeenUpdated">data has not been updated yet</string>
+
 </resources>

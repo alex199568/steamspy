@@ -1,4 +1,4 @@
-package md.ins8.steamspy.screens.appslist.mvp
+package md.ins8.steamspy.screens.appslist
 
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject

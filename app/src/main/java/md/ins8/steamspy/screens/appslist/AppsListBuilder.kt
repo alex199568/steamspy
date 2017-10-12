@@ -4,10 +4,6 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import md.ins8.steamspy.AppComponent
-import md.ins8.steamspy.screens.appslist.mvp.AppsListFragment
-import md.ins8.steamspy.screens.appslist.mvp.AppsListModel
-import md.ins8.steamspy.screens.appslist.mvp.AppsListModelImpl
-import md.ins8.steamspy.screens.appslist.mvp.AppsListPresenter
 import javax.inject.Scope
 
 @Scope
