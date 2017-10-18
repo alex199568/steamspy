@@ -130,38 +130,17 @@ fun deleteAppsList(listTypeId: Int) {
 }
 
 
-fun loadAllApps(): List<RawSteamApp> {
-    val realm = Realm.getDefaultInstance()
-    val result = realm.where(RealmSteamApp::class.java)?.findAll()!!
-    val ret = result.mapToRaw()
-    realm.close()
-    return ret
-}
+fun loadAllApps(realm: Realm): RealmResults<RealmSteamApp> = realm.where(RealmSteamApp::class.java)?.findAll()!!
 
-fun loadAppsForName(name: String): List<RawSteamApp> {
-    val realm = Realm.getDefaultInstance()
-    val result = realm.where(RealmSteamApp::class.java).contains("name", name, Case.INSENSITIVE).findAll()
-    val ret = result.mapToRaw()
-    realm.close()
-    return ret
-}
+fun loadAppsForName(realm: Realm, name: String): RealmResults<RealmSteamApp> =
+        realm.where(RealmSteamApp::class.java).contains("name", name, Case.INSENSITIVE).findAll()
 
-fun loadAppsList(listTypeId: Int): List<RawSteamApp> {
-    val realm = Realm.getDefaultInstance()
+fun loadAppsList(realm: Realm, listTypeId: Int): RealmResults<RealmSteamApp> {
     val result = realm.where(RealmAppsList::class.java).equalTo("listTypeId", listTypeId).findFirst()
     val ids = mutableListOf<Long>()
     result.apps.mapTo(ids, { it.appId })
-    val apps = realm.where(RealmSteamApp::class.java).findAll().filter {
-        ids.contains(it.id)
-    }
-    val ret = mutableListOf<RawSteamApp>()
-    apps.mapTo(ret, { RawSteamApp(it) })
-    realm.close()
-    return ret
+    var query = realm.where(RealmSteamApp::class.java)
+    ids.forEach { query = query.equalTo("id", it).or() }
+    return query.findAll()
 }
 
-private fun RealmResults<RealmSteamApp>.mapToRaw(): List<RawSteamApp> {
-    val ret = mutableListOf<RawSteamApp>()
-    mapTo(ret, { RawSteamApp(it) })
-    return ret
-}

@@ -9,11 +9,14 @@ import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import io.realm.OrderedRealmCollection
+import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.item_genre_steam_app.view.*
 import kotlinx.android.synthetic.main.item_min_steam_app.view.*
 import kotlinx.android.synthetic.main.item_top_steam_app.view.*
 import md.ins8.steamspy.R
 import md.ins8.steamspy.RawSteamApp
+import md.ins8.steamspy.RealmSteamApp
 
 open class DefaultAppsListViewHolder(itemView: View?, private val context: Context) : RecyclerView.ViewHolder(itemView) {
     open fun bind(steamApp: RawSteamApp) {
@@ -73,21 +76,25 @@ class GenreAppsListViewHolderProvider : DefaultAppsListViewHolderProvider() {
     }
 }
 
-class AppsListAdapter(private val apps: List<RawSteamApp>, private val context: Context,
-                      private val viewHolderProvider: DefaultAppsListViewHolderProvider)
-    : RecyclerView.Adapter<DefaultAppsListViewHolder>() {
+class AppsListRealmAdapter(
+        data: OrderedRealmCollection<RealmSteamApp>?,
+        private val viewHolderProvider: DefaultAppsListViewHolderProvider,
+        private val context: Context)
+    : RealmRecyclerViewAdapter<RealmSteamApp, DefaultAppsListViewHolder>(data, true) {
     private val itemClickSubject: Subject<Long> = PublishSubject.create<Long>()
 
     val itemClickObservable: Observable<Long>
         get() = itemClickSubject
 
-    override fun getItemCount(): Int = apps.size
-
     override fun onBindViewHolder(viewHolder: DefaultAppsListViewHolder?, position: Int) {
-        viewHolder?.bind(apps[position])
-        viewHolder?.itemView?.setOnClickListener { itemClickSubject.onNext(apps[position].id) }
+        val realmSteamApp = getItem(position)
+        if (realmSteamApp != null) {
+            val steamApp = RawSteamApp(realmSteamApp)
+            viewHolder?.bind(steamApp)
+            viewHolder?.itemView?.setOnClickListener { itemClickSubject.onNext(steamApp.id) }
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): DefaultAppsListViewHolder =
-            viewHolderProvider.createViewHolder(parent, context)
+    override fun onCreateViewHolder(p0: ViewGroup?, p1: Int): DefaultAppsListViewHolder =
+            viewHolderProvider.createViewHolder(p0, context)
 }
