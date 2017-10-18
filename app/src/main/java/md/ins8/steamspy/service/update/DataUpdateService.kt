@@ -35,11 +35,7 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     }
 
     override fun onHandleIntent(workIntent: Intent?) {
-        pingHost(PING_URL, {
-            if (it) {
-                doUpdate()
-            }
-        })
+        doUpdate()
     }
 
     private fun doUpdate() {
