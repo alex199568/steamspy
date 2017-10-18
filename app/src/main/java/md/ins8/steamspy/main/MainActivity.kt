@@ -27,6 +27,7 @@ import md.ins8.steamspy.screens.about.AboutFragment
 import md.ins8.steamspy.screens.appslist.AppsListFragment
 import md.ins8.steamspy.screens.appslist.newAppsListFragmentInstance
 import md.ins8.steamspy.screens.home.HomeFragment
+import md.ins8.steamspy.screens.settings.SettingsFragment
 import javax.inject.Inject
 
 enum class ViewEvent {
@@ -51,6 +52,7 @@ enum class NavigationEvent(val titleStrRes: Int) {
     GENRE_EX_EARLY_ACCESS(R.string.titleGenreExEarlyAccess),
     GENRE_MMO(R.string.titleGenreMMO),
     GENRE_FREE(R.string.titleGenreFree),
+    SETTINGS(R.string.navSettings),
     ABOUT(R.string.titleAbout)
 }
 
@@ -62,6 +64,7 @@ interface MainView {
 
     fun switchToHomeFragment()
     fun switchToAboutFragment()
+    fun switchToSettingsFragment()
     fun switchToAppsListFragment(listType: ListType)
     fun switchToAppsListFragment(searchFor: String)
 
@@ -187,6 +190,10 @@ class MainActivity : BaseActivity(), MainView {
                 icon = R.drawable.ic_star_black_24dp
             }
             divider { }
+            primaryItem(R.string.navSettings) {
+                icon = R.drawable.ic_settings_black_24dp
+                onClick { _ -> navigationEventBus.onNext(NavigationEvent.SETTINGS); false }
+            }
             primaryItem(R.string.navigation_about) {
                 icon = R.drawable.ic_info_black_24dp
                 onClick { _ -> navigationEventBus.onNext(NavigationEvent.ABOUT); false }
@@ -210,6 +217,11 @@ class MainActivity : BaseActivity(), MainView {
     override fun switchToAboutFragment() {
         val aboutFragment = AboutFragment()
         replaceFragment(aboutFragment, NavigationEvent.ABOUT.titleStrRes)
+    }
+
+    override fun switchToSettingsFragment() {
+        val settingsFragment = SettingsFragment()
+        replaceFragment(settingsFragment, NavigationEvent.SETTINGS.titleStrRes)
     }
 
     override fun switchToAppsListFragment(listType: ListType) {

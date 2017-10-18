@@ -25,6 +25,7 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
                 NavigationEvent.GENRE_EX_EARLY_ACCESS -> appsList(GenreListTypes.GENRE_EX_EARLY_ACCESS.listType)
                 NavigationEvent.GENRE_MMO -> appsList(GenreListTypes.GENRE_MMO.listType)
                 NavigationEvent.GENRE_FREE -> appsList(GenreListTypes.GENRE_FREE.listType)
+                NavigationEvent.SETTINGS -> settings()
                 NavigationEvent.ABOUT -> about()
             }
         }
@@ -68,7 +69,12 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
     private fun appsList(listType: ListType) {
         mainView.switchToAppsListFragment(listType)
     }
+
     private fun about() {
         mainView.switchToAboutFragment()
+    }
+
+    private fun settings() {
+        mainView.switchToSettingsFragment()
     }
 }

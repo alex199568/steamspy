@@ -9,6 +9,7 @@
 
         <item name="windowActionModeOverlay">true</item>
         <item name="md_content_color">@color/secondaryColor</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="LaunchTheme" parent="AppTheme">
