@@ -40,15 +40,35 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
     }
 
     private fun handleDefaultListType(apps: RealmResults<RealmSteamApp>) {
-        view.showAppsList(apps)
+        if (searchParam.isEmpty()) {
+            if (apps.isEmpty()) {
+                view.showEmptyList(noAppsMessage)
+            } else {
+                view.showAppsList(apps)
+            }
+        } else {
+            if (apps.isEmpty()) {
+                view.showEmptyList(noAppsMessage)
+            } else {
+                view.showAppsList(apps)
+            }
+        }
     }
 
     private fun handleGenreListType(apps: RealmResults<RealmSteamApp>) {
-        view.showGenreAppsList(apps)
+        if (apps.isEmpty()) {
+            view.showEmptyList(noAppsMessage)
+        } else {
+            view.showGenreAppsList(apps)
+        }
     }
 
     private fun handleTopListType(apps: RealmResults<RealmSteamApp>) {
-        view.showTopAppsList(apps)
+        if (apps.isEmpty()) {
+            view.showEmptyList(noAppsMessage)
+        } else {
+            view.showTopAppsList(apps)
+        }
     }
 
     private fun fetchApps() {
