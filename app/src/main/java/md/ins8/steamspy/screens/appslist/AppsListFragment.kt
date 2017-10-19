@@ -11,6 +11,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_apps_list.*
 import md.ins8.steamspy.*
 import timber.log.Timber
@@ -22,7 +23,8 @@ private const val SEARCH_FOR_EXTRA = "SearchForExtra"
 
 
 enum class AppsListViewEvent {
-    VIEW_CREATED
+    VIEW_CREATED,
+    VIEW_DESTROYED
 }
 
 enum class AppsListType(val listTypeId: Int) {
@@ -39,9 +41,9 @@ interface AppsListView {
 
     fun showEmptyList(message: String)
 
-    fun showTopAppsList(apps: List<RawSteamApp>)
-    fun showGenreAppsList(apps: List<RawSteamApp>)
-    fun showAppsList(apps: List<RawSteamApp>)
+    fun showTopAppsList(apps: RealmResults<RealmSteamApp>)
+    fun showGenreAppsList(apps: RealmResults<RealmSteamApp>)
+    fun showAppsList(apps: RealmResults<RealmSteamApp>)
 }
 
 
@@ -54,15 +56,15 @@ open class AppsListFragment : Fragment(), AppsListView {
         get() = context
 
 
-    override fun showTopAppsList(apps: List<RawSteamApp>) {
+    override fun showTopAppsList(apps: RealmResults<RealmSteamApp>) {
         actuallyShowAppsList(apps, TopAppsListViewHolderProvider())
     }
 
-    override fun showGenreAppsList(apps: List<RawSteamApp>) {
+    override fun showGenreAppsList(apps: RealmResults<RealmSteamApp>) {
         actuallyShowAppsList(apps, GenreAppsListViewHolderProvider())
     }
 
-    override fun showAppsList(apps: List<RawSteamApp>) {
+    override fun showAppsList(apps: RealmResults<RealmSteamApp>) {
         actuallyShowAppsList(apps, DefaultAppsListViewHolderProvider())
     }
 
@@ -114,11 +116,16 @@ open class AppsListFragment : Fragment(), AppsListView {
         eventBus.onNext(AppsListViewEvent.VIEW_CREATED)
     }
 
+    override fun onDestroyView() {
+        eventBus.onNext(AppsListViewEvent.VIEW_DESTROYED)
+        super.onDestroyView()
+    }
 
-    private fun actuallyShowAppsList(apps: List<RawSteamApp>,
+
+    private fun actuallyShowAppsList(apps: RealmResults<RealmSteamApp>,
                                      defaultAppsListViewHolderProvider: DefaultAppsListViewHolderProvider) {
         try {
-            val adapter = AppsListAdapter(apps, context, defaultAppsListViewHolderProvider)
+            val adapter = AppsListRealmAdapter(apps, defaultAppsListViewHolderProvider, context)
             adapter.itemClickObservable.subscribe { itemClickObservable.onNext(it) }
 
             appsListRecyclerView.visibility = View.VISIBLE
@@ -127,8 +134,6 @@ open class AppsListFragment : Fragment(), AppsListView {
 
             appsListProgressBar.visibility = View.GONE
             noResultsTextView.visibility = View.GONE
-        } catch (e: IllegalStateException) {
-            Timber.e(e)
         } catch (e: NullPointerException) {
             Timber.e(e)
         }

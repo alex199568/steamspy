@@ -39,7 +39,8 @@ open class RealmSteamApp(
         var median2Weeks: Int,
         var ccu: Int,
         var price: String,
-        var tags: RealmList<RealmTag> = RealmList()
+        var tags: RealmList<RealmTag> = RealmList(),
+        var listTypeIds: RealmList<RealmListTypeId> = RealmList()
 ) : RealmObject() {
     constructor(steamApp: RawSteamApp) : this(
             id = steamApp.id,
@@ -82,25 +83,19 @@ open class RealmSteamApp(
     )
 }
 
-open class RealmAppId(var appId: Long) : RealmObject() {
-    constructor() : this(0)
-}
-
-open class RealmAppsList(
-        var apps: RealmList<RealmAppId> = RealmList(),
-        var listTypeId: Int = 0
-) : RealmObject()
+open class RealmListTypeId(var listTypeId: Int = -1) : RealmObject()
 
 
 fun storeAppsList(appsResponse: SteamAppsResponse, listTypeId: Int) {
     val realm = Realm.getDefaultInstance()
+    var query = realm.where(RealmSteamApp::class.java)
+    appsResponse.apps.forEach { query = query.equalTo("id", it.id).or() }
+    val results = query.findAll()
     realm.executeTransaction {
-        val list = RealmAppsList()
-        appsResponse.apps.forEach {
-            list.apps.add(RealmAppId(it.id))
+        results.forEach {
+            it.listTypeIds.add(RealmListTypeId(listTypeId))
+            realm.copyToRealmOrUpdate(it)
         }
-        list.listTypeId = listTypeId
-        realm.copyToRealm(list)
     }
     realm.close()
 }
@@ -124,44 +119,20 @@ fun deleteAllApps() {
 fun deleteAppsList(listTypeId: Int) {
     val realm = Realm.getDefaultInstance()
     realm.executeTransaction {
-        realm.where(RealmAppsList::class.java).equalTo("listTypeId", listTypeId).findAll().deleteAllFromRealm()
+        realm.where(RealmSteamApp::class.java).equalTo("listTypeIds.listTypeId", listTypeId).findAll().forEach {
+            it.listTypeIds.remove(RealmListTypeId(listTypeId))
+            realm.copyToRealmOrUpdate(it)
+        }
     }
     realm.close()
 }
 
 
-fun loadAllApps(): List<RawSteamApp> {
-    val realm = Realm.getDefaultInstance()
-    val result = realm.where(RealmSteamApp::class.java)?.findAll()!!
-    val ret = result.mapToRaw()
-    realm.close()
-    return ret
-}
+fun loadAllApps(realm: Realm): RealmResults<RealmSteamApp> = realm.where(RealmSteamApp::class.java)?.findAll()!!
 
-fun loadAppsForName(name: String): List<RawSteamApp> {
-    val realm = Realm.getDefaultInstance()
-    val result = realm.where(RealmSteamApp::class.java).contains("name", name, Case.INSENSITIVE).findAll()
-    val ret = result.mapToRaw()
-    realm.close()
-    return ret
-}
+fun loadAppsForName(realm: Realm, name: String): RealmResults<RealmSteamApp> =
+        realm.where(RealmSteamApp::class.java).contains("name", name, Case.INSENSITIVE).findAll()
 
-fun loadAppsList(listTypeId: Int): List<RawSteamApp> {
-    val realm = Realm.getDefaultInstance()
-    val result = realm.where(RealmAppsList::class.java).equalTo("listTypeId", listTypeId).findFirst()
-    val ids = mutableListOf<Long>()
-    result.apps.mapTo(ids, { it.appId })
-    val apps = realm.where(RealmSteamApp::class.java).findAll().filter {
-        ids.contains(it.id)
-    }
-    val ret = mutableListOf<RawSteamApp>()
-    apps.mapTo(ret, { RawSteamApp(it) })
-    realm.close()
-    return ret
-}
+fun loadAppsList(realm: Realm, listTypeId: Int): RealmResults<RealmSteamApp> =
+        realm.where(RealmSteamApp::class.java).equalTo("listTypeIds.listTypeId", listTypeId).findAll()
 
-private fun RealmResults<RealmSteamApp>.mapToRaw(): List<RawSteamApp> {
-    val ret = mutableListOf<RawSteamApp>()
-    mapTo(ret, { RawSteamApp(it) })
-    return ret
-}

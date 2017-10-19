@@ -99,6 +99,7 @@ dependencies {
     compile 'com.afollestad:material-cab:0.1.12'
     compile 'com.afollestad.material-dialogs:core:0.9.4.5'
     compile 'me.gujun.android.taggroup:library:1.4@aar'
+    compile 'io.realm:android-adapters:2.1.0'
 
     // Crashlytics
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {

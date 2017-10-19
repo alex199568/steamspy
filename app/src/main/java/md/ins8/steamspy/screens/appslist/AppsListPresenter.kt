@@ -1,9 +1,11 @@
 package md.ins8.steamspy.screens.appslist
 
 import android.content.Context
+import io.realm.RealmResults
 import md.ins8.steamspy.R
-import md.ins8.steamspy.RawSteamApp
+import md.ins8.steamspy.RealmSteamApp
 import md.ins8.steamspy.details.startAppDetailsActivity
+import timber.log.Timber
 
 class AppsListPresenter(private val model: AppsListModel, private val view: AppsListView,
                         private val context: Context,
@@ -12,24 +14,32 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
     private val noAppsMessage = context.getString(R.string.noAppsMessage)
 
     init {
+        model.start()
+
         view.eventBus.subscribe {
             when (it) {
-                AppsListViewEvent.VIEW_CREATED -> onViewCreated()
+                AppsListViewEvent.VIEW_CREATED -> {
+                    fetchApps()
+                }
+                AppsListViewEvent.VIEW_DESTROYED -> model.end()
             }
         }
 
         view.itemClickObservable.subscribe { startAppDetailsActivity(view.appsListContext, it) }
 
-        model.appsObservable.subscribe {
+        model.appsObservable.subscribe({
             when (listType) {
                 AppsListType.DEFAULT.listTypeId -> handleDefaultListType(it)
                 AppsListType.GENRE.listTypeId -> handleGenreListType(it)
                 AppsListType.TOP.listTypeId -> handleTopListType(it)
             }
-        }
+        }, {
+            Timber.e(it)
+            view.showEmptyList(noAppsMessage)
+        })
     }
 
-    private fun handleDefaultListType(apps: List<RawSteamApp>) {
+    private fun handleDefaultListType(apps: RealmResults<RealmSteamApp>) {
         if (searchParam.isEmpty()) {
             if (apps.isEmpty()) {
                 view.showEmptyList(noAppsMessage)
@@ -45,7 +55,7 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
         }
     }
 
-    private fun handleGenreListType(apps: List<RawSteamApp>) {
+    private fun handleGenreListType(apps: RealmResults<RealmSteamApp>) {
         if (apps.isEmpty()) {
             view.showEmptyList(noAppsMessage)
         } else {
@@ -53,7 +63,7 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
         }
     }
 
-    private fun handleTopListType(apps: List<RawSteamApp>) {
+    private fun handleTopListType(apps: RealmResults<RealmSteamApp>) {
         if (apps.isEmpty()) {
             view.showEmptyList(noAppsMessage)
         } else {
@@ -61,7 +71,7 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
         }
     }
 
-    private fun onViewCreated() {
+    private fun fetchApps() {
         if (listType == AppsListType.GENRE.listTypeId || listType == AppsListType.TOP.listTypeId) {
             model.fetchAppsList(listTypeId)
         } else if (!searchParam.isEmpty()) {
