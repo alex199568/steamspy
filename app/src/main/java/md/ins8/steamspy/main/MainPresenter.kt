@@ -1,6 +1,9 @@
 package md.ins8.steamspy.main
 
-import md.ins8.steamspy.*
+import md.ins8.steamspy.GenreListTypes
+import md.ins8.steamspy.ListType
+import md.ins8.steamspy.ListTypes
+import md.ins8.steamspy.TopListTypes
 
 
 class MainPresenter(private val mainView: MainView, private val mainModel: MainModel) {
@@ -33,13 +36,7 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         mainView.eventBus.subscribe {
             when (it) {
                 ViewEvent.ACTION_UPDATE_DATA -> {
-                    pingHost(PING_URL, {
-                        if (it) {
-                            mainModel.updateData()
-                        } else {
-                            mainView.showHostUnavailableDialog()
-                        }
-                    }, true)
+                    mainModel.updateData()
                 }
                 ViewEvent.ACTION_SEARCH -> {
                     mainView.showInputDialog()
