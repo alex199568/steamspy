@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="automatic_data_update"
-        android:summary="@string/preferenceAutomaticDataUpdateDescription"
-        android:title="@string/preferenceAutomaticDataUpdateTitle"/>
+    <PreferenceCategory
+        android:key="automatic_data_update_category"
+        android:title="Automatic Data Update"
+        >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="automatic_data_update"
+            android:summary="@string/preferenceAutomaticDataUpdateDescription"
+            android:title="@string/preferenceAutomaticDataUpdateTitle"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:enabled="false"
+            android:key="automatic_data_update_on_mobile_data"
+            android:summary="Update data automatically even when on mobile data"
+            android:title="Mobile data"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:enabled="false"
+            android:key="automatic_data_update_on_low_battery"
+            android:summary="Update data automatically even when battery is low"
+            android:title="Low battery"
+            />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:enabled="false"
+            android:key="automatic_data_update_on_slow_connectivity"
+            android:summary="Update data automatically even when connectivity is slow"
+            android:title="Slow connectivity"
+            />
+    </PreferenceCategory>
+
 
 </PreferenceScreen>

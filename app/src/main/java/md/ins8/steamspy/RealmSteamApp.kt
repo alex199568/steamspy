@@ -3,6 +3,8 @@ package md.ins8.steamspy
 import io.realm.*
 import io.realm.annotations.PrimaryKey
 
+data class SteamAppsResponse(val apps: List<RealmSteamApp>)
+
 open class RealmDev(var name: String) : RealmObject() {
     constructor() : this("")
 }
@@ -103,7 +105,7 @@ fun storeAppsList(appsResponse: SteamAppsResponse, listTypeId: Int) {
 fun storeAll(appsResponse: SteamAppsResponse) {
     val realm = Realm.getDefaultInstance()
     realm.executeTransaction {
-        appsResponse.toRealm().forEach { realm.copyToRealm(it) }
+        appsResponse.apps.forEach { realm.copyToRealm(it) }
     }
     realm.close()
 }

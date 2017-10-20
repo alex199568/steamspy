@@ -121,8 +121,8 @@
 
     <string name="lastDataUpdate">Last Data Update: </string>
     <string name="dataHasNeverBeenUpdated">data has not been updated yet</string>
-    <string name="preferenceAutomaticDataUpdateTitle">Automatic Data Update</string>
-    <string name="preferenceAutomaticDataUpdateDescription">automatic data update will be done every night</string>
+    <string name="preferenceAutomaticDataUpdateTitle">Enable</string>
+    <string name="preferenceAutomaticDataUpdateDescription">Automatic data update will be done every night</string>
 
     <string name="navSettings">Settings</string>
 

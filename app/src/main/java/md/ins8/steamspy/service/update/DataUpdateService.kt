@@ -22,6 +22,8 @@ const val LAST_UPDATE_TIME_KEY = "LastUpdateTimeKey"
 class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     @Inject
     lateinit var steamAppsAPIService: SteamSpyAPIService
+    @Inject
+    lateinit var autoUpdateChecker: AutoUpdateConditionsChecker
 
     private lateinit var notificationManager: NotificationManager
     private lateinit var notificationBuilder: NotificationCompat.Builder
@@ -35,7 +37,9 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     }
 
     override fun onHandleIntent(workIntent: Intent?) {
-        doUpdate()
+        if (autoUpdateChecker.check()) {
+            doUpdate()
+        }
     }
 
     private fun doUpdate() {

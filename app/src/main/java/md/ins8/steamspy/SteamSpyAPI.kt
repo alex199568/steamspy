@@ -9,6 +9,7 @@ import com.google.gson.stream.JsonWriter
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Observable
+import io.realm.RealmList
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -49,7 +50,7 @@ enum class ResponseField(val fieldName: String) {
 
 interface SteamSpyAPIService {
     @GET("api.php?")
-    fun requestSteamApp(@Query("request") request: String = "appdetails", @Query("appid") appId: Long): Observable<RawSteamApp>
+    fun requestSteamApp(@Query("request") request: String = "appdetails", @Query("appid") appId: Long): Observable<RealmSteamApp>
 
     @GET("api.php?")
     fun requestGenre(@Query("request") request: String = "genre", @Query("genre", encoded = true) genre: String): Observable<SteamAppsResponse>
@@ -97,18 +98,18 @@ class SteamSpyAPIModule {
     @AppScope
     @Provides
     fun provideGson(): Gson {
-        val tokenRawSteamApp = object : TypeToken<RawSteamApp>() {}
+        val tokenRealmSteamApp = object : TypeToken<RealmSteamApp>() {}
         val tokenSteamAppsResponse = object : TypeToken<SteamAppsResponse>() {}
         return GsonBuilder()
-                .registerTypeAdapter(tokenRawSteamApp.type, object : TypeAdapter<RawSteamApp>() {
+                .registerTypeAdapter(tokenRealmSteamApp.type, object : TypeAdapter<RealmSteamApp>() {
 
                     @Throws(IOException::class)
-                    override fun write(out: JsonWriter, value: RawSteamApp) {
+                    override fun write(out: JsonWriter, value: RealmSteamApp) {
                         //no-op
                     }
 
                     @Throws(IOException::class)
-                    override fun read(`in`: JsonReader): RawSteamApp {
+                    override fun read(`in`: JsonReader): RealmSteamApp {
                         `in`.beginObject()
                         val steamApp = `in`.extractRawSteamApp()
                         `in`.endObject()
@@ -123,7 +124,7 @@ class SteamSpyAPIModule {
 
                     override fun read(`in`: JsonReader): SteamAppsResponse {
                         `in`.beginObject()
-                        val apps: MutableList<RawSteamApp> = mutableListOf()
+                        val apps = RealmList<RealmSteamApp>()
                         while (`in`.hasNext()) {
                             `in`.nextName()
                             `in`.beginObject()
@@ -138,32 +139,44 @@ class SteamSpyAPIModule {
     }
 }
 
-fun JsonReader.extractRawSteamApp(): RawSteamApp {
-    val steamApp = RawSteamApp()
+fun JsonReader.extractRawSteamApp(): RealmSteamApp {
+    val steamApp = RealmSteamApp()
     while (hasNext()) {
         val name = nextName()
         when (name) {
-            ResponseField.APP_ID.fieldName -> steamApp.id = nextLong()
-            ResponseField.NAME.fieldName -> steamApp.name = nextString()
-            ResponseField.AVERAGE.fieldName -> steamApp.averageTotal = nextInt()
-            ResponseField.AVERAGE_2_WEEKS.fieldName -> steamApp.average2Weeks = nextInt()
-            ResponseField.CCU.fieldName -> steamApp.ccu = nextInt()
-            ResponseField.MEDIAN.fieldName -> steamApp.medianTotal = nextInt()
-            ResponseField.MEDIAN_2_WEEKS.fieldName -> steamApp.median2Weeks = nextInt()
-            ResponseField.NUM_OWNERS.fieldName -> steamApp.numOwners = nextInt()
-            ResponseField.NUM_PLAYERS.fieldName -> steamApp.playersTotal = nextInt()
-            ResponseField.NUM_PLAYERS_2_WEEKS.fieldName -> steamApp.players2Weeks = nextInt()
-            ResponseField.OWNERS_VARIANCE.fieldName -> steamApp.ownersVariance = nextInt()
-            ResponseField.PLAYERS_VARIANCE.fieldName -> steamApp.playersTotalVariance = nextInt()
-            ResponseField.PLAYERS_2_WEEKS_VARIANCE.fieldName -> steamApp.players2WeeksVariance = nextInt()
+            ResponseField.APP_ID.fieldName -> steamApp.id = safeNextLong()
+            ResponseField.NAME.fieldName -> steamApp.name = safeNextString()
+            ResponseField.AVERAGE.fieldName -> steamApp.averageTotal = safeNextInt()
+            ResponseField.AVERAGE_2_WEEKS.fieldName -> steamApp.average2Weeks = safeNextInt()
+            ResponseField.CCU.fieldName -> steamApp.ccu = safeNextInt()
+            ResponseField.MEDIAN.fieldName -> steamApp.medianTotal = safeNextInt()
+            ResponseField.MEDIAN_2_WEEKS.fieldName -> steamApp.median2Weeks = safeNextInt()
+            ResponseField.NUM_OWNERS.fieldName -> steamApp.numOwners = safeNextInt()
+            ResponseField.NUM_PLAYERS.fieldName -> steamApp.playersTotal = safeNextInt()
+            ResponseField.NUM_PLAYERS_2_WEEKS.fieldName -> steamApp.players2Weeks = safeNextInt()
+            ResponseField.OWNERS_VARIANCE.fieldName -> steamApp.ownersVariance = safeNextInt()
+            ResponseField.PLAYERS_VARIANCE.fieldName -> steamApp.playersTotalVariance = safeNextInt()
+            ResponseField.PLAYERS_2_WEEKS_VARIANCE.fieldName -> steamApp.players2WeeksVariance = safeNextInt()
             ResponseField.SCORE.fieldName -> steamApp.rank = safeNextInt()
-            ResponseField.DEV.fieldName -> steamApp.dev = splitNextString()
-            ResponseField.PUB.fieldName -> steamApp.pub = splitNextString()
+            ResponseField.DEV.fieldName -> steamApp.dev = extractDevs()
+            ResponseField.PUB.fieldName -> steamApp.pub = extractPubs()
             ResponseField.TAGS.fieldName -> steamApp.tags = extractTags()
             ResponseField.PRICE.fieldName -> steamApp.price = safeNextString()
         }
     }
     return steamApp
+}
+
+fun JsonReader.extractDevs(): RealmList<RealmDev> {
+    val devs = RealmList<RealmDev>()
+    val raw = splitNextString()
+    return raw.mapTo(devs, { RealmDev(it) })
+}
+
+fun JsonReader.extractPubs(): RealmList<RealmPub> {
+    val pubs = RealmList<RealmPub>()
+    val raw = splitNextString()
+    return raw.mapTo(pubs, { RealmPub(it) })
 }
 
 fun JsonReader.splitNextString(): MutableList<String> {
@@ -174,36 +187,39 @@ fun JsonReader.splitNextString(): MutableList<String> {
     return treamed
 }
 
-fun JsonReader.extractTags(): MutableList<Tag> {
+fun JsonReader.extractTags(): RealmList<RealmTag> {
     return try {
         beginObject()
-        val tags: MutableList<Tag> = mutableListOf()
+        val tags = RealmList<RealmTag>()
         while (hasNext()) {
-            tags.add(Tag(nextName(), nextInt()))
+            tags.add(RealmTag(nextName(), nextInt()))
         }
         endObject()
         tags
     } catch (e: IllegalStateException) {
         beginArray()
         endArray()
-        mutableListOf()
+        RealmList()
     }
 }
 
-fun JsonReader.safeNextInt(): Int {
-    return try {
-        nextInt()
-    } catch (e: NumberFormatException) {
-        nextString()
-        -1
-    }
+fun JsonReader.safeNextInt(): Int = try {
+    nextInt()
+} catch (e: NumberFormatException) {
+    nextString()
+    -1
 }
 
-fun JsonReader.safeNextString(): String {
-    return try {
-        nextString()
-    } catch (e: IllegalStateException) {
-        nextNull()
-        ""
-    }
+fun JsonReader.safeNextString(): String = try {
+    nextString()
+} catch (e: IllegalStateException) {
+    nextNull()
+    ""
+}
+
+fun JsonReader.safeNextLong(): Long = try {
+    nextLong()
+} catch (e: NumberFormatException) {
+    nextString()
+    -1
 }
