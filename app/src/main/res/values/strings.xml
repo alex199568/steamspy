@@ -96,7 +96,7 @@
     <string name="prefAutoUpdateLowBatteryTitle">Low Battery</string>
     <string name="prefAutoUpdateLowBatterySummary">Update data automatically even when low on battery</string>
     <string name="prefAutoUpdateSlowConnectionTitle">Slow Connectivity</string>
-    <string name="prefAutoUpdateSlotConnectionSummary">Update data automatically even when connection is slow</string>
+    <string name="prefAutoUpdateSlowConnectionSummary">Update data automatically even when connection is slow</string>
 
     <string name="navSettings">Settings</string>
     <string name="mobileDataUpdateWarningTitle">Update Using Mobile Data</string>

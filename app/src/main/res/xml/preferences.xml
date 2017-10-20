@@ -13,23 +13,21 @@
             android:defaultValue="false"
             android:enabled="false"
             android:key="automatic_data_update_on_mobile_data"
-            android:summary="Update data automatically even when on mobile data"
-            android:title="Mobile data"/>
+            android:summary="@string/prefAutoUpdateMobileDataSummary"
+            android:title="@string/prefAutoUpdateMobileDataTitle"/>
         <CheckBoxPreference
             android:defaultValue="false"
             android:enabled="false"
             android:key="automatic_data_update_on_low_battery"
-            android:summary="Update data automatically even when battery is low"
-            android:title="Low battery"
+            android:summary="@string/prefAutoUpdateLowBatterySummary"
+            android:title="@string/prefAutoUpdateLowBatteryTitle"
             />
         <CheckBoxPreference
             android:defaultValue="false"
             android:enabled="false"
             android:key="automatic_data_update_on_slow_connectivity"
-            android:summary="Update data automatically even when connectivity is slow"
-            android:title="Slow connectivity"
+            android:summary="@string/prefAutoUpdateSlowConnectionSummary"
+            android:title="@string/prefAutoUpdateSlowConnectionTitle"
             />
     </PreferenceCategory>
-
-
 </PreferenceScreen>
