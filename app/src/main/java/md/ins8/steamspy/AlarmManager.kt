@@ -8,6 +8,7 @@ import android.content.Intent
 import android.preference.PreferenceManager
 import md.ins8.steamspy.screens.settings.AUTOMATIC_UPDATE_PREFERENCE_KEY
 import md.ins8.steamspy.service.update.DataUpdateService
+import md.ins8.steamspy.service.update.TO_CHECK_PARAM_EXTRA
 import java.util.*
 
 private const val BOOT_COMPLETED_NAME = "android.intent.action.BOOT_COMPLETED"
@@ -22,7 +23,9 @@ interface AbstractAlarmManager {
 class DataUpdateAlarmManager(private val context: Context) : AbstractAlarmManager {
     private val pendingIntent: PendingIntent
     private val alarmManager: AlarmManager
-    private val dataIntent: Intent = Intent(context, DataUpdateService::class.java)
+    private val dataIntent: Intent = Intent(context, DataUpdateService::class.java).apply {
+        putExtra(TO_CHECK_PARAM_EXTRA, true)
+    }
 
     override val alreadySetup: Boolean
         get() = PendingIntent.getService(context, 0, dataIntent, PendingIntent.FLAG_NO_CREATE) == null

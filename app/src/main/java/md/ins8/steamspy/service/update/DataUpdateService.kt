@@ -18,6 +18,7 @@ private const val NOTIFICATION_ID = 1
 private const val INTENT_SERVICE_NAME = "DataUpdateIntentService"
 
 const val LAST_UPDATE_TIME_KEY = "LastUpdateTimeKey"
+const val TO_CHECK_PARAM_EXTRA = "ToCheckParamExtra"
 
 class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     @Inject
@@ -28,6 +29,7 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     private lateinit var notificationManager: NotificationManager
     private lateinit var notificationBuilder: NotificationCompat.Builder
 
+    private var toCheck = false
 
     override fun onCreate() {
         super.onCreate()
@@ -36,8 +38,15 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
         setupNotifications()
     }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent != null) {
+            toCheck = intent.getBooleanExtra(TO_CHECK_PARAM_EXTRA, false)
+        }
+        return super.onStartCommand(intent, flags, startId)
+    }
+
     override fun onHandleIntent(workIntent: Intent?) {
-        if (autoUpdateChecker.check()) {
+        if (!toCheck || autoUpdateChecker.check()) {
             doUpdate()
         }
     }
