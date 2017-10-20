@@ -125,5 +125,9 @@
     <string name="preferenceAutomaticDataUpdateDescription">Automatic data update will be done every night</string>
 
     <string name="navSettings">Settings</string>
+    <string name="mobileDataUpdateWarningTitle">Update Using Mobile Data</string>
+    <string name="mobileDataWarningContent">It seems like you are not connected to a wifi. The data update will use ~20MB. Are you sure you want to proceed?</string>
+    <string name="mobileDataUpdateConfirm">Yes</string>
+    <string name="mobileDataUpdateCancel">No</string>
 
 </resources>

@@ -26,7 +26,7 @@ class MainModule(private val activity: MainActivity) {
     @MainScope
     @Provides
     fun mainPresenter(mainView: MainView, mainModel: MainModel): MainPresenter =
-            MainPresenter(mainView, mainModel)
+            MainPresenter(mainView, mainModel, activity)
 
     @MainScope
     @Provides

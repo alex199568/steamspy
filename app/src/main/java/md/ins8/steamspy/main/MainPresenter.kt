@@ -1,12 +1,10 @@
 package md.ins8.steamspy.main
 
-import md.ins8.steamspy.GenreListTypes
-import md.ins8.steamspy.ListType
-import md.ins8.steamspy.ListTypes
-import md.ins8.steamspy.TopListTypes
+import android.content.Context
+import md.ins8.steamspy.*
 
 
-class MainPresenter(private val mainView: MainView, private val mainModel: MainModel) {
+class MainPresenter(private val mainView: MainView, private val mainModel: MainModel, private val context: Context) {
     private var lastSearchInput = ""
 
     init {
@@ -36,7 +34,11 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         mainView.eventBus.subscribe {
             when (it) {
                 ViewEvent.ACTION_UPDATE_DATA -> {
-                    mainModel.updateData()
+                    if (!onWifi(context)) {
+                        mainView.confirmUpdate()
+                    } else {
+                        mainModel.updateData()
+                    }
                 }
                 ViewEvent.ACTION_SEARCH -> {
                     mainView.showInputDialog()
@@ -47,6 +49,7 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
                         }
                     }
                 }
+                ViewEvent.UPDATE_CONFIRMED -> mainModel.updateData()
             }
         }
 

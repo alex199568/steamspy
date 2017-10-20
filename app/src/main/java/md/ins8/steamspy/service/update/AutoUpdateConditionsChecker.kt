@@ -4,11 +4,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.preference.PreferenceManager
 import com.facebook.network.connectionclass.ConnectionClassManager
 import com.facebook.network.connectionclass.ConnectionQuality
+import md.ins8.steamspy.onWifi
 import md.ins8.steamspy.screens.settings.AUTOMATIC_UPDATE_LOW_BATTERY
 import md.ins8.steamspy.screens.settings.AUTOMATIC_UPDATE_MOBILE_DATA_KEY
 import md.ins8.steamspy.screens.settings.AUTOMATIC_UPDATE_PREFERENCE_KEY
@@ -35,7 +35,7 @@ class AutoUpdateConditionsChecker(val context: Context) {
         if (!checkAutoUpdateEnabled()) {
             return false
         }
-        if (!onWifi()) {
+        if (!onWifi(context)) {
             if (!checkUpdateMobileData()) {
                 return false
             }
@@ -65,10 +65,6 @@ class AutoUpdateConditionsChecker(val context: Context) {
     private fun checkUpdateSlowConnectivity(): Boolean =
             prefs.getBoolean(AUTOMATIC_UPDATE_SLOW_CONNECTIVITY, false)
 
-    private fun onWifi(): Boolean {
-        val wifi = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        return wifi.isWifiEnabled
-    }
 
     private fun connectionIsSlow(): Boolean {
         val cq = ConnectionClassManager.getInstance().currentBandwidthQuality

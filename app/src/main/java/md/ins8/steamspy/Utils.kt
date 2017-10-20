@@ -1,6 +1,7 @@
 package md.ins8.steamspy
 
 import android.content.Context
+import android.net.wifi.WifiManager
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,4 +22,9 @@ fun retrieveCurrentTime(): String {
     val currentDate = Date()
     val format = DateFormat.getDateTimeInstance()
     return format.format(currentDate)
+}
+
+fun onWifi(context: Context): Boolean {
+    val wifi = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    return wifi.isWifiEnabled
 }

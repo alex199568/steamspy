@@ -32,7 +32,8 @@ import javax.inject.Inject
 
 enum class ViewEvent {
     ACTION_UPDATE_DATA,
-    ACTION_SEARCH
+    ACTION_SEARCH,
+    UPDATE_CONFIRMED
 }
 
 enum class NavigationEvent(val titleStrRes: Int) {
@@ -70,6 +71,7 @@ interface MainView {
 
     fun refreshListFragment()
     fun showInputDialog()
+    fun confirmUpdate()
 }
 
 
@@ -248,6 +250,16 @@ class MainActivity : BaseActivity(), MainView {
                 .input(getString(R.string.searchDialogInputHint), "", { _, result -> inputEvents.onNext(result.toString()) })
                 .positiveText(R.string.searchDialogSubmitAction)
                 .negativeText(R.string.searchDialogCancelAction)
+                .show()
+    }
+
+    override fun confirmUpdate() {
+        MaterialDialog.Builder(this)
+                .title(getString(R.string.mobileDataUpdateWarningTitle))
+                .content(getString(R.string.mobileDataWarningContent))
+                .positiveText(getString(R.string.mobileDataUpdateConfirm))
+                .negativeText(getString(R.string.mobileDataUpdateCancel))
+                .onPositive { _, _ -> eventBus.onNext(ViewEvent.UPDATE_CONFIRMED) }
                 .show()
     }
 
