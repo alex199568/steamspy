@@ -40,46 +40,14 @@
     <string name="titleGenreExEarlyAccess">Genre: Ex Early Access</string>
     <string name="titleGenreMMO">Genre: MMO</string>
     <string name="titleGenreFree">Genre: Free</string>
-    <string name="capsuleContentDescription">App Thumbnail</string>
+    <string name="capsuleContentDescription" translatable="false">App Thumbnail</string>
     <string name="updateData">Update Data</string>
 
-    <string name="downloadingAll">Downloading all apps</string>
-    <string name="downloadingTop2Weeks">Downloading top for 2 weeks</string>
-    <string name="downloadingTopOwned">Downloading top owned apps</string>
-    <string name="downloadingTopTotal">Downloading all time top</string>
-    <string name="downloadingGenreAction">Downloading action games</string>
-    <string name="downloadingGenreStrategy">Downloading strategy games</string>
-    <string name="downloadingGenreRPG">Downloading RPG games</string>
-    <string name="downloadingGenreAdventure">Downloading Adventure games</string>
-    <string name="downloadingGenreIndie">Downloading Indie games</string>
-    <string name="downloadingGenreSports">Downloading sports games</string>
-    <string name="downloadingGenreSimulation">Downloading simulation games</string>
-    <string name="downloadingGenreEarlyAccess">Downloading Early Access games</string>
-    <string name="downloadingGenreExEarlyAccess">Downloading Ex Early Access games</string>
-    <string name="downloadingGenreMmo">Downloading MMO games</string>
-    <string name="downloadingGenreFree">Downloading Free games</string>
-
-    <string name="updatingAll">Updating all apps</string>
-    <string name="updatingTop2Weeks">Updating top for 2 weeks</string>
-    <string name="updatingTopOwned">Updating top owned apps</string>
-    <string name="updatingTopTotal">Updating all time top</string>
-    <string name="updatingGenreAction">Updating action games</string>
-    <string name="updatingGenreStrategy">Updating strategy games</string>
-    <string name="updatingGenreRPG">Updating RPG games</string>
-    <string name="updatingGenreIndie">Updating Indie games</string>
-    <string name="updatingGenreAdventure">Updating Adventure games</string>
-    <string name="updatingGenreSports">Updating sports games</string>
-    <string name="updatingGenreSimulation">Updating simulation games</string>
-    <string name="updatingGenreEarlyAccess">Updating Early Access games</string>
-    <string name="updatingGenreExEarlyAccess">Updating Ex Early Access games</string>
-    <string name="updatingGenreMmo">Updating MMO games</string>
-    <string name="updatingGenreFree">Updating Free games</string>
-
-    <string name="notificationChannelName">SteamSpy</string>
-    <string name="notificationChannelDescription">SteamSpy Notification Channel</string>
-    <string name="notificationDataUpdateTitle">SteamSpy: Data Update</string>
+    <string name="notificationChannelName">SteamSpyglass</string>
+    <string name="notificationChannelDescription">SteamSpyglass Notification Channel</string>
+    <string name="notificationDataUpdateTitle">SteamSpyglass: Data Update</string>
     <string name="dataUpdateNotificationText">Updating Steam Apps Data</string>
-    <string name="steamAppImageContentDescription">Steam App Image</string>
+    <string name="steamAppImageContentDescription" translatable="false">Steam App Image</string>
     <string name="developers">Developers</string>
     <string name="publishers">Publishers</string>
     <string name="price">Price</string>
@@ -93,12 +61,12 @@
     <string name="totalPlayers">Total Players</string>
     <string name="players2Weeks">Players 2 Weeks</string>
 
-    <string name="sharedPreferencesFileKey">shared_preferences_file</string>
-    <string name="splashScreenLogo">Steam Spyglass Logo</string>
-    <string name="aboutTempMessage">About, coming soon</string>
-    <string name="homeScreenTempMessage">Home Screen, Coming Soon</string>
-    <string name="notificationsTempMessage">Notifications Screen, Coming Soon</string>
-    <string name="settingsTempMessage">Settings Screen, Coming Soon</string>
+    <string name="sharedPreferencesFileKey" translatable="false">shared_preferences_file</string>
+    <string name="splashScreenLogo" translatable="false">Steam Spyglass Logo</string>
+    <string name="aboutTempMessage" translatable="false">About, coming soon</string>
+    <string name="homeScreenTempMessage" translatable="false">Home Screen, Coming Soon</string>
+    <string name="notificationsTempMessage" translatable="false">Notifications Screen, Coming Soon</string>
+    <string name="settingsTempMessage" translatable="false">Settings Screen, Coming Soon</string>
 
     <string name="appDetailsViewPagerInfo">Info</string>
     <string name="appDetailsViewPagerTags">Tags</string>
@@ -113,9 +81,9 @@
     <string name="poweredBy">Powered by www.steamspy.com</string>
     <string name="viewSource">View source: https://github.com/alex199568/steamspy</string>
     <string name="contactMe">Contact me sasha.199568@gmail.com</string>
-    <string name="hostUnreachableErrorMessage">is unrechable</string>
+    <string name="hostUnreachableErrorMessage" translatable="false">is unrechable</string>
     <string name="networkErrorTitle">Network Error</string>
-    <string name="dialogDismissDefault">Ok</string>
+    <string name="dialogDismissDefault" translatable="false">Ok</string>
     <string name="noSearchResultsMessage">There are no apps which match the name</string>
     <string name="noAppsMessage">No apps to show, try to update data</string>
 
@@ -123,11 +91,18 @@
     <string name="dataHasNeverBeenUpdated">data has not been updated yet</string>
     <string name="preferenceAutomaticDataUpdateTitle">Enable</string>
     <string name="preferenceAutomaticDataUpdateDescription">Automatic data update will be done every night</string>
+    <string name="prefAutoUpdateMobileDataTitle">Mobile Data</string>
+    <string name="prefAutoUpdateMobileDataSummary">Update data automatically even when on mobile data</string>
+    <string name="prefAutoUpdateLowBatteryTitle">Low Battery</string>
+    <string name="prefAutoUpdateLowBatterySummary">Update data automatically even when low on battery</string>
+    <string name="prefAutoUpdateSlowConnectionTitle">Slow Connectivity</string>
+    <string name="prefAutoUpdateSlotConnectionSummary">Update data automatically even when connection is slow</string>
 
     <string name="navSettings">Settings</string>
     <string name="mobileDataUpdateWarningTitle">Update Using Mobile Data</string>
     <string name="mobileDataWarningContent">It seems like you are not connected to a wifi. The data update will use ~20MB. Are you sure you want to proceed?</string>
     <string name="mobileDataUpdateConfirm">Yes</string>
     <string name="mobileDataUpdateCancel">No</string>
+    <string name="appDetailsTitle">App Details</string>
 
 </resources>

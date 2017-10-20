@@ -140,6 +140,6 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     private fun saveUpdateTime() {
         val sharedPrefs = getSharedPreferences(getString(R.string.sharedPreferencesFileKey), Context.MODE_PRIVATE)
         val currentTime = retrieveCurrentTime()
-        sharedPrefs.edit().putString(LAST_UPDATE_TIME_KEY, currentTime).apply()
+        sharedPrefs.edit().putLong(LAST_UPDATE_TIME_KEY, currentTime).apply()
     }
 }

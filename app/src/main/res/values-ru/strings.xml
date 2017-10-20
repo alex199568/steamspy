@@ -1,0 +1,100 @@
+<resources>
+    <string name="navigation_home">Главная</string>
+    <string name="navigation_all">Все</string>
+    <string name="navigation_top">Топ</string>
+    <string name="navigation_genre">Жанр</string>
+    <string name="navigation_about">О приложении</string>
+    <string name="navTop2Weeks">2 недели</string>
+    <string name="navTopOwned">В собственности</string>
+    <string name="navTopTotal">Всего</string>
+    <string name="navGenreAction">Экшен</string>
+    <string name="navGenreStrategy">Стратегия</string>
+    <string name="navGenreRPG">РПГ</string>
+    <string name="navGenreIndie">Инди</string>
+    <string name="navGenreAdventure">Приключения</string>
+    <string name="navGenreSports">Спорт</string>
+    <string name="navGenreSimulation">Симулятор</string>
+    <string name="navGenreEarlyAccess">Ранний доступ</string>
+    <string name="navGenreExEarlyAccess">В прошлом в раннем доступе</string>
+    <string name="navGenreMMO">ММО</string>
+    <string name="navGenreFree">Бесплатные</string>
+
+    <string name="titleHome">Главная</string>
+    <string name="titleAll">Все приложения</string>
+    <string name="titleNotifications">Уведомления</string>
+    <string name="titleSettings">Настройки</string>
+    <string name="titleAbout">О приложении</string>
+    <string name="titleTop2Weeks">Топ: 2 недели</string>
+    <string name="titleTopOwned">Топ: в собственности</string>
+    <string name="titleTopTotal">Топ: за все время</string>
+    <string name="titleGenreStrategy">Жанр: стратегия</string>
+    <string name="titleGenreRPG">Жанр: РПГ</string>
+    <string name="titleGenreIndie">Жанр: инди</string>
+    <string name="titleGenreAdventure">Жанр: приключения</string>
+    <string name="titleGenreSports">Жанр: спорт</string>
+    <string name="titleGenreSimulation">Жанр: симулятор</string>
+    <string name="titleGenreEarlyAccess">Жанр: ранний доступ</string>
+    <string name="titleGenreExEarlyAccess">Жанр: бывшие в раннем доступе</string>
+    <string name="titleGenreMMO">Жанр: ММО</string>
+    <string name="titleGenreFree">Жанр: бесплатные</string>
+    <string name="capsuleContentDescription">App Thumbnail</string>
+    <string name="updateData">Обновить данные</string>
+
+    <string name="notificationChannelName">SteamSpyglass</string>
+    <string name="notificationChannelDescription">Канал оповещений SteamSpyglass</string>
+    <string name="notificationDataUpdateTitle">SteamSpyglass: обновление данных</string>
+    <string name="dataUpdateNotificationText">Обновление данных</string>
+    <string name="steamAppImageContentDescription">Steam App Image</string>
+    <string name="developers">Разработчики</string>
+    <string name="publishers">Издатели</string>
+    <string name="price">Цена</string>
+    <string name="rank">Ранк</string>
+    <string name="concurrentPlayers">Игроков одновременно</string>
+    <string name="median2Weeks">Медиана за 2 недели</string>
+    <string name="totalMedian">Медиана за все время</string>
+    <string name="average2Weeks">Среднее за 2 недели</string>
+    <string name="totalAverage">Среднее за все время</string>
+    <string name="owners">Владельцы</string>
+    <string name="totalPlayers">Всего игроков</string>
+    <string name="players2Weeks">Игроков за 2 недели</string>
+
+    <string name="appDetailsViewPagerInfo">Инфо</string>
+    <string name="appDetailsViewPagerTags">Таги</string>
+    <string name="appDetailsViewPagerNumbers">Числа</string>
+    <string name="appDetailsViewPagerNumbers2">Еще</string>
+
+    <string name="wtf">Ну и че за херня?!</string>
+    <string name="searchDialogHeader">Поиск</string>
+    <string name="searchDialogInputHint">Название приложения</string>
+    <string name="searchDialogSubmitAction">Отправить</string>
+    <string name="searchDialogCancelAction">Отмена</string>
+    <string name="poweredBy">Данные от www.steamspy.com</string>
+    <string name="viewSource">Исходный код: https://github.com/alex199568/steamspy</string>
+    <string name="contactMe">Обратная связь sasha.199568@gmail.com</string>
+    <string name="hostUnreachableErrorMessage">is unrechable</string>
+    <string name="networkErrorTitle">Ошибка сети</string>
+    <string name="dialogDismissDefault">Ok</string>
+    <string name="noSearchResultsMessage">Приложения не найдены</string>
+    <string name="noAppsMessage">Нет приложений, попробуйте обновить данные</string>
+
+    <string name="lastDataUpdate">Данные были обновленны:</string>
+    <string name="dataHasNeverBeenUpdated">Данные не обновлялись</string>
+    <string name="preferenceAutomaticDataUpdateTitle">Включено</string>
+    <string name="preferenceAutomaticDataUpdateDescription">Автоматическое обновление данных по ночам</string>
+    <string name="prefAutoUpdateMobileDataTitle">Мобильный траффик</string>
+    <string name="prefAutoUpdateMobileDataSummary">Обновлять данные автоматически при использовании мобильного траффика</string>
+    <string name="prefAutoUpdateLowBatteryTitle">Низкий уровень заряда батареи</string>
+    <string name="prefAutoUpdateLowBatterySummary">Обновлять данные автоматически при низком уровне заряда батареи</string>
+    <string name="prefAutoUpdateSlowConnectionTitle">Медленное соединение</string>
+    <string name="prefAutoUpdateSlotConnectionSummary">Обновлять данные автоматически при медленном соединении</string>
+
+
+    <string name="navSettings">Настройки</string>
+    <string name="mobileDataUpdateWarningTitle">Обновление используя мобильные данные</string>
+    <string name="mobileDataWarningContent">Похоже что Вы не подключенны к WiFi. Обновление использует ~20MB. Вы уверенны, что хотите продолжить?</string>
+    <string name="mobileDataUpdateConfirm">Да</string>
+    <string name="mobileDataUpdateCancel">Нет</string>
+    <string name="titleGenreAction">Жанр: экшен</string>
+    <string name="appDetailsTitle">Детали</string>
+
+</resources>

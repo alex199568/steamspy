@@ -18,10 +18,15 @@ fun <T> Single<T>.ioToMain(): Single<T> =
 fun <T> Observable<T>.ioToMain(): Observable<T> =
         subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
-fun retrieveCurrentTime(): String {
+fun retrieveCurrentTime(): Long {
     val currentDate = Date()
+    return currentDate.time
+}
+
+fun formatDate(date: Long): String {
     val format = DateFormat.getDateTimeInstance()
-    return format.format(currentDate)
+    val d = Date(date)
+    return format.format(d)
 }
 
 fun onWifi(context: Context): Boolean {

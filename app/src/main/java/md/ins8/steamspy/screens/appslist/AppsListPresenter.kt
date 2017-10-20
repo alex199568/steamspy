@@ -12,6 +12,7 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
                         private val listType: Int, private val listTypeId: Int,
                         private val searchParam: String = "") {
     private val noAppsMessage = context.getString(R.string.noAppsMessage)
+    private val noSearchResultsMessage = context.getString(R.string.noSearchResultsMessage)
 
     init {
         model.start()
@@ -48,7 +49,7 @@ class AppsListPresenter(private val model: AppsListModel, private val view: Apps
             }
         } else {
             if (apps.isEmpty()) {
-                view.showEmptyList(noAppsMessage)
+                view.showEmptyList("$noSearchResultsMessage: $searchParam")
             } else {
                 view.showAppsList(apps)
             }

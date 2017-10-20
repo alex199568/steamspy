@@ -130,7 +130,7 @@ class AppDetailsActivity : BaseActivity(), AppDetailsView {
                     override fun onCabCreated(cab: MaterialCab?, menu: Menu?): Boolean = true
                 })
         materialCab.toolbar.setNavigationOnClickListener { onBackPressed() }
-        materialCab.toolbar.title = "App Details"
+        materialCab.toolbar.title = getString(R.string.appDetailsTitle)
 
         viewEvents.onNext(ViewEvent.CREATED)
         expand.setOnClickListener { viewEvents.onNext(ViewEvent.EXPAND_BTN_CLICK) }
