@@ -70,7 +70,6 @@ interface MainView {
 
     fun refreshListFragment()
     fun showInputDialog()
-    fun showHostUnavailableDialog()
 }
 
 
@@ -249,15 +248,6 @@ class MainActivity : BaseActivity(), MainView {
                 .input(getString(R.string.searchDialogInputHint), "", { _, result -> inputEvents.onNext(result.toString()) })
                 .positiveText(R.string.searchDialogSubmitAction)
                 .negativeText(R.string.searchDialogCancelAction)
-                .show()
-    }
-
-    override fun showHostUnavailableDialog() {
-        MaterialDialog.Builder(this)
-                .title(getString(R.string.networkErrorTitle))
-                .content("$BASE_URL ${getString(R.string.hostUnreachableErrorMessage)}")
-                .positiveText(getString(R.string.dialogDismissDefault))
-                .contentColor(R.color.onBackgroundPrimaryTextColor)
                 .show()
     }
 

@@ -76,7 +76,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.pwittchen:reactivenetwork-rx2:0.12.1'
+    compile 'com.facebook.network.connectionclass:connectionclass:1.0.1'
 
     // Data
     compile 'com.google.code.gson:gson:2.8.0'

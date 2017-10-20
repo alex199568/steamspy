@@ -60,12 +60,5 @@ data class RawSteamApp(
     }
 }
 
-data class SteamAppsResponse(val apps: List<RawSteamApp>) {
-    fun toRealm(): List<RealmSteamApp> {
-        val realmApps: MutableList<RealmSteamApp> = mutableListOf()
-        apps.mapTo(realmApps, { RealmSteamApp(it) })
-        return realmApps
-    }
-}
 
 

@@ -1,17 +1,10 @@
 package md.ins8.steamspy.launch
 
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.support.v4.content.LocalBroadcastManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import md.ins8.steamspy.service.update.DataUpdateService
-import md.ins8.steamspy.service.update.LOCAL_ACTION
-import md.ins8.steamspy.service.update.Receiver
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -24,12 +17,11 @@ interface LaunchModel {
     val eventBus: Observable<ModelEvent>
 
     fun splashWait()
-    fun updateData()
 }
 
 private const val SPLASH_SCREEN_DURATION: Long = 3
 
-class LaunchModelImpl(private val context: Context) : LaunchModel {
+class LaunchModelImpl : LaunchModel {
     override val eventBus: Subject<ModelEvent> = PublishSubject.create<ModelEvent>()
 
     override fun splashWait() {
@@ -40,17 +32,6 @@ class LaunchModelImpl(private val context: Context) : LaunchModel {
                 }, {
                     Timber.e(it)
                 })
-    }
-
-    override fun updateData() {
-        context.startService(Intent(context, DataUpdateService::class.java))
-
-        val receiver = Receiver()
-        val broadcastFilter = IntentFilter(LOCAL_ACTION)
-        val lbm = LocalBroadcastManager.getInstance(context)
-        lbm.registerReceiver(receiver, broadcastFilter)
-
-        receiver.eventBus.subscribe { eventBus.onNext(ModelEvent.DATA_UPDATED) }
     }
 }
 
