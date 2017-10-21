@@ -87,7 +87,7 @@
     <string name="prefAutoUpdateLowBatterySummary">Обновлять данные автоматически при низком уровне заряда батареи</string>
     <string name="prefAutoUpdateSlowConnectionTitle">Медленное соединение</string>
     <string name="prefAutoUpdateSlowConnectionSummary">Обновлять данные автоматически при медленном соединении</string>
-
+    <string name="prefAutoUpdateCategoryTitle">Автоматическое обновление данных</string>
 
     <string name="navSettings">Настройки</string>
     <string name="mobileDataUpdateWarningTitle">Обновление используя мобильные данные</string>
