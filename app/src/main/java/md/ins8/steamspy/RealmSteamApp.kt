@@ -5,11 +5,11 @@ import io.realm.annotations.PrimaryKey
 
 data class SteamAppsResponse(val apps: List<RealmSteamApp>)
 
-open class RealmDev(var name: String) : RealmObject() {
+open class RealmDev(@PrimaryKey var name: String) : RealmObject() {
     constructor() : this("")
 }
 
-open class RealmPub(var name: String) : RealmObject() {
+open class RealmPub(@PrimaryKey var name: String) : RealmObject() {
     constructor() : this("")
 }
 
@@ -105,30 +105,14 @@ fun storeAppsList(appsResponse: SteamAppsResponse, listTypeId: Int) {
 fun storeAll(appsResponse: SteamAppsResponse) {
     val realm = Realm.getDefaultInstance()
     realm.executeTransaction {
-        appsResponse.apps.forEach { realm.copyToRealm(it) }
+        appsResponse.apps.forEach { realm.copyToRealmOrUpdate(it) }
     }
     realm.close()
 }
 
-fun deleteAllApps() {
-    val realm = Realm.getDefaultInstance()
-    realm.executeTransaction {
-        it.delete(RealmSteamApp::class.java)
-    }
-    realm.close()
+fun deleteRealm() {
+    Realm.deleteRealm(Realm.getDefaultConfiguration())
 }
-
-fun deleteAppsList(listTypeId: Int) {
-    val realm = Realm.getDefaultInstance()
-    realm.executeTransaction {
-        realm.where(RealmSteamApp::class.java).equalTo("listTypeIds.listTypeId", listTypeId).findAll().forEach {
-            it.listTypeIds.remove(RealmListTypeId(listTypeId))
-            realm.copyToRealmOrUpdate(it)
-        }
-    }
-    realm.close()
-}
-
 
 fun loadAllApps(realm: Realm): RealmResults<RealmSteamApp> = realm.where(RealmSteamApp::class.java)?.findAll()!!
 

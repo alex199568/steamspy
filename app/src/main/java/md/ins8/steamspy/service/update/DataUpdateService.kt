@@ -76,7 +76,7 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     private fun downloadAll() {
         steamAppsAPIService.requestAll()
                 .subscribe({
-                    deleteAllApps()
+                    deleteRealm()
                     storeAll(it)
                 }, {
                     Timber.e(it)
@@ -97,7 +97,6 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     private fun startDownloading(observables: Map<ListType, Observable<SteamAppsResponse>>) {
         for ((key, value) in observables) {
             value.subscribe({
-                deleteAppsList(key.id)
                 storeAppsList(it, key.id)
             }, {
                 Timber.e(it)
