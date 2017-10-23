@@ -59,7 +59,15 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
             }
         }
 
-        home()
+        if (mainModel.appsEmpty) {
+            emptyHome()
+        } else {
+            home()
+        }
+    }
+
+    private fun emptyHome() {
+        mainView.switchToEmptyHomeFragment()
     }
 
     private fun home() {

@@ -96,5 +96,8 @@
     <string name="mobileDataUpdateCancel">Нет</string>
     <string name="titleGenreAction">Жанр: экшен</string>
     <string name="appDetailsTitle">Детали</string>
+    <string name="appCountCaptionText">Статистика</string>
+    <string name="appsCountMessage">игр</string>
+    <string name="firstTimeGreeting">Для работы приложения необходимо загрузить данные.\n\nПросто нажмите \'Обновить данные\' в меню действий\n(правый верхний угол).</string>
 
 </resources>

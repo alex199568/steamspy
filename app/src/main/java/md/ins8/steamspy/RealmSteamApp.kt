@@ -128,3 +128,10 @@ fun countApps(): Long {
     realm.close()
     return result
 }
+
+fun noRealmSteamApps(): Boolean {
+    val realm = Realm.getDefaultInstance()
+    val result = realm.where(RealmSteamApp::class.java).count() == 0L
+    realm.close()
+    return result
+}

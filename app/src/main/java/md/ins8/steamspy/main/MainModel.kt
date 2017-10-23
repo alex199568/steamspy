@@ -7,6 +7,7 @@ import android.support.v4.content.LocalBroadcastManager
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import md.ins8.steamspy.noRealmSteamApps
 import md.ins8.steamspy.service.update.DataUpdateService
 import md.ins8.steamspy.service.update.LOCAL_ACTION
 import md.ins8.steamspy.service.update.Receiver
@@ -18,11 +19,16 @@ enum class ModelEvent {
 interface MainModel {
     val eventBus: Observable<ModelEvent>
 
+    val appsEmpty: Boolean
+
     fun updateData()
 }
 
 class MainModelImpl(private val context: Context) : MainModel {
     override val eventBus: Subject<ModelEvent> = PublishSubject.create<ModelEvent>()
+
+    override val appsEmpty: Boolean
+        get() = noRealmSteamApps()
 
     private val receiver = Receiver()
 

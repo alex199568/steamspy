@@ -26,6 +26,7 @@ import md.ins8.steamspy.*
 import md.ins8.steamspy.screens.about.AboutFragment
 import md.ins8.steamspy.screens.appslist.AppsListFragment
 import md.ins8.steamspy.screens.appslist.newAppsListFragmentInstance
+import md.ins8.steamspy.screens.empty.home.EmptyHomeFragment
 import md.ins8.steamspy.screens.home.HomeFragment
 import md.ins8.steamspy.screens.settings.SettingsFragment
 import javax.inject.Inject
@@ -64,6 +65,7 @@ interface MainView {
     val inputEvents: Observable<String>
 
     fun switchToHomeFragment()
+    fun switchToEmptyHomeFragment()
     fun switchToAboutFragment()
     fun switchToSettingsFragment()
     fun switchToAppsListFragment(listType: ListType)
@@ -84,10 +86,6 @@ class MainActivity : BaseActivity(), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        DaggerMainComponent.builder()
-                .appComponent((application as SteamSpyApp).appComponent)
-                .mainModule(MainModule(this)).build().inject(this)
 
         materialCab = MaterialCab(this, R.id.cab_stub)
                 .setMenu(R.menu.main_menu)
@@ -201,7 +199,9 @@ class MainActivity : BaseActivity(), MainView {
             }
         }
 
-        switchToHomeFragment()
+        DaggerMainComponent.builder()
+                .appComponent((application as SteamSpyApp).appComponent)
+                .mainModule(MainModule(this)).build().inject(this)
     }
 
     override val navigationEventBus: Subject<NavigationEvent> = BehaviorSubject.create<NavigationEvent>()
@@ -213,6 +213,11 @@ class MainActivity : BaseActivity(), MainView {
     override fun switchToHomeFragment() {
         val homeFragment = HomeFragment()
         replaceFragment(homeFragment, NavigationEvent.HOME.titleStrRes)
+    }
+
+    override fun switchToEmptyHomeFragment() {
+        val emptyHomeFragment = EmptyHomeFragment()
+        replaceFragment(emptyHomeFragment, NavigationEvent.HOME.titleStrRes)
     }
 
     override fun switchToAboutFragment() {
