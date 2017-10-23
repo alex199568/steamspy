@@ -19,8 +19,7 @@ private const val INTENT_SERVICE_NAME = "DataUpdateIntentService"
 
 const val LAST_UPDATE_TIME_KEY = "LastUpdateTimeKey"
 const val TO_CHECK_PARAM_EXTRA = "ToCheckParamExtra"
-
-private var isServiceRunning = false
+const val OK_TO_START_KEY = "OkToStart"
 
 private const val DOWNLOAD_PART = 0.6
 private const val STORE_PART = 0.4
@@ -43,20 +42,18 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     }
 
     override fun onHandleIntent(workIntent: Intent?) {
-        if (!isServiceRunning) {
-            isServiceRunning = true
-            var toCheck = false
-            if (workIntent != null) {
-                toCheck = workIntent.getBooleanExtra(TO_CHECK_PARAM_EXTRA, false)
-            }
-            if (toCheck) {
-                if (autoUpdateChecker.check()) {
-                    doUpdate()
-                }
-            }
-            doUpdate()
-            isServiceRunning = false
+        saveRunning(true)
+        var toCheck = false
+        if (workIntent != null) {
+            toCheck = workIntent.getBooleanExtra(TO_CHECK_PARAM_EXTRA, false)
         }
+        if (toCheck) {
+            if (autoUpdateChecker.check()) {
+                doUpdate()
+            }
+        }
+        doUpdate()
+        saveRunning(false)
     }
 
     private fun doUpdate() {
@@ -155,5 +152,10 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
         val sharedPrefs = getSharedPreferences(getString(R.string.sharedPreferencesFileKey), Context.MODE_PRIVATE)
         val currentTime = retrieveCurrentTime()
         sharedPrefs.edit().putLong(LAST_UPDATE_TIME_KEY, currentTime).apply()
+    }
+
+    private fun saveRunning(running: Boolean) {
+        val prefs = getSharedPreferences(getString(R.string.sharedPreferencesFileKey), Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(OK_TO_START_KEY, !running).apply()
     }
 }

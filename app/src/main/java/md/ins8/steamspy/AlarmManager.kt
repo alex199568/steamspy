@@ -45,14 +45,14 @@ class DataUpdateAlarmManager(private val context: Context) : AbstractAlarmManage
         val hour = random.nextInt(4)
         val minute = random.nextInt(60)
 
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.AM_PM, Calendar.AM)
+        val calendar = GregorianCalendar().apply {
             set(Calendar.HOUR_OF_DAY, hour)
             set(Calendar.MINUTE, minute)
+            set(Calendar.MILLISECOND, 0)
+            add(Calendar.DAY_OF_MONTH, 1)
         }
 
-        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
         rememberSetup()
     }
 
@@ -72,15 +72,20 @@ class DataUpdateAlarmManager(private val context: Context) : AbstractAlarmManage
     private fun retrievePreferences(): SharedPreferences =
             context.getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
 
-    inner class DataUpdateAlarmBootReceiver : BroadcastReceiver() {
-        override fun onReceive(cntxt: Context?, intent: Intent?) {
-            if (intent?.action.equals(BOOT_COMPLETED_NAME)) {
-                val prefs = PreferenceManager.getDefaultSharedPreferences(cntxt)
-                if (prefs.contains(AUTOMATIC_UPDATE_PREFERENCE_KEY) && prefs.getBoolean(AUTOMATIC_UPDATE_PREFERENCE_KEY, false)) {
-                    setup()
+}
+
+class DataUpdateAlarmBootReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+        if (intent?.action.equals(BOOT_COMPLETED_NAME)) {
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            if (prefs.contains(AUTOMATIC_UPDATE_PREFERENCE_KEY) && prefs.getBoolean(AUTOMATIC_UPDATE_PREFERENCE_KEY, false)) {
+                if (context != null) {
+                    DataUpdateAlarmManager(context).setup()
                 }
             }
         }
     }
+
 }
+
 
