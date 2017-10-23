@@ -105,5 +105,8 @@
     <string name="mobileDataUpdateConfirm">Yes</string>
     <string name="mobileDataUpdateCancel">No</string>
     <string name="appDetailsTitle">App Details</string>
+    <string name="appCountCaptionText">Statistics for</string>
+    <string name="appsCountMessage">games</string>
+    <string name="firstTimeGreeting">For this app to work some data needs to be download.\n\n Just hit \'Update Data\' in the actions menu \n(top right corner).</string>
 
 </resources>

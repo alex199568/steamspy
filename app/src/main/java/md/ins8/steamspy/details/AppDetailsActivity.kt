@@ -27,9 +27,7 @@ import kotlinx.android.synthetic.main.layout_rank.*
 import md.ins8.steamspy.BaseActivity
 import md.ins8.steamspy.R
 import md.ins8.steamspy.RawSteamApp
-import java.text.DecimalFormat
-import java.text.NumberFormat
-import java.util.*
+import md.ins8.steamspy.formatDecimal
 import javax.inject.Inject
 
 
@@ -49,14 +47,6 @@ interface AppDetailsView {
     var expanded: Boolean
 
     fun showApp(app: RawSteamApp)
-}
-
-fun formatDecimal(decimal: Int?): String {
-    val formatter = NumberFormat.getInstance(Locale.getDefault()) as DecimalFormat
-    val symbols = formatter.decimalFormatSymbols
-
-    formatter.decimalFormatSymbols = symbols
-    return formatter.format(decimal)
 }
 
 fun choosePriceUnits(): String = "Units"

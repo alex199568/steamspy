@@ -122,3 +122,16 @@ fun loadAppsForName(realm: Realm, name: String): RealmResults<RealmSteamApp> =
 fun loadAppsList(realm: Realm, listTypeId: Int): RealmResults<RealmSteamApp> =
         realm.where(RealmSteamApp::class.java).equalTo("listTypeIds.listTypeId", listTypeId).findAll()
 
+fun countApps(): Long {
+    val realm = Realm.getDefaultInstance()
+    val result = realm.where(RealmSteamApp::class.java).count()
+    realm.close()
+    return result
+}
+
+fun noRealmSteamApps(): Boolean {
+    val realm = Realm.getDefaultInstance()
+    val result = realm.where(RealmSteamApp::class.java).count() == 0L
+    realm.close()
+    return result
+}

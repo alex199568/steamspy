@@ -35,7 +35,6 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     private lateinit var notificationManager: NotificationManager
     private lateinit var notificationBuilder: NotificationCompat.Builder
 
-
     override fun onCreate() {
         super.onCreate()
         DaggerDataUpdateComponent.builder().appComponent((application as SteamSpyApp).appComponent).build().inject(this)

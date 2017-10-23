@@ -1,11 +1,17 @@
 package md.ins8.steamspy.main
 
 import android.content.Context
+import android.content.IntentFilter
+import android.support.v4.content.LocalBroadcastManager
 import md.ins8.steamspy.*
+import md.ins8.steamspy.service.update.DataUpdateEvent
+import md.ins8.steamspy.service.update.LOCAL_ACTION
+import md.ins8.steamspy.service.update.Receiver
 
 
 class MainPresenter(private val mainView: MainView, private val mainModel: MainModel, private val context: Context) {
     private var lastSearchInput = ""
+    private var lastNavigationEvent: NavigationEvent = NavigationEvent.HOME
 
     init {
         mainView.navigationEventBus.subscribe {
@@ -29,6 +35,7 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
                 NavigationEvent.SETTINGS -> settings()
                 NavigationEvent.ABOUT -> about()
             }
+            lastNavigationEvent = it
         }
 
         mainView.eventBus.subscribe {
@@ -60,10 +67,27 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         }
 
         home()
+
+        val lbm = LocalBroadcastManager.getInstance(context)
+        val receiver = Receiver()
+        lbm.registerReceiver(receiver, IntentFilter(LOCAL_ACTION))
+        receiver.eventBus.subscribe {
+            when (it) {
+                DataUpdateEvent.DONE -> {
+                    if (lastNavigationEvent == NavigationEvent.HOME) {
+                        home()
+                    }
+                }
+            }
+        }
     }
 
     private fun home() {
-        mainView.switchToHomeFragment()
+        if (mainModel.appsEmpty) {
+            mainView.switchToEmptyHomeFragment()
+        } else {
+            mainView.switchToHomeFragment()
+        }
     }
 
     private fun appsList(listType: ListType) {

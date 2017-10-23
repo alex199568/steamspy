@@ -7,6 +7,8 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.text.DateFormat
+import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.util.*
 
 fun retrieveVersionName(context: Context): String =
@@ -32,4 +34,12 @@ fun formatDate(date: Long): String {
 fun onWifi(context: Context): Boolean {
     val wifi = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
     return wifi.isWifiEnabled
+}
+
+fun <T : Number> formatDecimal(decimal: T): String {
+    val formatter = NumberFormat.getInstance(Locale.getDefault()) as DecimalFormat
+    val symbols = formatter.decimalFormatSymbols
+
+    formatter.decimalFormatSymbols = symbols
+    return formatter.format(decimal)
 }
