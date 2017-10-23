@@ -22,6 +22,10 @@ const val TO_CHECK_PARAM_EXTRA = "ToCheckParamExtra"
 
 private var isServiceRunning = false
 
+private const val DOWNLOAD_PART = 0.6
+private const val STORE_PART = 0.4
+private const val ALL_APPS_PART = 30
+
 class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     @Inject
     lateinit var steamAppsAPIService: SteamSpyAPIService
@@ -57,7 +61,7 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     }
 
     private fun doUpdate() {
-        updateNotification(getString(R.string.dataUpdateNotificationText))
+        updateNotification()
 
         downloadAll()
         val observables = downloadListTypes()
@@ -76,8 +80,10 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     private fun downloadAll() {
         steamAppsAPIService.requestAll()
                 .subscribe({
+                    updateNotification((ALL_APPS_PART * DOWNLOAD_PART).toInt())
                     deleteRealm()
                     storeAll(it)
+                    updateNotification((ALL_APPS_PART * DOWNLOAD_PART + ALL_APPS_PART * STORE_PART).toInt())
                 }, {
                     Timber.e(it)
                 })
@@ -95,9 +101,18 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
     }
 
     private fun startDownloading(observables: Map<ListType, Observable<SteamAppsResponse>>) {
+        val totalLists = observables.size
+        var currentPercent = ALL_APPS_PART
+        val left = 100 - ALL_APPS_PART
+        val downloadPercent = (left / totalLists) * DOWNLOAD_PART
+        val storePercent = (left / totalLists) * STORE_PART
         for ((key, value) in observables) {
             value.subscribe({
+                currentPercent += downloadPercent.toInt()
+                updateNotification(currentPercent)
                 storeAppsList(it, key.id)
+                currentPercent += storePercent.toInt()
+                updateNotification(currentPercent)
             }, {
                 Timber.e(it)
             })
@@ -122,7 +137,7 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
 
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
         notificationBuilder.setContentTitle(getString(R.string.notificationDataUpdateTitle))
-                .setProgress(0, 0, true)
+                .setProgress(100, 0, false)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notificationBuilder.setSmallIcon(R.drawable.spyglass_white)
@@ -131,8 +146,9 @@ class DataUpdateService : IntentService(INTENT_SERVICE_NAME) {
         }
     }
 
-    private fun updateNotification(message: String) {
+    private fun updateNotification(percent: Int = 0, message: String = getString(R.string.dataUpdateNotificationText)) {
         notificationBuilder.setContentText(message)
+        notificationBuilder.setProgress(100, percent, false)
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
     }
 
