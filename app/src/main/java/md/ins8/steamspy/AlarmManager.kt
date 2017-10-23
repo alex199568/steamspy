@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import md.ins8.steamspy.screens.settings.AUTOMATIC_UPDATE_PREFERENCE_KEY
 import md.ins8.steamspy.service.update.DataUpdateService
@@ -12,6 +13,9 @@ import md.ins8.steamspy.service.update.TO_CHECK_PARAM_EXTRA
 import java.util.*
 
 private const val BOOT_COMPLETED_NAME = "android.intent.action.BOOT_COMPLETED"
+
+private const val SHARED_PREFERENCES_KEY = "data-update-alarm-manager"
+private const val ALARM_SETUP_KEY = "AlarmSetupKey"
 
 interface AbstractAlarmManager {
     val alreadySetup: Boolean
@@ -28,7 +32,7 @@ class DataUpdateAlarmManager(private val context: Context) : AbstractAlarmManage
     }
 
     override val alreadySetup: Boolean
-        get() = PendingIntent.getService(context, 0, dataIntent, PendingIntent.FLAG_NO_CREATE) == null
+        get() = retrievePreferences().getBoolean(ALARM_SETUP_KEY, false)
 
     init {
         pendingIntent = PendingIntent.getService(context, 0, dataIntent, 0)
@@ -45,11 +49,24 @@ class DataUpdateAlarmManager(private val context: Context) : AbstractAlarmManage
         calendar.set(Calendar.MINUTE, random.nextInt(60))
 
         alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
+        rememberSetup()
     }
 
     override fun cancel() {
         alarmManager.cancel(pendingIntent)
+        forgetSetup()
     }
+
+    private fun rememberSetup() {
+        retrievePreferences().edit().putBoolean(ALARM_SETUP_KEY, true).apply()
+    }
+
+    private fun forgetSetup() {
+        retrievePreferences().edit().putBoolean(ALARM_SETUP_KEY, false).apply()
+    }
+
+    private fun retrievePreferences(): SharedPreferences =
+            context.getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
 
     inner class DataUpdateAlarmBootReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
