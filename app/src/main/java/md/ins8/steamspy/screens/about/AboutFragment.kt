@@ -30,12 +30,12 @@ class AboutFragment : Fragment(), AboutView {
     @Inject
     lateinit var presenter: AboutPresenter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.fragment_about, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_about, container, false)
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        version.text = retrieveVersionName(context)
+        version.text = retrieveVersionName(context!!)
         viewObservable.onNext(ViewEvent.VIEW_CREATED)
     }
 
