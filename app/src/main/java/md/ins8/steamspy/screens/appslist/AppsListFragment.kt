@@ -53,7 +53,7 @@ open class AppsListFragment : Fragment(), AppsListView {
     override val itemClickObservable: Subject<Long> = PublishSubject.create<Long>()
 
     override val appsListContext: Context
-        get() = context
+        get() = context!!
 
 
     override fun showTopAppsList(apps: RealmResults<RealmSteamApp>) {
@@ -83,34 +83,34 @@ open class AppsListFragment : Fragment(), AppsListView {
         super.onAttach(context)
 
         var searchFor = ""
-        if (arguments.containsKey(SEARCH_FOR_EXTRA)) {
-            searchFor = arguments.getString(SEARCH_FOR_EXTRA)
-        }
-
         var appsListTypeId = AppsListType.DEFAULT.listTypeId
-        if (arguments.containsKey(APPS_LIST_TYPE_NAME_EXTRA)) {
-            appsListTypeId = arguments.getInt(APPS_LIST_TYPE_NAME_EXTRA)
-        }
-
         var listTypeId = ListTypes.ALL.listType.id
-        if (arguments.containsKey(LIST_TYPE_EXTRA)) {
-            listTypeId = arguments.getInt(LIST_TYPE_EXTRA)
+
+        val args = arguments
+        if (args != null) {
+            if (args.containsKey(SEARCH_FOR_EXTRA)) {
+                searchFor = arguments!!.getString(SEARCH_FOR_EXTRA)
+            }
+            if (args.containsKey(APPS_LIST_TYPE_NAME_EXTRA)) {
+                appsListTypeId = arguments!!.getInt(APPS_LIST_TYPE_NAME_EXTRA)
+            }
+
+            if (args.containsKey(LIST_TYPE_EXTRA)) {
+                listTypeId = arguments!!.getInt(LIST_TYPE_EXTRA)
+            }
         }
 
         DaggerAppsListComponent.builder()
-                .appComponent((activity.application as SteamSpyApp).appComponent)
+                .appComponent((activity!!.application as SteamSpyApp).appComponent)
                 .appsListModule(AppsListModule(this, appsListTypeId, listTypeId, searchFor))
                 .build().inject(this)
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_apps_list, container, false) as View
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_apps_list, container, false) as View
 
-        return view
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         eventBus.onNext(AppsListViewEvent.VIEW_CREATED)
@@ -125,7 +125,7 @@ open class AppsListFragment : Fragment(), AppsListView {
     private fun actuallyShowAppsList(apps: RealmResults<RealmSteamApp>,
                                      defaultAppsListViewHolderProvider: DefaultAppsListViewHolderProvider) {
         try {
-            val adapter = AppsListRealmAdapter(apps, defaultAppsListViewHolderProvider, context)
+            val adapter = AppsListRealmAdapter(apps, defaultAppsListViewHolderProvider, context!!)
             adapter.itemClickObservable.subscribe { itemClickObservable.onNext(it) }
 
             appsListRecyclerView.visibility = View.VISIBLE

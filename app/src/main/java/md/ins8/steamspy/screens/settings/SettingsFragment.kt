@@ -53,7 +53,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        DaggerSettingsComponent.builder().appComponent((activity.application as SteamSpyApp).appComponent).build().inject(this)
+        DaggerSettingsComponent.builder().appComponent((activity!!.application as SteamSpyApp).appComponent).build().inject(this)
     }
 
     private fun enableAutoUpdatePreferences() {

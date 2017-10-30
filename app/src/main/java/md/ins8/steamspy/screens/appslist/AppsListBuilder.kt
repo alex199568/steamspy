@@ -31,5 +31,5 @@ class AppsListModule(private val appsListFragment: AppsListFragment,
     @AppsListScope
     @Provides
     fun presenter(model: AppsListModel): AppsListPresenter =
-            AppsListPresenter(model, appsListFragment, appsListFragment.context, listType, listTypeId, searchParam)
+            AppsListPresenter(model, appsListFragment, appsListFragment.context!!, listType, listTypeId, searchParam)
 }
