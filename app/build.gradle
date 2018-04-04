@@ -27,8 +27,8 @@ android {
         applicationId "md.ins8.steamspy"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -98,7 +98,6 @@ dependencies {
     implementation 'co.zsmb:materialdrawer-kt:1.0.5'
     implementation 'com.afollestad:material-cab:0.1.12'
     implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
-    implementation 'me.gujun.android.taggroup:library:1.4@aar'
     implementation 'io.realm:android-adapters:2.1.0'
 
     // Crashlytics
