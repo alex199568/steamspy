@@ -44,7 +44,6 @@ enum class ViewEvent {
 
 interface AppDetailsView {
     val viewEvents: Observable<ViewEvent>
-    var expanded: Boolean
 
     fun showApp(app: RawSteamApp)
 }
@@ -58,15 +57,6 @@ class AppDetailsActivity : BaseActivity(), AppDetailsView {
     private lateinit var materialCab: MaterialCab
 
     override val viewEvents: Subject<ViewEvent> = PublishSubject.create<ViewEvent>()
-
-    override var expanded: Boolean = false
-        set(value) {
-            if (value) {
-                expand()
-            } else {
-                fold()
-            }
-        }
 
     override fun showApp(app: RawSteamApp) {
         Picasso.with(this)
@@ -96,12 +86,6 @@ class AppDetailsActivity : BaseActivity(), AppDetailsView {
 
         medianTextView.text = formatDecimal(app.medianTotal)
         median2WTextView.text = formatDecimal(app.median2Weeks)
-
-        tagGroup.setTags(app.tags.map { it.name })
-
-        if (app.tags.isEmpty()) {
-            expand.visibility = View.GONE
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,21 +107,6 @@ class AppDetailsActivity : BaseActivity(), AppDetailsView {
         materialCab.toolbar.title = getString(R.string.appDetailsTitle)
 
         viewEvents.onNext(ViewEvent.CREATED)
-        expand.setOnClickListener { viewEvents.onNext(ViewEvent.EXPAND_BTN_CLICK) }
-
-        fold()
-    }
-
-    private fun expand() {
-        nameTagsDivider.visibility = View.VISIBLE
-        tagGroup.visibility = View.VISIBLE
-        expand.setImageResource(R.drawable.ic_expand_less_black_24dp)
-    }
-
-    private fun fold() {
-        nameTagsDivider.visibility = View.GONE
-        tagGroup.visibility = View.GONE
-        expand.setImageResource(R.drawable.ic_expand_more_black_24dp)
     }
 }
 

@@ -18,53 +18,16 @@
             android:scaleType="fitXY"
             app:srcCompat="@drawable/app_placeholder"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/appName"
+            style="@style/largePrimaryTextOnBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="24dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/appName"
-                style="@style/largePrimaryTextOnBackground"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="8dp"
-                android:layout_weight="1"
-                tools:text="Steam Game"
-                />
-
-            <ImageButton
-                android:id="@+id/expand"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:layout_marginRight="24dp"
-                android:background="@color/transparent"
-                android:padding="0dp"
-                app:srcCompat="@drawable/ic_expand_more_black_24dp"/>
-        </LinearLayout>
-
-        <View
-            android:id="@+id/nameTagsDivider"
-            style="@style/divider"
-            android:layout_width="match_parent"
-            />
-
-        <me.gujun.android.taggroup.TagGroup
-            android:id="@+id/tagGroup"
-            style="@style/TagGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            app:atg_backgroundColor="@color/colorCardsBackground"
-            app:atg_borderColor="@color/transparent"
-            app:atg_textColor="@color/almostBlack"
-            app:atg_verticalPadding="10dp"/>
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            tools:text="Steam Game"
+            />
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -21,7 +21,6 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 const val BASE_URL = "http://steamspy.com/"
-const val PING_URL = "www.steamspy.com"
 
 private const val CONNECT_TIMEOUT = 60L
 private const val READ_TIMEOUT = 300L
@@ -44,9 +43,7 @@ enum class ResponseField(val fieldName: String) {
     MEDIAN_2_WEEKS("median_2weeks"),
     CCU("ccu"),
     PRICE("price"),
-    TAGS("tags")
 }
-
 
 interface SteamSpyAPIService {
     @GET("api.php?")
@@ -160,8 +157,8 @@ fun JsonReader.extractRawSteamApp(): RealmSteamApp {
             ResponseField.SCORE.fieldName -> steamApp.rank = safeNextInt()
             ResponseField.DEV.fieldName -> steamApp.dev = extractDevs()
             ResponseField.PUB.fieldName -> steamApp.pub = extractPubs()
-            ResponseField.TAGS.fieldName -> steamApp.tags = extractTags()
             ResponseField.PRICE.fieldName -> steamApp.price = safeNextString()
+            else -> skipValue()
         }
     }
     return steamApp
