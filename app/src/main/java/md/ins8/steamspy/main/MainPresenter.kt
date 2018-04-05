@@ -13,6 +13,8 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
     private var lastSearchInput = ""
     private var lastNavigationEvent: NavigationEvent = NavigationEvent.HOME
 
+    var safeToUpdateUI = false
+
     init {
         mainView.navigationEventBus.subscribe {
             when (it) {
@@ -57,6 +59,7 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
                     }
                 }
                 ViewEvent.UPDATE_CONFIRMED -> mainModel.updateData()
+                ViewEvent.RESUME -> homeIfNeeded()
             }
         }
 
@@ -73,12 +76,14 @@ class MainPresenter(private val mainView: MainView, private val mainModel: MainM
         lbm.registerReceiver(receiver, IntentFilter(LOCAL_ACTION))
         receiver.eventBus.subscribe {
             when (it) {
-                DataUpdateEvent.DONE -> {
-                    if (lastNavigationEvent == NavigationEvent.HOME) {
-                        home()
-                    }
-                }
+                DataUpdateEvent.DONE -> homeIfNeeded()
             }
+        }
+    }
+
+    private fun homeIfNeeded() {
+        if (lastNavigationEvent == NavigationEvent.HOME && safeToUpdateUI) {
+            home()
         }
     }
 

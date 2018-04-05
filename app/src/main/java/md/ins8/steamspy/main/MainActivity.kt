@@ -34,7 +34,8 @@ import javax.inject.Inject
 enum class ViewEvent {
     ACTION_UPDATE_DATA,
     ACTION_SEARCH,
-    UPDATE_CONFIRMED
+    UPDATE_CONFIRMED,
+    RESUME
 }
 
 enum class NavigationEvent(val titleStrRes: Int) {
@@ -202,6 +203,17 @@ class MainActivity : BaseActivity(), MainView {
         DaggerMainComponent.builder()
                 .appComponent((application as SteamSpyApp).appComponent)
                 .mainModule(MainModule(this)).build().inject(this)
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        presenter.safeToUpdateUI = true
+        eventBus.onNext(ViewEvent.RESUME)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        presenter.safeToUpdateUI = false
     }
 
     override val navigationEventBus: Subject<NavigationEvent> = BehaviorSubject.create<NavigationEvent>()
