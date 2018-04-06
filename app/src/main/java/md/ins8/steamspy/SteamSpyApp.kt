@@ -11,7 +11,7 @@ import io.fabric.sdk.android.Fabric
 import io.realm.Realm
 import timber.log.Timber
 import javax.inject.Scope
-
+import android.support.multidex.MultiDex
 
 @Scope
 @Retention annotation class AppScope
@@ -33,6 +33,11 @@ class AppModule(val context: Context) {
 
 class SteamSpyApp : Application() {
     lateinit var appComponent: AppComponent
+
+    override fun attachBaseContext(context: Context) {
+        super.attachBaseContext(context)
+        MultiDex.install(this)
+    }
 
     override fun onCreate() {
         super.onCreate()
